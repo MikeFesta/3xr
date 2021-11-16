@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+Automated Blender Processing Scripts
+
+For tasks such as:
+Opening blender and importing an object
+Baking Images for a model
+Exporting a model in GLTF format
+
+New code uses automate from xrs for headless script
+
+** UPDATING BLENDER **
+- Make a symbolic link to the xrs folder in
+cd /3xr/programs/BlenderXXX/X.XX/scripts/addons
+ln -s /3xr/code/blender/xrs xrs
+
+Link for the add_on - which needs to be installed/activated for the register functions to work
+~/Library/Application Support/Blender/2.81/scripts/addons ᐅ ln -s /Users/mikefesta/code/blender/xrs_addon
