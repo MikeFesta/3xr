@@ -1,0 +1,6273 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.23
+-- Dumped by pg_dump version 11.7 (Ubuntu 11.7-2.pgdg18.04+1)
+
+-- Started on 2021-11-16 13:08:05 EST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 325 (class 1259 OID 35638)
+-- Name: SequelizeMeta; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."SequelizeMeta" (
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public."SequelizeMeta" OWNER TO postgres;
+
+--
+-- TOC entry 359 (class 1259 OID 36568)
+-- Name: asset_ab_alternatives; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_ab_alternatives (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    asset_id integer NOT NULL,
+    banner_button_text character varying(255),
+    camera_orbit character varying(255),
+    camera_target character varying(255),
+    hdr character varying(255),
+    probability_weight integer DEFAULT 1,
+    product_name character varying(255),
+    product_price character varying(255),
+    product_subtitle character varying(255),
+    product_url character varying(255),
+    show_banner boolean,
+    show_options boolean,
+    exposure double precision DEFAULT 0.8,
+    shadow_intensity double precision DEFAULT 0.8
+);
+
+
+ALTER TABLE public.asset_ab_alternatives OWNER TO postgres;
+
+--
+-- TOC entry 358 (class 1259 OID 36566)
+-- Name: asset_ab_alternatives_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_ab_alternatives_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_ab_alternatives_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3813 (class 0 OID 0)
+-- Dependencies: 358
+-- Name: asset_ab_alternatives_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_ab_alternatives_id_seq OWNED BY public.asset_ab_alternatives.id;
+
+
+--
+-- TOC entry 233 (class 1259 OID 33660)
+-- Name: asset_complexity_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_complexity_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_complexity_types OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 33658)
+-- Name: asset_complexity_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_complexity_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_complexity_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3816 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: asset_complexity_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_complexity_types_id_seq OWNED BY public.asset_complexity_types.id;
+
+
+--
+-- TOC entry 333 (class 1259 OID 35687)
+-- Name: asset_files; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_files (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    asset_id integer NOT NULL,
+    collection integer,
+    delete boolean,
+    filename character varying(255) NOT NULL,
+    hash character varying(255) NOT NULL,
+    "order" integer,
+    size integer NOT NULL,
+    type_id integer NOT NULL
+);
+
+
+ALTER TABLE public.asset_files OWNER TO postgres;
+
+--
+-- TOC entry 332 (class 1259 OID 35685)
+-- Name: asset_files_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_files_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3819 (class 0 OID 0)
+-- Dependencies: 332
+-- Name: asset_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_files_id_seq OWNED BY public.asset_files.id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 25450)
+-- Name: asset_issue_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_issue_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    category_id integer NOT NULL,
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_issue_types OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 25448)
+-- Name: asset_issue_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_issue_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_issue_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3822 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: asset_issue_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_issue_types_id_seq OWNED BY public.asset_issue_types.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 25466)
+-- Name: asset_issues; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_issues (
+    id integer NOT NULL,
+    asset_id integer NOT NULL,
+    issue_type_id integer NOT NULL,
+    additional_details text,
+    screenshot character varying(255),
+    resolved boolean NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    author_user_id integer
+);
+
+
+ALTER TABLE public.asset_issues OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 25464)
+-- Name: asset_issues_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_issues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_issues_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3825 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: asset_issues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_issues_id_seq OWNED BY public.asset_issues.id;
+
+
+--
+-- TOC entry 248 (class 1259 OID 33872)
+-- Name: asset_metric_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_metric_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_metric_types OWNER TO postgres;
+
+--
+-- TOC entry 247 (class 1259 OID 33870)
+-- Name: asset_metric_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_metric_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_metric_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3828 (class 0 OID 0)
+-- Dependencies: 247
+-- Name: asset_metric_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_metric_types_id_seq OWNED BY public.asset_metric_types.id;
+
+
+--
+-- TOC entry 252 (class 1259 OID 33904)
+-- Name: asset_metrics; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_metrics (
+    id integer NOT NULL,
+    asset_uid character varying(255) NOT NULL,
+    device_type_id integer,
+    metric_type_id integer NOT NULL,
+    session_uid character varying(255),
+    url character varying(255),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    customer_uid character varying(255),
+    ip_address character varying(255),
+    user_agent character varying(512),
+    source character varying(255),
+    camera_engagement integer,
+    session_time_ms integer,
+    viewer_session_uid character varying(255),
+    notes character varying(255),
+    ab_id integer
+);
+
+
+ALTER TABLE public.asset_metrics OWNER TO postgres;
+
+--
+-- TOC entry 251 (class 1259 OID 33902)
+-- Name: asset_metrics_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_metrics_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_metrics_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3831 (class 0 OID 0)
+-- Dependencies: 251
+-- Name: asset_metrics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_metrics_id_seq OWNED BY public.asset_metrics.id;
+
+
+--
+-- TOC entry 318 (class 1259 OID 35364)
+-- Name: asset_renders; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_renders (
+    id integer NOT NULL,
+    asset_id integer NOT NULL,
+    filename character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_renders OWNER TO postgres;
+
+--
+-- TOC entry 317 (class 1259 OID 35362)
+-- Name: asset_renders_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_renders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_renders_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3834 (class 0 OID 0)
+-- Dependencies: 317
+-- Name: asset_renders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_renders_id_seq OWNED BY public.asset_renders.id;
+
+
+--
+-- TOC entry 337 (class 1259 OID 35787)
+-- Name: asset_spin_sets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_spin_sets (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    asset_id integer NOT NULL,
+    angle integer NOT NULL,
+    image_count integer DEFAULT 0 NOT NULL,
+    resolution integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.asset_spin_sets OWNER TO postgres;
+
+--
+-- TOC entry 336 (class 1259 OID 35785)
+-- Name: asset_spin_sets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_spin_sets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_spin_sets_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3837 (class 0 OID 0)
+-- Dependencies: 336
+-- Name: asset_spin_sets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_spin_sets_id_seq OWNED BY public.asset_spin_sets.id;
+
+
+--
+-- TOC entry 289 (class 1259 OID 34456)
+-- Name: asset_submission_issue_category_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_issue_category_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    label character varying(255) NOT NULL,
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_issue_category_types OWNER TO postgres;
+
+--
+-- TOC entry 288 (class 1259 OID 34454)
+-- Name: asset_submission_issue_category_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_issue_category_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_issue_category_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3840 (class 0 OID 0)
+-- Dependencies: 288
+-- Name: asset_submission_issue_category_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_issue_category_types_id_seq OWNED BY public.asset_submission_issue_category_types.id;
+
+
+--
+-- TOC entry 316 (class 1259 OID 35262)
+-- Name: asset_submission_issue_hotspots; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_issue_hotspots (
+    id integer NOT NULL,
+    asset_submission_issue_id integer NOT NULL,
+    "position" character varying(255) NOT NULL,
+    normal character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_issue_hotspots OWNER TO postgres;
+
+--
+-- TOC entry 315 (class 1259 OID 35260)
+-- Name: asset_submission_issue_hotspots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_issue_hotspots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_issue_hotspots_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3843 (class 0 OID 0)
+-- Dependencies: 315
+-- Name: asset_submission_issue_hotspots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_issue_hotspots_id_seq OWNED BY public.asset_submission_issue_hotspots.id;
+
+
+--
+-- TOC entry 312 (class 1259 OID 35176)
+-- Name: asset_submission_issue_images; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_issue_images (
+    id integer NOT NULL,
+    asset_submission_issue_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    filename character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_issue_images OWNER TO postgres;
+
+--
+-- TOC entry 311 (class 1259 OID 35174)
+-- Name: asset_submission_issue_images_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_issue_images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_issue_images_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3846 (class 0 OID 0)
+-- Dependencies: 311
+-- Name: asset_submission_issue_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_issue_images_id_seq OWNED BY public.asset_submission_issue_images.id;
+
+
+--
+-- TOC entry 291 (class 1259 OID 34475)
+-- Name: asset_submission_issue_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_issue_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    category_id integer NOT NULL,
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_issue_types OWNER TO postgres;
+
+--
+-- TOC entry 290 (class 1259 OID 34473)
+-- Name: asset_submission_issue_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_issue_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_issue_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3849 (class 0 OID 0)
+-- Dependencies: 290
+-- Name: asset_submission_issue_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_issue_types_id_seq OWNED BY public.asset_submission_issue_types.id;
+
+
+--
+-- TOC entry 314 (class 1259 OID 35210)
+-- Name: asset_submission_issues; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_issues (
+    id integer NOT NULL,
+    asset_submission_id integer NOT NULL,
+    author_user_id integer NOT NULL,
+    issue_type_id integer NOT NULL,
+    deleted boolean DEFAULT false,
+    description text NOT NULL,
+    image_category integer,
+    image_id integer,
+    image_x integer,
+    image_y integer,
+    resolved boolean DEFAULT false NOT NULL,
+    resolution_time timestamp with time zone,
+    response text,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    author_role_id integer DEFAULT 4 NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_issues OWNER TO postgres;
+
+--
+-- TOC entry 313 (class 1259 OID 35208)
+-- Name: asset_submission_issues_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_issues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_issues_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3852 (class 0 OID 0)
+-- Dependencies: 313
+-- Name: asset_submission_issues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_issues_id_seq OWNED BY public.asset_submission_issues.id;
+
+
+--
+-- TOC entry 287 (class 1259 OID 34427)
+-- Name: asset_submission_renders; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_renders (
+    id integer NOT NULL,
+    asset_submission_id integer NOT NULL,
+    filename character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_renders OWNER TO postgres;
+
+--
+-- TOC entry 286 (class 1259 OID 34425)
+-- Name: asset_submission_renders_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_renders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_renders_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3855 (class 0 OID 0)
+-- Dependencies: 286
+-- Name: asset_submission_renders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_renders_id_seq OWNED BY public.asset_submission_renders.id;
+
+
+--
+-- TOC entry 285 (class 1259 OID 34412)
+-- Name: asset_submission_status_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_status_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    resubmission_allowed boolean,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_status_types OWNER TO postgres;
+
+--
+-- TOC entry 284 (class 1259 OID 34410)
+-- Name: asset_submission_status_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_status_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_status_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3858 (class 0 OID 0)
+-- Dependencies: 284
+-- Name: asset_submission_status_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_status_types_id_seq OWNED BY public.asset_submission_status_types.id;
+
+
+--
+-- TOC entry 281 (class 1259 OID 34342)
+-- Name: asset_submission_textures; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submission_textures (
+    id integer NOT NULL,
+    asset_submission_id integer NOT NULL,
+    filename character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_submission_textures OWNER TO postgres;
+
+--
+-- TOC entry 280 (class 1259 OID 34340)
+-- Name: asset_submission_textures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submission_textures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submission_textures_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3861 (class 0 OID 0)
+-- Dependencies: 280
+-- Name: asset_submission_textures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submission_textures_id_seq OWNED BY public.asset_submission_textures.id;
+
+
+--
+-- TOC entry 279 (class 1259 OID 34272)
+-- Name: asset_submissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_submissions (
+    id integer NOT NULL,
+    asset_id integer NOT NULL,
+    submission_number integer NOT NULL,
+    user_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    folder character varying(255),
+    status_id integer,
+    unit_type_id integer DEFAULT 1 NOT NULL,
+    height double precision,
+    width double precision,
+    depth double precision,
+    has_reached_client boolean DEFAULT false NOT NULL,
+    triangle_count integer,
+    light_count integer DEFAULT 0
+);
+
+
+ALTER TABLE public.asset_submissions OWNER TO postgres;
+
+--
+-- TOC entry 278 (class 1259 OID 34270)
+-- Name: asset_submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_submissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_submissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3864 (class 0 OID 0)
+-- Dependencies: 278
+-- Name: asset_submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_submissions_id_seq OWNED BY public.asset_submissions.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 16408)
+-- Name: asset_tags; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_tags (
+    asset_id integer NOT NULL,
+    tag_id integer NOT NULL,
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_tags OWNER TO postgres;
+
+--
+-- TOC entry 347 (class 1259 OID 36022)
+-- Name: asset_textures; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_textures (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    asset_id integer NOT NULL,
+    color character varying(255) NOT NULL,
+    filename character varying(255) NOT NULL,
+    file_extension_type_id integer NOT NULL,
+    texture_type_id integer NOT NULL
+);
+
+
+ALTER TABLE public.asset_textures OWNER TO postgres;
+
+--
+-- TOC entry 346 (class 1259 OID 36020)
+-- Name: asset_textures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_textures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_textures_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3868 (class 0 OID 0)
+-- Dependencies: 346
+-- Name: asset_textures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_textures_id_seq OWNED BY public.asset_textures.id;
+
+
+--
+-- TOC entry 217 (class 1259 OID 25146)
+-- Name: asset_upload_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_upload_logs (
+    id integer NOT NULL,
+    asset_id integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    modeling_hours double precision,
+    texturing_hours double precision
+);
+
+
+ALTER TABLE public.asset_upload_logs OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 25144)
+-- Name: asset_upload_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_upload_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_upload_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3871 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: asset_upload_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_upload_logs_id_seq OWNED BY public.asset_upload_logs.id;
+
+
+--
+-- TOC entry 260 (class 1259 OID 34044)
+-- Name: asset_xrids; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.asset_xrids (
+    id integer NOT NULL,
+    asset_id integer NOT NULL,
+    xrid character varying(255) NOT NULL,
+    domain character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.asset_xrids OWNER TO postgres;
+
+--
+-- TOC entry 259 (class 1259 OID 34042)
+-- Name: asset_xrids_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.asset_xrids_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.asset_xrids_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3874 (class 0 OID 0)
+-- Dependencies: 259
+-- Name: asset_xrids_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.asset_xrids_id_seq OWNED BY public.asset_xrids.id;
+
+
+--
+-- TOC entry 186 (class 1259 OID 16411)
+-- Name: assets; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assets (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    rating double precision DEFAULT '0'::double precision,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    permissions_level integer DEFAULT 1 NOT NULL,
+    delete boolean DEFAULT false,
+    allow_download boolean DEFAULT true NOT NULL,
+    complexity_id integer DEFAULT 2 NOT NULL,
+    archived boolean,
+    product_name character varying(255),
+    product_url character varying(1024),
+    hdr character varying(255) DEFAULT 'custom_3xr_v2'::character varying,
+    camera_orbit character varying(32),
+    camera_target character varying(32),
+    published boolean DEFAULT false,
+    publish_date timestamp with time zone,
+    show_options boolean DEFAULT false,
+    banner_button_text character varying(255) DEFAULT ''::character varying,
+    product_price character varying(255) DEFAULT ''::character varying,
+    product_subtitle character varying(255) DEFAULT ''::character varying,
+    show_banner boolean DEFAULT false,
+    probability_weight integer DEFAULT 1,
+    exposure double precision DEFAULT 0.8,
+    shadow_intensity double precision DEFAULT 0.8,
+    password_hash character varying(255)
+);
+
+
+ALTER TABLE public.assets OWNER TO postgres;
+
+--
+-- TOC entry 192 (class 1259 OID 16508)
+-- Name: assets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assets_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3877 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assets_id_seq OWNED BY public.assets.id;
+
+
+--
+-- TOC entry 237 (class 1259 OID 33693)
+-- Name: assignment_artist_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_artist_logs (
+    id integer NOT NULL,
+    assignment_id integer NOT NULL,
+    user_id integer NOT NULL,
+    date_unassigned timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_artist_logs OWNER TO postgres;
+
+--
+-- TOC entry 236 (class 1259 OID 33691)
+-- Name: assignment_artist_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignment_artist_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignment_artist_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3880 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: assignment_artist_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignment_artist_logs_id_seq OWNED BY public.assignment_artist_logs.id;
+
+
+--
+-- TOC entry 246 (class 1259 OID 33854)
+-- Name: assignment_materials; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_materials (
+    assignment_id integer NOT NULL,
+    material_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_materials OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 25124)
+-- Name: assignment_modeling_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_modeling_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_modeling_types OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 25122)
+-- Name: assignment_modeling_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignment_modeling_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignment_modeling_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3884 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: assignment_modeling_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignment_modeling_types_id_seq OWNED BY public.assignment_modeling_types.id;
+
+
+--
+-- TOC entry 229 (class 1259 OID 33550)
+-- Name: assignment_payments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_payments (
+    id integer NOT NULL,
+    assignment_id integer NOT NULL,
+    payment_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_payments OWNER TO postgres;
+
+--
+-- TOC entry 228 (class 1259 OID 33548)
+-- Name: assignment_payments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignment_payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignment_payments_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3887 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: assignment_payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignment_payments_id_seq OWNED BY public.assignment_payments.id;
+
+
+--
+-- TOC entry 235 (class 1259 OID 33668)
+-- Name: assignment_priority_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_priority_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_priority_types OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 33666)
+-- Name: assignment_priority_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignment_priority_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignment_priority_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3890 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: assignment_priority_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignment_priority_types_id_seq OWNED BY public.assignment_priority_types.id;
+
+
+--
+-- TOC entry 277 (class 1259 OID 34264)
+-- Name: assignment_rework_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_rework_logs (
+    id integer NOT NULL,
+    assignment_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_rework_logs OWNER TO postgres;
+
+--
+-- TOC entry 276 (class 1259 OID 34262)
+-- Name: assignment_rework_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignment_rework_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignment_rework_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3893 (class 0 OID 0)
+-- Dependencies: 276
+-- Name: assignment_rework_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignment_rework_logs_id_seq OWNED BY public.assignment_rework_logs.id;
+
+
+--
+-- TOC entry 199 (class 1259 OID 24843)
+-- Name: assignment_status_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignment_status_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.assignment_status_types OWNER TO postgres;
+
+--
+-- TOC entry 198 (class 1259 OID 24841)
+-- Name: assignment_statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignment_statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignment_statuses_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3896 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: assignment_statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignment_statuses_id_seq OWNED BY public.assignment_status_types.id;
+
+
+--
+-- TOC entry 201 (class 1259 OID 24851)
+-- Name: assignments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.assignments (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    status_id integer DEFAULT 1 NOT NULL,
+    asset_id integer DEFAULT 0 NOT NULL,
+    height double precision DEFAULT '0'::double precision,
+    width double precision DEFAULT '0'::double precision,
+    depth double precision DEFAULT '0'::double precision,
+    artist_user_id integer DEFAULT 0,
+    date_due timestamp with time zone,
+    date_completed timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    date_submitted timestamp with time zone,
+    price double precision DEFAULT 50,
+    product_url character varying(255),
+    notes character varying(1024),
+    modeling_type_id integer DEFAULT 1 NOT NULL,
+    priority_id integer DEFAULT 2 NOT NULL,
+    client_id integer DEFAULT 1 NOT NULL,
+    product_vertical_id integer,
+    project_id integer,
+    units_in_m boolean,
+    blend_name character varying(255)
+);
+
+
+ALTER TABLE public.assignments OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 24849)
+-- Name: assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.assignments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.assignments_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3899 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.assignments_id_seq OWNED BY public.assignments.id;
+
+
+--
+-- TOC entry 283 (class 1259 OID 34396)
+-- Name: blender_addons; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.blender_addons (
+    id integer NOT NULL,
+    version character varying(255) NOT NULL,
+    blender_version character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.blender_addons OWNER TO postgres;
+
+--
+-- TOC entry 282 (class 1259 OID 34394)
+-- Name: blender_addons_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.blender_addons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.blender_addons_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3902 (class 0 OID 0)
+-- Dependencies: 282
+-- Name: blender_addons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.blender_addons_id_seq OWNED BY public.blender_addons.id;
+
+
+--
+-- TOC entry 298 (class 1259 OID 34710)
+-- Name: client_brands; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.client_brands (
+    id integer NOT NULL,
+    client_id integer NOT NULL,
+    deleted boolean NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.client_brands OWNER TO postgres;
+
+--
+-- TOC entry 297 (class 1259 OID 34708)
+-- Name: client_brands_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.client_brands_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.client_brands_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3905 (class 0 OID 0)
+-- Dependencies: 297
+-- Name: client_brands_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.client_brands_id_seq OWNED BY public.client_brands.id;
+
+
+--
+-- TOC entry 300 (class 1259 OID 34735)
+-- Name: client_classes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.client_classes (
+    id integer NOT NULL,
+    client_id integer NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.client_classes OWNER TO postgres;
+
+--
+-- TOC entry 299 (class 1259 OID 34733)
+-- Name: client_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.client_classes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.client_classes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3908 (class 0 OID 0)
+-- Dependencies: 299
+-- Name: client_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.client_classes_id_seq OWNED BY public.client_classes.id;
+
+
+--
+-- TOC entry 384 (class 1259 OID 38771)
+-- Name: client_studios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.client_studios (
+    client_id integer NOT NULL,
+    studio_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.client_studios OWNER TO postgres;
+
+--
+-- TOC entry 205 (class 1259 OID 24921)
+-- Name: clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.clients (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.clients OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 24919)
+-- Name: clients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.clients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.clients_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3911 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.clients_id_seq OWNED BY public.clients.id;
+
+
+--
+-- TOC entry 250 (class 1259 OID 33896)
+-- Name: device_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.device_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.device_types OWNER TO postgres;
+
+--
+-- TOC entry 249 (class 1259 OID 33894)
+-- Name: device_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.device_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.device_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3914 (class 0 OID 0)
+-- Dependencies: 249
+-- Name: device_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.device_types_id_seq OWNED BY public.device_types.id;
+
+
+--
+-- TOC entry 357 (class 1259 OID 36266)
+-- Name: email_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.email_logs (
+    id integer NOT NULL,
+    email_to character varying(255) NOT NULL,
+    subject character varying(255) NOT NULL,
+    html text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.email_logs OWNER TO postgres;
+
+--
+-- TOC entry 356 (class 1259 OID 36264)
+-- Name: email_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.email_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.email_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3917 (class 0 OID 0)
+-- Dependencies: 356
+-- Name: email_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.email_logs_id_seq OWNED BY public.email_logs.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 16421)
+-- Name: errors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.errors (
+    id integer NOT NULL,
+    hash character varying(255) NOT NULL,
+    message character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.errors OWNER TO postgres;
+
+--
+-- TOC entry 263 (class 1259 OID 34119)
+-- Name: faqs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.faqs (
+    id integer NOT NULL,
+    title character varying(255),
+    question text,
+    answer text,
+    asked_by_user_id integer NOT NULL,
+    answered_by_user_id integer,
+    answered boolean,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    public boolean,
+    sort_weight integer
+);
+
+
+ALTER TABLE public.faqs OWNER TO postgres;
+
+--
+-- TOC entry 262 (class 1259 OID 34117)
+-- Name: faqs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.faqs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.faqs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3921 (class 0 OID 0)
+-- Dependencies: 262
+-- Name: faqs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.faqs_id_seq OWNED BY public.faqs.id;
+
+
+--
+-- TOC entry 349 (class 1259 OID 36033)
+-- Name: file_extension_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.file_extension_types (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.file_extension_types OWNER TO postgres;
+
+--
+-- TOC entry 348 (class 1259 OID 36031)
+-- Name: file_extension_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.file_extension_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.file_extension_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3924 (class 0 OID 0)
+-- Dependencies: 348
+-- Name: file_extension_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.file_extension_types_id_seq OWNED BY public.file_extension_types.id;
+
+
+--
+-- TOC entry 335 (class 1259 OID 35698)
+-- Name: file_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.file_types (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.file_types OWNER TO postgres;
+
+--
+-- TOC entry 334 (class 1259 OID 35696)
+-- Name: file_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.file_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.file_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3927 (class 0 OID 0)
+-- Dependencies: 334
+-- Name: file_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.file_types_id_seq OWNED BY public.file_types.id;
+
+
+--
+-- TOC entry 275 (class 1259 OID 34179)
+-- Name: help_chapter_sections; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.help_chapter_sections (
+    id integer NOT NULL,
+    title character varying(255),
+    content text,
+    latest_user_id integer NOT NULL,
+    help_chapter_id integer NOT NULL,
+    sort_weight integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.help_chapter_sections OWNER TO postgres;
+
+--
+-- TOC entry 274 (class 1259 OID 34177)
+-- Name: help_chapter_sections_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.help_chapter_sections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.help_chapter_sections_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3930 (class 0 OID 0)
+-- Dependencies: 274
+-- Name: help_chapter_sections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.help_chapter_sections_id_seq OWNED BY public.help_chapter_sections.id;
+
+
+--
+-- TOC entry 273 (class 1259 OID 34168)
+-- Name: help_chapters; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.help_chapters (
+    id integer NOT NULL,
+    title character varying(255),
+    icon character varying(255),
+    sort_weight integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.help_chapters OWNER TO postgres;
+
+--
+-- TOC entry 272 (class 1259 OID 34166)
+-- Name: help_chapters_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.help_chapters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.help_chapters_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3933 (class 0 OID 0)
+-- Dependencies: 272
+-- Name: help_chapters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.help_chapters_id_seq OWNED BY public.help_chapters.id;
+
+
+--
+-- TOC entry 271 (class 1259 OID 34157)
+-- Name: help_sections; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.help_sections (
+    id integer NOT NULL,
+    title character varying(255),
+    content text,
+    latest_user_id integer NOT NULL,
+    sort_weight integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    icon character varying(255)
+);
+
+
+ALTER TABLE public.help_sections OWNER TO postgres;
+
+--
+-- TOC entry 270 (class 1259 OID 34155)
+-- Name: help_sections_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.help_sections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.help_sections_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3936 (class 0 OID 0)
+-- Dependencies: 270
+-- Name: help_sections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.help_sections_id_seq OWNED BY public.help_sections.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 25030)
+-- Name: icons; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.icons (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    noun_project_id integer
+);
+
+
+ALTER TABLE public.icons OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 25028)
+-- Name: icons_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.icons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.icons_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3939 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: icons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.icons_id_seq OWNED BY public.icons.id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 25022)
+-- Name: ip_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ip_logs (
+    id integer NOT NULL,
+    ip character varying(255) NOT NULL,
+    user_id integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.ip_logs OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 25020)
+-- Name: ip_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ip_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ip_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3942 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: ip_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ip_logs_id_seq OWNED BY public.ip_logs.id;
+
+
+--
+-- TOC entry 341 (class 1259 OID 35869)
+-- Name: job_comment_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_comment_types (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    name character varying(255) NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_comment_types OWNER TO postgres;
+
+--
+-- TOC entry 340 (class 1259 OID 35867)
+-- Name: job_comment_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_comment_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_comment_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3945 (class 0 OID 0)
+-- Dependencies: 340
+-- Name: job_comment_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_comment_types_id_seq OWNED BY public.job_comment_types.id;
+
+
+--
+-- TOC entry 339 (class 1259 OID 35860)
+-- Name: job_comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_comments (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    job_comment_type integer NOT NULL,
+    parent_comment_id integer,
+    user_id integer NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    content text,
+    job_uid character varying(255)
+);
+
+
+ALTER TABLE public.job_comments OWNER TO postgres;
+
+--
+-- TOC entry 338 (class 1259 OID 35858)
+-- Name: job_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_comments_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3948 (class 0 OID 0)
+-- Dependencies: 338
+-- Name: job_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_comments_id_seq OWNED BY public.job_comments.id;
+
+
+--
+-- TOC entry 322 (class 1259 OID 35496)
+-- Name: job_deadline_snapshots; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_deadline_snapshots (
+    id integer NOT NULL,
+    date character varying(255) NOT NULL,
+    job_count integer NOT NULL,
+    type_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_deadline_snapshots OWNER TO postgres;
+
+--
+-- TOC entry 321 (class 1259 OID 35494)
+-- Name: job_deadline_snapshots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_deadline_snapshots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_deadline_snapshots_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3951 (class 0 OID 0)
+-- Dependencies: 321
+-- Name: job_deadline_snapshots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_deadline_snapshots_id_seq OWNED BY public.job_deadline_snapshots.id;
+
+
+--
+-- TOC entry 324 (class 1259 OID 35521)
+-- Name: job_deadline_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_deadline_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_deadline_types OWNER TO postgres;
+
+--
+-- TOC entry 323 (class 1259 OID 35519)
+-- Name: job_deadline_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_deadline_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_deadline_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3954 (class 0 OID 0)
+-- Dependencies: 323
+-- Name: job_deadline_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_deadline_types_id_seq OWNED BY public.job_deadline_types.id;
+
+
+--
+-- TOC entry 306 (class 1259 OID 34766)
+-- Name: job_priority_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_priority_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_priority_types OWNER TO postgres;
+
+--
+-- TOC entry 305 (class 1259 OID 34764)
+-- Name: job_priority_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_priority_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_priority_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3957 (class 0 OID 0)
+-- Dependencies: 305
+-- Name: job_priority_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_priority_types_id_seq OWNED BY public.job_priority_types.id;
+
+
+--
+-- TOC entry 302 (class 1259 OID 34750)
+-- Name: job_quality_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_quality_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_quality_types OWNER TO postgres;
+
+--
+-- TOC entry 301 (class 1259 OID 34748)
+-- Name: job_quality_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_quality_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_quality_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3960 (class 0 OID 0)
+-- Dependencies: 301
+-- Name: job_quality_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_quality_types_id_seq OWNED BY public.job_quality_types.id;
+
+
+--
+-- TOC entry 310 (class 1259 OID 34895)
+-- Name: job_status_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_status_logs (
+    id integer NOT NULL,
+    job_id integer NOT NULL,
+    status_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_status_logs OWNER TO postgres;
+
+--
+-- TOC entry 309 (class 1259 OID 34893)
+-- Name: job_status_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_status_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_status_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3963 (class 0 OID 0)
+-- Dependencies: 309
+-- Name: job_status_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_status_logs_id_seq OWNED BY public.job_status_logs.id;
+
+
+--
+-- TOC entry 320 (class 1259 OID 35456)
+-- Name: job_status_snapshots; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_status_snapshots (
+    id integer NOT NULL,
+    date character varying(255) NOT NULL,
+    job_count integer NOT NULL,
+    job_status_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_status_snapshots OWNER TO postgres;
+
+--
+-- TOC entry 319 (class 1259 OID 35454)
+-- Name: job_status_snapshots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_status_snapshots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_status_snapshots_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3966 (class 0 OID 0)
+-- Dependencies: 319
+-- Name: job_status_snapshots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_status_snapshots_id_seq OWNED BY public.job_status_snapshots.id;
+
+
+--
+-- TOC entry 304 (class 1259 OID 34758)
+-- Name: job_status_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.job_status_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.job_status_types OWNER TO postgres;
+
+--
+-- TOC entry 303 (class 1259 OID 34756)
+-- Name: job_status_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.job_status_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.job_status_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3969 (class 0 OID 0)
+-- Dependencies: 303
+-- Name: job_status_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.job_status_types_id_seq OWNED BY public.job_status_types.id;
+
+
+--
+-- TOC entry 256 (class 1259 OID 33971)
+-- Name: jobs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.jobs (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    product_id integer NOT NULL,
+    status_id integer DEFAULT 1 NOT NULL,
+    price double precision DEFAULT '0'::double precision,
+    date_due timestamp with time zone,
+    date_submitted timestamp with time zone,
+    date_completed timestamp with time zone,
+    notes text,
+    priority_id integer DEFAULT 2 NOT NULL,
+    client_id integer DEFAULT 1 NOT NULL,
+    project_id integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    quality_id integer DEFAULT 1,
+    brand_id integer,
+    class_id integer,
+    additional_dimensions text,
+    material_information text,
+    modeling_instructions text,
+    deleted boolean,
+    completed_via_script boolean DEFAULT false,
+    studio_id integer DEFAULT 1,
+    billing_month integer DEFAULT 0,
+    paid3xr boolean DEFAULT false,
+    paid_studio boolean DEFAULT false,
+    billing_platform_charge double precision DEFAULT '10'::double precision
+);
+
+
+ALTER TABLE public.jobs OWNER TO postgres;
+
+--
+-- TOC entry 255 (class 1259 OID 33969)
+-- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.jobs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jobs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3972 (class 0 OID 0)
+-- Dependencies: 255
+-- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.jobs_id_seq OWNED BY public.jobs.id;
+
+
+--
+-- TOC entry 293 (class 1259 OID 34508)
+-- Name: login_tokens; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.login_tokens (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    token character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    ip character varying(63),
+    user_agent character varying(255)
+);
+
+
+ALTER TABLE public.login_tokens OWNER TO postgres;
+
+--
+-- TOC entry 292 (class 1259 OID 34506)
+-- Name: login_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.login_tokens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.login_tokens_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3975 (class 0 OID 0)
+-- Dependencies: 292
+-- Name: login_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.login_tokens_id_seq OWNED BY public.login_tokens.id;
+
+
+--
+-- TOC entry 191 (class 1259 OID 16496)
+-- Name: mailing_lists; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.mailing_lists (
+    id integer NOT NULL,
+    name character varying(255),
+    email character varying(255),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    ip character varying,
+    phone character varying(32),
+    company character varying(255),
+    message text,
+    interest character varying(255)
+);
+
+
+ALTER TABLE public.mailing_lists OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 16494)
+-- Name: mailing_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.mailing_lists_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.mailing_lists_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3978 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: mailing_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.mailing_lists_id_seq OWNED BY public.mailing_lists.id;
+
+
+--
+-- TOC entry 243 (class 1259 OID 33759)
+-- Name: materials; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.materials (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    diffuse_red_value double precision,
+    diffuse_green_value double precision,
+    diffuse_blue_value double precision,
+    metallic_value double precision,
+    roughness_value double precision,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    blend_name character varying(255),
+    mapping_scale_value double precision DEFAULT '1'::double precision NOT NULL,
+    normal_strength_value double precision DEFAULT '1'::double precision NOT NULL,
+    blend_mode integer DEFAULT 0
+);
+
+
+ALTER TABLE public.materials OWNER TO postgres;
+
+--
+-- TOC entry 242 (class 1259 OID 33757)
+-- Name: materials_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.materials_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.materials_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3981 (class 0 OID 0)
+-- Dependencies: 242
+-- Name: materials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.materials_id_seq OWNED BY public.materials.id;
+
+
+--
+-- TOC entry 329 (class 1259 OID 35655)
+-- Name: notification_read_status_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notification_read_status_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.notification_read_status_types OWNER TO postgres;
+
+--
+-- TOC entry 328 (class 1259 OID 35653)
+-- Name: notification_read_status_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notification_read_status_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notification_read_status_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3984 (class 0 OID 0)
+-- Dependencies: 328
+-- Name: notification_read_status_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notification_read_status_types_id_seq OWNED BY public.notification_read_status_types.id;
+
+
+--
+-- TOC entry 331 (class 1259 OID 35663)
+-- Name: notification_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notification_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.notification_types OWNER TO postgres;
+
+--
+-- TOC entry 330 (class 1259 OID 35661)
+-- Name: notification_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notification_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notification_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3987 (class 0 OID 0)
+-- Dependencies: 330
+-- Name: notification_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notification_types_id_seq OWNED BY public.notification_types.id;
+
+
+--
+-- TOC entry 327 (class 1259 OID 35645)
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notifications (
+    id integer NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    read_status_id integer DEFAULT 1 NOT NULL,
+    notification_type_id integer,
+    product_id integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    client_id integer,
+    job_comment_id integer,
+    job_id integer,
+    project_id integer,
+    ref_user_id integer,
+    project_progress integer,
+    deleted boolean DEFAULT false
+);
+
+
+ALTER TABLE public.notifications OWNER TO postgres;
+
+--
+-- TOC entry 326 (class 1259 OID 35643)
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notifications_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3990 (class 0 OID 0)
+-- Dependencies: 326
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
+
+
+--
+-- TOC entry 365 (class 1259 OID 36861)
+-- Name: oauth_authorization_codes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_authorization_codes (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    oauth_client_id text NOT NULL,
+    authorization_code text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.oauth_authorization_codes OWNER TO postgres;
+
+--
+-- TOC entry 364 (class 1259 OID 36859)
+-- Name: oauth_authorization_codes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.oauth_authorization_codes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.oauth_authorization_codes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3993 (class 0 OID 0)
+-- Dependencies: 364
+-- Name: oauth_authorization_codes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.oauth_authorization_codes_id_seq OWNED BY public.oauth_authorization_codes.id;
+
+
+--
+-- TOC entry 363 (class 1259 OID 36850)
+-- Name: oauth_clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.oauth_clients (
+    id integer NOT NULL,
+    client_id text NOT NULL,
+    client_secret text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.oauth_clients OWNER TO postgres;
+
+--
+-- TOC entry 362 (class 1259 OID 36848)
+-- Name: oauth_clients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.oauth_clients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.oauth_clients_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3996 (class 0 OID 0)
+-- Dependencies: 362
+-- Name: oauth_clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.oauth_clients_id_seq OWNED BY public.oauth_clients.id;
+
+
+--
+-- TOC entry 378 (class 1259 OID 37950)
+-- Name: part_slots; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.part_slots (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    part_id integer NOT NULL,
+    slot_name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.part_slots OWNER TO postgres;
+
+--
+-- TOC entry 377 (class 1259 OID 37948)
+-- Name: part_slots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.part_slots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.part_slots_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3999 (class 0 OID 0)
+-- Dependencies: 377
+-- Name: part_slots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.part_slots_id_seq OWNED BY public.part_slots.id;
+
+
+--
+-- TOC entry 374 (class 1259 OID 37661)
+-- Name: parts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.parts (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    blend_name character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    uid character varying(255) NOT NULL,
+    created_from_submission_id integer
+);
+
+
+ALTER TABLE public.parts OWNER TO postgres;
+
+--
+-- TOC entry 373 (class 1259 OID 37659)
+-- Name: parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.parts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.parts_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4002 (class 0 OID 0)
+-- Dependencies: 373
+-- Name: parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.parts_id_seq OWNED BY public.parts.id;
+
+
+--
+-- TOC entry 231 (class 1259 OID 33597)
+-- Name: payments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.payments (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    admin_user_id integer NOT NULL,
+    artist_user_id integer NOT NULL,
+    paypal_email character varying(255) NOT NULL,
+    paypal_transaction_id character varying(255) NOT NULL,
+    transaction_amount double precision NOT NULL,
+    transaction_date timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.payments OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 33595)
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.payments_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4005 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.payments_id_seq OWNED BY public.payments.id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 24998)
+-- Name: permissions_levels; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.permissions_levels (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.permissions_levels OWNER TO postgres;
+
+--
+-- TOC entry 206 (class 1259 OID 24996)
+-- Name: permissions_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.permissions_levels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.permissions_levels_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4008 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: permissions_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.permissions_levels_id_seq OWNED BY public.permissions_levels.id;
+
+
+--
+-- TOC entry 308 (class 1259 OID 34867)
+-- Name: product_additional_files; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_additional_files (
+    id integer NOT NULL,
+    filename character varying(255) NOT NULL,
+    product_id integer NOT NULL,
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.product_additional_files OWNER TO postgres;
+
+--
+-- TOC entry 307 (class 1259 OID 34865)
+-- Name: product_additional_files_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_additional_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_additional_files_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4011 (class 0 OID 0)
+-- Dependencies: 307
+-- Name: product_additional_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_additional_files_id_seq OWNED BY public.product_additional_files.id;
+
+
+--
+-- TOC entry 345 (class 1259 OID 36014)
+-- Name: product_combinations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_combinations (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    asset_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.product_combinations OWNER TO postgres;
+
+--
+-- TOC entry 344 (class 1259 OID 36012)
+-- Name: product_combinations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_combinations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_combinations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4014 (class 0 OID 0)
+-- Dependencies: 344
+-- Name: product_combinations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_combinations_id_seq OWNED BY public.product_combinations.id;
+
+
+--
+-- TOC entry 361 (class 1259 OID 36760)
+-- Name: product_favorites; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_favorites (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    product_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.product_favorites OWNER TO postgres;
+
+--
+-- TOC entry 360 (class 1259 OID 36758)
+-- Name: product_favorites_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_favorites_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_favorites_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4017 (class 0 OID 0)
+-- Dependencies: 360
+-- Name: product_favorites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_favorites_id_seq OWNED BY public.product_favorites.id;
+
+
+--
+-- TOC entry 371 (class 1259 OID 36896)
+-- Name: product_holding_reference_images; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_holding_reference_images (
+    id integer NOT NULL,
+    bc_product_id integer,
+    bc_product_reference_image_id integer,
+    deleted boolean DEFAULT false,
+    filename character varying(255) NOT NULL,
+    image_large_url character varying(255) NOT NULL,
+    image_small_url character varying(255) NOT NULL,
+    product_holding_id integer NOT NULL,
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.product_holding_reference_images OWNER TO postgres;
+
+--
+-- TOC entry 370 (class 1259 OID 36894)
+-- Name: product_holding_reference_images_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_holding_reference_images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_holding_reference_images_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4020 (class 0 OID 0)
+-- Dependencies: 370
+-- Name: product_holding_reference_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_holding_reference_images_id_seq OWNED BY public.product_holding_reference_images.id;
+
+
+--
+-- TOC entry 372 (class 1259 OID 36906)
+-- Name: product_holding_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_holding_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.product_holding_types OWNER TO postgres;
+
+--
+-- TOC entry 369 (class 1259 OID 36881)
+-- Name: product_holdings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_holdings (
+    id integer NOT NULL,
+    bc_product_id integer NOT NULL,
+    client_id integer NOT NULL,
+    project_holding_id integer,
+    product_holding_type integer NOT NULL,
+    depth double precision DEFAULT '0'::double precision,
+    height double precision DEFAULT '0'::double precision,
+    name text,
+    description text,
+    part_number character varying(255),
+    sku character varying(255),
+    unit_type_id integer,
+    width double precision DEFAULT '0'::double precision,
+    deleted boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.product_holdings OWNER TO postgres;
+
+--
+-- TOC entry 368 (class 1259 OID 36879)
+-- Name: product_holdings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_holdings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_holdings_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4024 (class 0 OID 0)
+-- Dependencies: 368
+-- Name: product_holdings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_holdings_id_seq OWNED BY public.product_holdings.id;
+
+
+--
+-- TOC entry 261 (class 1259 OID 34057)
+-- Name: product_materials; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_materials (
+    product_id integer NOT NULL,
+    material_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    slot_name character varying(255)
+);
+
+
+ALTER TABLE public.product_materials OWNER TO postgres;
+
+--
+-- TOC entry 376 (class 1259 OID 37674)
+-- Name: product_parts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_parts (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    product_id integer NOT NULL,
+    part_id integer NOT NULL
+);
+
+
+ALTER TABLE public.product_parts OWNER TO postgres;
+
+--
+-- TOC entry 375 (class 1259 OID 37672)
+-- Name: product_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_parts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_parts_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4028 (class 0 OID 0)
+-- Dependencies: 375
+-- Name: product_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_parts_id_seq OWNED BY public.product_parts.id;
+
+
+--
+-- TOC entry 269 (class 1259 OID 34149)
+-- Name: product_reference_images; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_reference_images (
+    id integer NOT NULL,
+    product_id integer NOT NULL,
+    filename character varying(255),
+    sort_weight integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    "primary" boolean,
+    fallback_image_url character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.product_reference_images OWNER TO postgres;
+
+--
+-- TOC entry 268 (class 1259 OID 34147)
+-- Name: product_reference_images_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_reference_images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_reference_images_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4031 (class 0 OID 0)
+-- Dependencies: 268
+-- Name: product_reference_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_reference_images_id_seq OWNED BY public.product_reference_images.id;
+
+
+--
+-- TOC entry 241 (class 1259 OID 33729)
+-- Name: product_verticals; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_verticals (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.product_verticals OWNER TO postgres;
+
+--
+-- TOC entry 240 (class 1259 OID 33727)
+-- Name: product_verticals_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_verticals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_verticals_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4034 (class 0 OID 0)
+-- Dependencies: 240
+-- Name: product_verticals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_verticals_id_seq OWNED BY public.product_verticals.id;
+
+
+--
+-- TOC entry 254 (class 1259 OID 33953)
+-- Name: products; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.products (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    blend_name character varying(255),
+    artist_user_id integer DEFAULT 0,
+    height double precision DEFAULT '0'::double precision,
+    width double precision DEFAULT '0'::double precision,
+    depth double precision DEFAULT '0'::double precision,
+    url text,
+    modeling_type_id integer DEFAULT 1 NOT NULL,
+    vertical_id integer,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    unit_type_id integer DEFAULT 1,
+    asset_id integer,
+    part_number character varying(255),
+    asin character varying(255),
+    deleted boolean DEFAULT false,
+    bc_product_id integer
+);
+
+
+ALTER TABLE public.products OWNER TO postgres;
+
+--
+-- TOC entry 253 (class 1259 OID 33951)
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.products_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.products_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4037 (class 0 OID 0)
+-- Dependencies: 253
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
+-- TOC entry 367 (class 1259 OID 36872)
+-- Name: project_holdings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.project_holdings (
+    id integer NOT NULL,
+    client_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    name character varying(255) NOT NULL,
+    default_unit_type integer NOT NULL,
+    deleted boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.project_holdings OWNER TO postgres;
+
+--
+-- TOC entry 366 (class 1259 OID 36870)
+-- Name: project_holdings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.project_holdings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_holdings_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4040 (class 0 OID 0)
+-- Dependencies: 366
+-- Name: project_holdings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.project_holdings_id_seq OWNED BY public.project_holdings.id;
+
+
+--
+-- TOC entry 383 (class 1259 OID 38715)
+-- Name: project_resources_uploads; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.project_resources_uploads (
+    id integer NOT NULL,
+    project_id integer NOT NULL,
+    filename character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_resources_uploads OWNER TO postgres;
+
+--
+-- TOC entry 382 (class 1259 OID 38713)
+-- Name: project_resources_uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.project_resources_uploads_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_resources_uploads_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4042 (class 0 OID 0)
+-- Dependencies: 382
+-- Name: project_resources_uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.project_resources_uploads_id_seq OWNED BY public.project_resources_uploads.id;
+
+
+--
+-- TOC entry 296 (class 1259 OID 34603)
+-- Name: project_status_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.project_status_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_status_types OWNER TO postgres;
+
+--
+-- TOC entry 295 (class 1259 OID 34601)
+-- Name: project_status_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.project_status_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_status_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4044 (class 0 OID 0)
+-- Dependencies: 295
+-- Name: project_status_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.project_status_types_id_seq OWNED BY public.project_status_types.id;
+
+
+--
+-- TOC entry 245 (class 1259 OID 33809)
+-- Name: projects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.projects (
+    id integer NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    client_id integer DEFAULT 0 NOT NULL,
+    status_id integer DEFAULT 1 NOT NULL,
+    date_due timestamp with time zone,
+    date_completed timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    default_brand integer,
+    default_class integer,
+    default_unit_type integer,
+    default_quality integer DEFAULT 1,
+    default_priority integer DEFAULT 1,
+    default_artist_id integer,
+    notification_status_id integer,
+    deleted boolean DEFAULT false,
+    is_created_from_holding boolean DEFAULT false,
+    studio_id integer DEFAULT 1,
+    default_price integer DEFAULT 0
+);
+
+
+ALTER TABLE public.projects OWNER TO postgres;
+
+--
+-- TOC entry 244 (class 1259 OID 33807)
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.projects_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4047 (class 0 OID 0)
+-- Dependencies: 244
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
+
+
+--
+-- TOC entry 267 (class 1259 OID 34139)
+-- Name: rabbit_message_action_status_texts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rabbit_message_action_status_texts (
+    id integer NOT NULL,
+    action_id integer NOT NULL,
+    status_id integer NOT NULL,
+    text character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.rabbit_message_action_status_texts OWNER TO postgres;
+
+--
+-- TOC entry 266 (class 1259 OID 34137)
+-- Name: rabbit_message_action_status_texts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rabbit_message_action_status_texts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rabbit_message_action_status_texts_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4050 (class 0 OID 0)
+-- Dependencies: 266
+-- Name: rabbit_message_action_status_texts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rabbit_message_action_status_texts_id_seq OWNED BY public.rabbit_message_action_status_texts.id;
+
+
+--
+-- TOC entry 265 (class 1259 OID 34131)
+-- Name: rabbit_message_action_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rabbit_message_action_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.rabbit_message_action_types OWNER TO postgres;
+
+--
+-- TOC entry 264 (class 1259 OID 34129)
+-- Name: rabbit_message_action_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rabbit_message_action_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rabbit_message_action_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4053 (class 0 OID 0)
+-- Dependencies: 264
+-- Name: rabbit_message_action_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rabbit_message_action_types_id_seq OWNED BY public.rabbit_message_action_types.id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 25195)
+-- Name: rabbit_message_status_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rabbit_message_status_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.rabbit_message_status_types OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 25193)
+-- Name: rabbit_message_status_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rabbit_message_status_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rabbit_message_status_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4056 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: rabbit_message_status_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rabbit_message_status_types_id_seq OWNED BY public.rabbit_message_status_types.id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 25219)
+-- Name: rabbit_messages; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rabbit_messages (
+    id integer NOT NULL,
+    action_id integer NOT NULL,
+    status_id integer NOT NULL,
+    user_id integer NOT NULL,
+    data text NOT NULL,
+    error_message text,
+    delete boolean NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    queue character varying(255)
+);
+
+
+ALTER TABLE public.rabbit_messages OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 25217)
+-- Name: rabbit_messages_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rabbit_messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rabbit_messages_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4059 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: rabbit_messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rabbit_messages_id_seq OWNED BY public.rabbit_messages.id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 25161)
+-- Name: rework_messages; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rework_messages (
+    id integer NOT NULL,
+    assignment_id integer,
+    user_id integer,
+    message text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.rework_messages OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 25159)
+-- Name: rework_messages_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rework_messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rework_messages_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4062 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: rework_messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rework_messages_id_seq OWNED BY public.rework_messages.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 16530)
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.roles (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.roles OWNER TO postgres;
+
+--
+-- TOC entry 195 (class 1259 OID 16528)
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.roles_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4065 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
+
+
+--
+-- TOC entry 203 (class 1259 OID 24886)
+-- Name: source_data_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.source_data_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.source_data_types OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 24884)
+-- Name: source_data_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.source_data_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.source_data_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4068 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: source_data_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.source_data_types_id_seq OWNED BY public.source_data_types.id;
+
+
+--
+-- TOC entry 380 (class 1259 OID 38674)
+-- Name: studios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.studios (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    uid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.studios OWNER TO postgres;
+
+--
+-- TOC entry 379 (class 1259 OID 38672)
+-- Name: studios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.studios_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.studios_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4070 (class 0 OID 0)
+-- Dependencies: 379
+-- Name: studios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.studios_id_seq OWNED BY public.studios.id;
+
+
+--
+-- TOC entry 187 (class 1259 OID 16418)
+-- Name: tags; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tags (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    permissions_level_id integer DEFAULT 1 NOT NULL,
+    sort_weight integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE public.tags OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 16511)
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tags_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4072 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
+
+
+--
+-- TOC entry 343 (class 1259 OID 36006)
+-- Name: texture_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.texture_types (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.texture_types OWNER TO postgres;
+
+--
+-- TOC entry 342 (class 1259 OID 36004)
+-- Name: texture_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.texture_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.texture_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4075 (class 0 OID 0)
+-- Dependencies: 342
+-- Name: texture_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.texture_types_id_seq OWNED BY public.texture_types.id;
+
+
+--
+-- TOC entry 258 (class 1259 OID 34017)
+-- Name: unit_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.unit_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.unit_types OWNER TO postgres;
+
+--
+-- TOC entry 257 (class 1259 OID 34015)
+-- Name: unit_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.unit_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.unit_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4078 (class 0 OID 0)
+-- Dependencies: 257
+-- Name: unit_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.unit_types_id_seq OWNED BY public.unit_types.id;
+
+
+--
+-- TOC entry 355 (class 1259 OID 36257)
+-- Name: user_agreement_responses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_agreement_responses (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_agreement_id integer NOT NULL,
+    user_id integer NOT NULL,
+    response boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.user_agreement_responses OWNER TO postgres;
+
+--
+-- TOC entry 354 (class 1259 OID 36255)
+-- Name: user_agreement_responses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_agreement_responses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_agreement_responses_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4081 (class 0 OID 0)
+-- Dependencies: 354
+-- Name: user_agreement_responses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_agreement_responses_id_seq OWNED BY public.user_agreement_responses.id;
+
+
+--
+-- TOC entry 351 (class 1259 OID 36241)
+-- Name: user_agreement_types; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_agreement_types (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.user_agreement_types OWNER TO postgres;
+
+--
+-- TOC entry 350 (class 1259 OID 36239)
+-- Name: user_agreement_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_agreement_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_agreement_types_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4084 (class 0 OID 0)
+-- Dependencies: 350
+-- Name: user_agreement_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_agreement_types_id_seq OWNED BY public.user_agreement_types.id;
+
+
+--
+-- TOC entry 353 (class 1259 OID 36249)
+-- Name: user_agreements; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_agreements (
+    id integer NOT NULL,
+    user_agreement_type_id integer NOT NULL,
+    version integer NOT NULL,
+    content text DEFAULT ''::text NOT NULL
+);
+
+
+ALTER TABLE public.user_agreements OWNER TO postgres;
+
+--
+-- TOC entry 352 (class 1259 OID 36247)
+-- Name: user_agreements_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_agreements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_agreements_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4087 (class 0 OID 0)
+-- Dependencies: 352
+-- Name: user_agreements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_agreements_id_seq OWNED BY public.user_agreements.id;
+
+
+--
+-- TOC entry 294 (class 1259 OID 34545)
+-- Name: user_clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_clients (
+    user_id integer NOT NULL,
+    client_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_clients OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 16598)
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_roles (
+    user_id integer NOT NULL,
+    role_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_roles OWNER TO postgres;
+
+--
+-- TOC entry 381 (class 1259 OID 38685)
+-- Name: user_studios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_studios (
+    user_id integer NOT NULL,
+    studio_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_studios OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 16443)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    hash character varying(255) NOT NULL,
+    admin boolean DEFAULT false,
+    first_name character varying(255),
+    last_name character varying(255),
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    artist boolean DEFAULT false NOT NULL,
+    paypal_email character varying(255),
+    api_token character varying(255),
+    reset_password_hash character varying(255),
+    phone character varying(32),
+    primary_role_id integer DEFAULT 1,
+    email_notifications boolean DEFAULT true NOT NULL,
+    qa_viewer integer DEFAULT 1
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 194 (class 1259 OID 16514)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4092 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 239 (class 1259 OID 33701)
+-- Name: web_crawler_queries; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.web_crawler_queries (
+    id integer NOT NULL,
+    search_term character varying(255) NOT NULL,
+    user_id integer NOT NULL,
+    count integer NOT NULL,
+    complete boolean,
+    archive boolean,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.web_crawler_queries OWNER TO postgres;
+
+--
+-- TOC entry 238 (class 1259 OID 33699)
+-- Name: web_crawler_queries_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.web_crawler_queries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.web_crawler_queries_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4095 (class 0 OID 0)
+-- Dependencies: 238
+-- Name: web_crawler_queries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.web_crawler_queries_id_seq OWNED BY public.web_crawler_queries.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 25096)
+-- Name: zip_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.zip_logs (
+    id integer NOT NULL,
+    asset_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.zip_logs OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 25094)
+-- Name: zip_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.zip_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.zip_logs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4098 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: zip_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.zip_logs_id_seq OWNED BY public.zip_logs.id;
+
+
+--
+-- TOC entry 3397 (class 2604 OID 36571)
+-- Name: asset_ab_alternatives id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_ab_alternatives ALTER COLUMN id SET DEFAULT nextval('public.asset_ab_alternatives_id_seq'::regclass);
+
+
+--
+-- TOC entry 3291 (class 2604 OID 33663)
+-- Name: asset_complexity_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_complexity_types ALTER COLUMN id SET DEFAULT nextval('public.asset_complexity_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3379 (class 2604 OID 35690)
+-- Name: asset_files id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_files ALTER COLUMN id SET DEFAULT nextval('public.asset_files_id_seq'::regclass);
+
+
+--
+-- TOC entry 3287 (class 2604 OID 25453)
+-- Name: asset_issue_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_issue_types ALTER COLUMN id SET DEFAULT nextval('public.asset_issue_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3288 (class 2604 OID 25469)
+-- Name: asset_issues id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_issues ALTER COLUMN id SET DEFAULT nextval('public.asset_issues_id_seq'::regclass);
+
+
+--
+-- TOC entry 3309 (class 2604 OID 33875)
+-- Name: asset_metric_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_metric_types ALTER COLUMN id SET DEFAULT nextval('public.asset_metric_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3311 (class 2604 OID 33907)
+-- Name: asset_metrics id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_metrics ALTER COLUMN id SET DEFAULT nextval('public.asset_metrics_id_seq'::regclass);
+
+
+--
+-- TOC entry 3369 (class 2604 OID 35367)
+-- Name: asset_renders id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_renders ALTER COLUMN id SET DEFAULT nextval('public.asset_renders_id_seq'::regclass);
+
+
+--
+-- TOC entry 3381 (class 2604 OID 35790)
+-- Name: asset_spin_sets id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_spin_sets ALTER COLUMN id SET DEFAULT nextval('public.asset_spin_sets_id_seq'::regclass);
+
+
+--
+-- TOC entry 3351 (class 2604 OID 34459)
+-- Name: asset_submission_issue_category_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_category_types ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_issue_category_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3368 (class 2604 OID 35265)
+-- Name: asset_submission_issue_hotspots id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_hotspots ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_issue_hotspots_id_seq'::regclass);
+
+
+--
+-- TOC entry 3363 (class 2604 OID 35179)
+-- Name: asset_submission_issue_images id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_images ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_issue_images_id_seq'::regclass);
+
+
+--
+-- TOC entry 3352 (class 2604 OID 34478)
+-- Name: asset_submission_issue_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_types ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_issue_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3364 (class 2604 OID 35213)
+-- Name: asset_submission_issues id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issues ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_issues_id_seq'::regclass);
+
+
+--
+-- TOC entry 3350 (class 2604 OID 34430)
+-- Name: asset_submission_renders id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_renders ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_renders_id_seq'::regclass);
+
+
+--
+-- TOC entry 3349 (class 2604 OID 34415)
+-- Name: asset_submission_status_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_status_types ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_status_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3347 (class 2604 OID 34345)
+-- Name: asset_submission_textures id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_textures ALTER COLUMN id SET DEFAULT nextval('public.asset_submission_textures_id_seq'::regclass);
+
+
+--
+-- TOC entry 3343 (class 2604 OID 34275)
+-- Name: asset_submissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submissions ALTER COLUMN id SET DEFAULT nextval('public.asset_submissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 3389 (class 2604 OID 36025)
+-- Name: asset_textures id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_textures ALTER COLUMN id SET DEFAULT nextval('public.asset_textures_id_seq'::regclass);
+
+
+--
+-- TOC entry 3283 (class 2604 OID 25149)
+-- Name: asset_upload_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_upload_logs ALTER COLUMN id SET DEFAULT nextval('public.asset_upload_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3333 (class 2604 OID 34047)
+-- Name: asset_xrids id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_xrids ALTER COLUMN id SET DEFAULT nextval('public.asset_xrids_id_seq'::regclass);
+
+
+--
+-- TOC entry 3238 (class 2604 OID 16510)
+-- Name: assets id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assets ALTER COLUMN id SET DEFAULT nextval('public.assets_id_seq'::regclass);
+
+
+--
+-- TOC entry 3293 (class 2604 OID 33696)
+-- Name: assignment_artist_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_artist_logs ALTER COLUMN id SET DEFAULT nextval('public.assignment_artist_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3282 (class 2604 OID 25127)
+-- Name: assignment_modeling_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_modeling_types ALTER COLUMN id SET DEFAULT nextval('public.assignment_modeling_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3289 (class 2604 OID 33553)
+-- Name: assignment_payments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_payments ALTER COLUMN id SET DEFAULT nextval('public.assignment_payments_id_seq'::regclass);
+
+
+--
+-- TOC entry 3292 (class 2604 OID 33671)
+-- Name: assignment_priority_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_priority_types ALTER COLUMN id SET DEFAULT nextval('public.assignment_priority_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3342 (class 2604 OID 34267)
+-- Name: assignment_rework_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_rework_logs ALTER COLUMN id SET DEFAULT nextval('public.assignment_rework_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3264 (class 2604 OID 24846)
+-- Name: assignment_status_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_status_types ALTER COLUMN id SET DEFAULT nextval('public.assignment_statuses_id_seq'::regclass);
+
+
+--
+-- TOC entry 3267 (class 2604 OID 24854)
+-- Name: assignments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignments ALTER COLUMN id SET DEFAULT nextval('public.assignments_id_seq'::regclass);
+
+
+--
+-- TOC entry 3348 (class 2604 OID 34399)
+-- Name: blender_addons id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blender_addons ALTER COLUMN id SET DEFAULT nextval('public.blender_addons_id_seq'::regclass);
+
+
+--
+-- TOC entry 3355 (class 2604 OID 34713)
+-- Name: client_brands id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.client_brands ALTER COLUMN id SET DEFAULT nextval('public.client_brands_id_seq'::regclass);
+
+
+--
+-- TOC entry 3356 (class 2604 OID 34738)
+-- Name: client_classes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.client_classes ALTER COLUMN id SET DEFAULT nextval('public.client_classes_id_seq'::regclass);
+
+
+--
+-- TOC entry 3277 (class 2604 OID 24924)
+-- Name: clients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clients ALTER COLUMN id SET DEFAULT nextval('public.clients_id_seq'::regclass);
+
+
+--
+-- TOC entry 3310 (class 2604 OID 33899)
+-- Name: device_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.device_types ALTER COLUMN id SET DEFAULT nextval('public.device_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3396 (class 2604 OID 36269)
+-- Name: email_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.email_logs ALTER COLUMN id SET DEFAULT nextval('public.email_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3334 (class 2604 OID 34122)
+-- Name: faqs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faqs ALTER COLUMN id SET DEFAULT nextval('public.faqs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3390 (class 2604 OID 36036)
+-- Name: file_extension_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.file_extension_types ALTER COLUMN id SET DEFAULT nextval('public.file_extension_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3380 (class 2604 OID 35701)
+-- Name: file_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.file_types ALTER COLUMN id SET DEFAULT nextval('public.file_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3341 (class 2604 OID 34182)
+-- Name: help_chapter_sections id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.help_chapter_sections ALTER COLUMN id SET DEFAULT nextval('public.help_chapter_sections_id_seq'::regclass);
+
+
+--
+-- TOC entry 3340 (class 2604 OID 34171)
+-- Name: help_chapters id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.help_chapters ALTER COLUMN id SET DEFAULT nextval('public.help_chapters_id_seq'::regclass);
+
+
+--
+-- TOC entry 3339 (class 2604 OID 34160)
+-- Name: help_sections id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.help_sections ALTER COLUMN id SET DEFAULT nextval('public.help_sections_id_seq'::regclass);
+
+
+--
+-- TOC entry 3280 (class 2604 OID 25033)
+-- Name: icons id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.icons ALTER COLUMN id SET DEFAULT nextval('public.icons_id_seq'::regclass);
+
+
+--
+-- TOC entry 3279 (class 2604 OID 25025)
+-- Name: ip_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ip_logs ALTER COLUMN id SET DEFAULT nextval('public.ip_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3386 (class 2604 OID 35872)
+-- Name: job_comment_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_comment_types ALTER COLUMN id SET DEFAULT nextval('public.job_comment_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3384 (class 2604 OID 35863)
+-- Name: job_comments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_comments ALTER COLUMN id SET DEFAULT nextval('public.job_comments_id_seq'::regclass);
+
+
+--
+-- TOC entry 3371 (class 2604 OID 35499)
+-- Name: job_deadline_snapshots id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_deadline_snapshots ALTER COLUMN id SET DEFAULT nextval('public.job_deadline_snapshots_id_seq'::regclass);
+
+
+--
+-- TOC entry 3372 (class 2604 OID 35524)
+-- Name: job_deadline_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_deadline_types ALTER COLUMN id SET DEFAULT nextval('public.job_deadline_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3360 (class 2604 OID 34769)
+-- Name: job_priority_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_priority_types ALTER COLUMN id SET DEFAULT nextval('public.job_priority_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3358 (class 2604 OID 34753)
+-- Name: job_quality_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_quality_types ALTER COLUMN id SET DEFAULT nextval('public.job_quality_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3362 (class 2604 OID 34898)
+-- Name: job_status_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_logs ALTER COLUMN id SET DEFAULT nextval('public.job_status_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3370 (class 2604 OID 35459)
+-- Name: job_status_snapshots id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_snapshots ALTER COLUMN id SET DEFAULT nextval('public.job_status_snapshots_id_seq'::regclass);
+
+
+--
+-- TOC entry 3359 (class 2604 OID 34761)
+-- Name: job_status_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_types ALTER COLUMN id SET DEFAULT nextval('public.job_status_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3322 (class 2604 OID 33974)
+-- Name: jobs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.jobs ALTER COLUMN id SET DEFAULT nextval('public.jobs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3353 (class 2604 OID 34511)
+-- Name: login_tokens id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.login_tokens ALTER COLUMN id SET DEFAULT nextval('public.login_tokens_id_seq'::regclass);
+
+
+--
+-- TOC entry 3262 (class 2604 OID 16499)
+-- Name: mailing_lists id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.mailing_lists ALTER COLUMN id SET DEFAULT nextval('public.mailing_lists_id_seq'::regclass);
+
+
+--
+-- TOC entry 3296 (class 2604 OID 33762)
+-- Name: materials id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materials ALTER COLUMN id SET DEFAULT nextval('public.materials_id_seq'::regclass);
+
+
+--
+-- TOC entry 3377 (class 2604 OID 35658)
+-- Name: notification_read_status_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notification_read_status_types ALTER COLUMN id SET DEFAULT nextval('public.notification_read_status_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3378 (class 2604 OID 35666)
+-- Name: notification_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notification_types ALTER COLUMN id SET DEFAULT nextval('public.notification_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3373 (class 2604 OID 35648)
+-- Name: notifications id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
+
+
+--
+-- TOC entry 3403 (class 2604 OID 36864)
+-- Name: oauth_authorization_codes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_authorization_codes ALTER COLUMN id SET DEFAULT nextval('public.oauth_authorization_codes_id_seq'::regclass);
+
+
+--
+-- TOC entry 3402 (class 2604 OID 36853)
+-- Name: oauth_clients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_clients ALTER COLUMN id SET DEFAULT nextval('public.oauth_clients_id_seq'::regclass);
+
+
+--
+-- TOC entry 3415 (class 2604 OID 37953)
+-- Name: part_slots id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.part_slots ALTER COLUMN id SET DEFAULT nextval('public.part_slots_id_seq'::regclass);
+
+
+--
+-- TOC entry 3413 (class 2604 OID 37664)
+-- Name: parts id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parts ALTER COLUMN id SET DEFAULT nextval('public.parts_id_seq'::regclass);
+
+
+--
+-- TOC entry 3290 (class 2604 OID 33600)
+-- Name: payments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.payments_id_seq'::regclass);
+
+
+--
+-- TOC entry 3278 (class 2604 OID 25001)
+-- Name: permissions_levels id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.permissions_levels ALTER COLUMN id SET DEFAULT nextval('public.permissions_levels_id_seq'::regclass);
+
+
+--
+-- TOC entry 3361 (class 2604 OID 34870)
+-- Name: product_additional_files id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_additional_files ALTER COLUMN id SET DEFAULT nextval('public.product_additional_files_id_seq'::regclass);
+
+
+--
+-- TOC entry 3388 (class 2604 OID 36017)
+-- Name: product_combinations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_combinations ALTER COLUMN id SET DEFAULT nextval('public.product_combinations_id_seq'::regclass);
+
+
+--
+-- TOC entry 3401 (class 2604 OID 36763)
+-- Name: product_favorites id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_favorites ALTER COLUMN id SET DEFAULT nextval('public.product_favorites_id_seq'::regclass);
+
+
+--
+-- TOC entry 3411 (class 2604 OID 36899)
+-- Name: product_holding_reference_images id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_holding_reference_images ALTER COLUMN id SET DEFAULT nextval('public.product_holding_reference_images_id_seq'::regclass);
+
+
+--
+-- TOC entry 3406 (class 2604 OID 36884)
+-- Name: product_holdings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_holdings ALTER COLUMN id SET DEFAULT nextval('public.product_holdings_id_seq'::regclass);
+
+
+--
+-- TOC entry 3414 (class 2604 OID 37677)
+-- Name: product_parts id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_parts ALTER COLUMN id SET DEFAULT nextval('public.product_parts_id_seq'::regclass);
+
+
+--
+-- TOC entry 3337 (class 2604 OID 34152)
+-- Name: product_reference_images id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_reference_images ALTER COLUMN id SET DEFAULT nextval('public.product_reference_images_id_seq'::regclass);
+
+
+--
+-- TOC entry 3295 (class 2604 OID 33732)
+-- Name: product_verticals id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_verticals ALTER COLUMN id SET DEFAULT nextval('public.product_verticals_id_seq'::regclass);
+
+
+--
+-- TOC entry 3312 (class 2604 OID 33956)
+-- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- TOC entry 3404 (class 2604 OID 36875)
+-- Name: project_holdings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_holdings ALTER COLUMN id SET DEFAULT nextval('public.project_holdings_id_seq'::regclass);
+
+
+--
+-- TOC entry 3417 (class 2604 OID 38718)
+-- Name: project_resources_uploads id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_resources_uploads ALTER COLUMN id SET DEFAULT nextval('public.project_resources_uploads_id_seq'::regclass);
+
+
+--
+-- TOC entry 3354 (class 2604 OID 34606)
+-- Name: project_status_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_status_types ALTER COLUMN id SET DEFAULT nextval('public.project_status_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3300 (class 2604 OID 33812)
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
+
+
+--
+-- TOC entry 3336 (class 2604 OID 34142)
+-- Name: rabbit_message_action_status_texts id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_message_action_status_texts ALTER COLUMN id SET DEFAULT nextval('public.rabbit_message_action_status_texts_id_seq'::regclass);
+
+
+--
+-- TOC entry 3335 (class 2604 OID 34134)
+-- Name: rabbit_message_action_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_message_action_types ALTER COLUMN id SET DEFAULT nextval('public.rabbit_message_action_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3285 (class 2604 OID 25198)
+-- Name: rabbit_message_status_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_message_status_types ALTER COLUMN id SET DEFAULT nextval('public.rabbit_message_status_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3286 (class 2604 OID 25222)
+-- Name: rabbit_messages id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_messages ALTER COLUMN id SET DEFAULT nextval('public.rabbit_messages_id_seq'::regclass);
+
+
+--
+-- TOC entry 3284 (class 2604 OID 25164)
+-- Name: rework_messages id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rework_messages ALTER COLUMN id SET DEFAULT nextval('public.rework_messages_id_seq'::regclass);
+
+
+--
+-- TOC entry 3263 (class 2604 OID 16533)
+-- Name: roles id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
+
+
+--
+-- TOC entry 3276 (class 2604 OID 24889)
+-- Name: source_data_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.source_data_types ALTER COLUMN id SET DEFAULT nextval('public.source_data_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3416 (class 2604 OID 38677)
+-- Name: studios id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.studios ALTER COLUMN id SET DEFAULT nextval('public.studios_id_seq'::regclass);
+
+
+--
+-- TOC entry 3253 (class 2604 OID 16513)
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
+-- TOC entry 3387 (class 2604 OID 36009)
+-- Name: texture_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.texture_types ALTER COLUMN id SET DEFAULT nextval('public.texture_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3332 (class 2604 OID 34020)
+-- Name: unit_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.unit_types ALTER COLUMN id SET DEFAULT nextval('public.unit_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3394 (class 2604 OID 36260)
+-- Name: user_agreement_responses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_agreement_responses ALTER COLUMN id SET DEFAULT nextval('public.user_agreement_responses_id_seq'::regclass);
+
+
+--
+-- TOC entry 3391 (class 2604 OID 36244)
+-- Name: user_agreement_types id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_agreement_types ALTER COLUMN id SET DEFAULT nextval('public.user_agreement_types_id_seq'::regclass);
+
+
+--
+-- TOC entry 3392 (class 2604 OID 36252)
+-- Name: user_agreements id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_agreements ALTER COLUMN id SET DEFAULT nextval('public.user_agreements_id_seq'::regclass);
+
+
+--
+-- TOC entry 3257 (class 2604 OID 16517)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 3294 (class 2604 OID 33704)
+-- Name: web_crawler_queries id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.web_crawler_queries ALTER COLUMN id SET DEFAULT nextval('public.web_crawler_queries_id_seq'::regclass);
+
+
+--
+-- TOC entry 3281 (class 2604 OID 25099)
+-- Name: zip_logs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.zip_logs ALTER COLUMN id SET DEFAULT nextval('public.zip_logs_id_seq'::regclass);
+
+
+--
+-- TOC entry 3607 (class 2606 OID 35642)
+-- Name: SequelizeMeta SequelizeMeta_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."SequelizeMeta"
+    ADD CONSTRAINT "SequelizeMeta_pkey" PRIMARY KEY (name);
+
+
+--
+-- TOC entry 3642 (class 2606 OID 36577)
+-- Name: asset_ab_alternatives asset_ab_alternatives_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_ab_alternatives
+    ADD CONSTRAINT asset_ab_alternatives_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3489 (class 2606 OID 33665)
+-- Name: asset_complexity_types asset_complexity_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_complexity_types
+    ADD CONSTRAINT asset_complexity_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3615 (class 2606 OID 35695)
+-- Name: asset_files asset_files_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_files
+    ADD CONSTRAINT asset_files_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3479 (class 2606 OID 25455)
+-- Name: asset_issue_types asset_issue_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_issue_types
+    ADD CONSTRAINT asset_issue_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3481 (class 2606 OID 25474)
+-- Name: asset_issues asset_issues_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_issues
+    ADD CONSTRAINT asset_issues_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3511 (class 2606 OID 33877)
+-- Name: asset_metric_types asset_metric_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_metric_types
+    ADD CONSTRAINT asset_metric_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3515 (class 2606 OID 33912)
+-- Name: asset_metrics asset_metrics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_metrics
+    ADD CONSTRAINT asset_metrics_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3596 (class 2606 OID 35369)
+-- Name: asset_renders asset_renders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_renders
+    ADD CONSTRAINT asset_renders_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3620 (class 2606 OID 35794)
+-- Name: asset_spin_sets asset_spin_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_spin_sets
+    ADD CONSTRAINT asset_spin_sets_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3564 (class 2606 OID 34464)
+-- Name: asset_submission_issue_category_types asset_submission_issue_category_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_category_types
+    ADD CONSTRAINT asset_submission_issue_category_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3594 (class 2606 OID 35270)
+-- Name: asset_submission_issue_hotspots asset_submission_issue_hotspots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_hotspots
+    ADD CONSTRAINT asset_submission_issue_hotspots_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3590 (class 2606 OID 35181)
+-- Name: asset_submission_issue_images asset_submission_issue_images_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_images
+    ADD CONSTRAINT asset_submission_issue_images_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3566 (class 2606 OID 34480)
+-- Name: asset_submission_issue_types asset_submission_issue_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issue_types
+    ADD CONSTRAINT asset_submission_issue_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3592 (class 2606 OID 35220)
+-- Name: asset_submission_issues asset_submission_issues_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issues
+    ADD CONSTRAINT asset_submission_issues_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3560 (class 2606 OID 34498)
+-- Name: asset_submission_renders asset_submission_renders_asset_submission_id_filename_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_renders
+    ADD CONSTRAINT asset_submission_renders_asset_submission_id_filename_key UNIQUE (asset_submission_id, filename);
+
+
+--
+-- TOC entry 3562 (class 2606 OID 34432)
+-- Name: asset_submission_renders asset_submission_renders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_renders
+    ADD CONSTRAINT asset_submission_renders_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3558 (class 2606 OID 34417)
+-- Name: asset_submission_status_types asset_submission_status_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_status_types
+    ADD CONSTRAINT asset_submission_status_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3550 (class 2606 OID 35414)
+-- Name: asset_submission_textures asset_submission_textures_asset_submission_id_filename_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_textures
+    ADD CONSTRAINT asset_submission_textures_asset_submission_id_filename_key UNIQUE (asset_submission_id, filename);
+
+
+--
+-- TOC entry 3552 (class 2606 OID 34347)
+-- Name: asset_submission_textures asset_submission_textures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_textures
+    ADD CONSTRAINT asset_submission_textures_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3548 (class 2606 OID 34277)
+-- Name: asset_submissions asset_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submissions
+    ADD CONSTRAINT asset_submissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3419 (class 2606 OID 16451)
+-- Name: asset_tags asset_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_tags
+    ADD CONSTRAINT asset_tags_pkey PRIMARY KEY (asset_id, tag_id);
+
+
+--
+-- TOC entry 3630 (class 2606 OID 36030)
+-- Name: asset_textures asset_textures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_textures
+    ADD CONSTRAINT asset_textures_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3471 (class 2606 OID 25151)
+-- Name: asset_upload_logs asset_upload_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_upload_logs
+    ADD CONSTRAINT asset_upload_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3527 (class 2606 OID 34052)
+-- Name: asset_xrids asset_xrids_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_xrids
+    ADD CONSTRAINT asset_xrids_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3421 (class 2606 OID 16453)
+-- Name: assets assets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3423 (class 2606 OID 16455)
+-- Name: assets assets_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assets
+    ADD CONSTRAINT assets_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3493 (class 2606 OID 33698)
+-- Name: assignment_artist_logs assignment_artist_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_artist_logs
+    ADD CONSTRAINT assignment_artist_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3509 (class 2606 OID 33858)
+-- Name: assignment_materials assignment_materials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_materials
+    ADD CONSTRAINT assignment_materials_pkey PRIMARY KEY (assignment_id, material_id);
+
+
+--
+-- TOC entry 3469 (class 2606 OID 25129)
+-- Name: assignment_modeling_types assignment_modeling_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_modeling_types
+    ADD CONSTRAINT assignment_modeling_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3483 (class 2606 OID 33555)
+-- Name: assignment_payments assignment_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_payments
+    ADD CONSTRAINT assignment_payments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3491 (class 2606 OID 33673)
+-- Name: assignment_priority_types assignment_priority_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_priority_types
+    ADD CONSTRAINT assignment_priority_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3546 (class 2606 OID 34269)
+-- Name: assignment_rework_logs assignment_rework_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_rework_logs
+    ADD CONSTRAINT assignment_rework_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3447 (class 2606 OID 24848)
+-- Name: assignment_status_types assignment_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_status_types
+    ADD CONSTRAINT assignment_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3449 (class 2606 OID 24865)
+-- Name: assignments assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignments
+    ADD CONSTRAINT assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3451 (class 2606 OID 24867)
+-- Name: assignments assignments_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignments
+    ADD CONSTRAINT assignments_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3554 (class 2606 OID 34404)
+-- Name: blender_addons blender_addons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blender_addons
+    ADD CONSTRAINT blender_addons_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3556 (class 2606 OID 34406)
+-- Name: blender_addons blender_addons_version_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blender_addons
+    ADD CONSTRAINT blender_addons_version_key UNIQUE (version);
+
+
+--
+-- TOC entry 3576 (class 2606 OID 34715)
+-- Name: client_brands client_brands_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.client_brands
+    ADD CONSTRAINT client_brands_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3578 (class 2606 OID 34741)
+-- Name: client_classes client_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.client_classes
+    ADD CONSTRAINT client_classes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3455 (class 2606 OID 24929)
+-- Name: clients clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clients
+    ADD CONSTRAINT clients_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3457 (class 2606 OID 24931)
+-- Name: clients clients_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clients
+    ADD CONSTRAINT clients_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3425 (class 2606 OID 16457)
+-- Name: tags dev_tags_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT dev_tags_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 3427 (class 2606 OID 16459)
+-- Name: tags dev_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT dev_tags_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3513 (class 2606 OID 33901)
+-- Name: device_types device_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.device_types
+    ADD CONSTRAINT device_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3640 (class 2606 OID 36274)
+-- Name: email_logs email_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.email_logs
+    ADD CONSTRAINT email_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3429 (class 2606 OID 16461)
+-- Name: errors errors_hash_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.errors
+    ADD CONSTRAINT errors_hash_key UNIQUE (hash);
+
+
+--
+-- TOC entry 3431 (class 2606 OID 16463)
+-- Name: errors errors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.errors
+    ADD CONSTRAINT errors_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3531 (class 2606 OID 34127)
+-- Name: faqs faqs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faqs
+    ADD CONSTRAINT faqs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3632 (class 2606 OID 36038)
+-- Name: file_extension_types file_extension_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.file_extension_types
+    ADD CONSTRAINT file_extension_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3617 (class 2606 OID 35703)
+-- Name: file_types file_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.file_types
+    ADD CONSTRAINT file_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3544 (class 2606 OID 34187)
+-- Name: help_chapter_sections help_chapter_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.help_chapter_sections
+    ADD CONSTRAINT help_chapter_sections_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3542 (class 2606 OID 34176)
+-- Name: help_chapters help_chapters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.help_chapters
+    ADD CONSTRAINT help_chapters_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3540 (class 2606 OID 34165)
+-- Name: help_sections help_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.help_sections
+    ADD CONSTRAINT help_sections_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3463 (class 2606 OID 25037)
+-- Name: icons icons_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.icons
+    ADD CONSTRAINT icons_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 3465 (class 2606 OID 25035)
+-- Name: icons icons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.icons
+    ADD CONSTRAINT icons_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3461 (class 2606 OID 25027)
+-- Name: ip_logs ip_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ip_logs
+    ADD CONSTRAINT ip_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3624 (class 2606 OID 35874)
+-- Name: job_comment_types job_comment_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_comment_types
+    ADD CONSTRAINT job_comment_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3622 (class 2606 OID 35866)
+-- Name: job_comments job_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_comments
+    ADD CONSTRAINT job_comments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3603 (class 2606 OID 35501)
+-- Name: job_deadline_snapshots job_deadline_snapshots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_deadline_snapshots
+    ADD CONSTRAINT job_deadline_snapshots_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3605 (class 2606 OID 35526)
+-- Name: job_deadline_types job_deadline_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_deadline_types
+    ADD CONSTRAINT job_deadline_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3584 (class 2606 OID 34771)
+-- Name: job_priority_types job_priority_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_priority_types
+    ADD CONSTRAINT job_priority_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3580 (class 2606 OID 34755)
+-- Name: job_quality_types job_quality_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_quality_types
+    ADD CONSTRAINT job_quality_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3588 (class 2606 OID 34900)
+-- Name: job_status_logs job_status_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_logs
+    ADD CONSTRAINT job_status_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3598 (class 2606 OID 35465)
+-- Name: job_status_snapshots job_status_snapshots_date_job_status_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_snapshots
+    ADD CONSTRAINT job_status_snapshots_date_job_status_id_key UNIQUE (date, job_status_id);
+
+
+--
+-- TOC entry 3600 (class 2606 OID 35461)
+-- Name: job_status_snapshots job_status_snapshots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_snapshots
+    ADD CONSTRAINT job_status_snapshots_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3582 (class 2606 OID 34763)
+-- Name: job_status_types job_status_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.job_status_types
+    ADD CONSTRAINT job_status_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3521 (class 2606 OID 33984)
+-- Name: jobs jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.jobs
+    ADD CONSTRAINT jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3523 (class 2606 OID 33986)
+-- Name: jobs jobs_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.jobs
+    ADD CONSTRAINT jobs_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3568 (class 2606 OID 34513)
+-- Name: login_tokens login_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.login_tokens
+    ADD CONSTRAINT login_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3570 (class 2606 OID 34515)
+-- Name: login_tokens login_tokens_token_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.login_tokens
+    ADD CONSTRAINT login_tokens_token_key UNIQUE (token);
+
+
+--
+-- TOC entry 3439 (class 2606 OID 16504)
+-- Name: mailing_lists mailing_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.mailing_lists
+    ADD CONSTRAINT mailing_lists_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3501 (class 2606 OID 33767)
+-- Name: materials materials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materials
+    ADD CONSTRAINT materials_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3503 (class 2606 OID 33769)
+-- Name: materials materials_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materials
+    ADD CONSTRAINT materials_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3611 (class 2606 OID 35660)
+-- Name: notification_read_status_types notification_read_status_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notification_read_status_types
+    ADD CONSTRAINT notification_read_status_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3613 (class 2606 OID 35668)
+-- Name: notification_types notification_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notification_types
+    ADD CONSTRAINT notification_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3609 (class 2606 OID 35652)
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3648 (class 2606 OID 36869)
+-- Name: oauth_authorization_codes oauth_authorization_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_authorization_codes
+    ADD CONSTRAINT oauth_authorization_codes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3646 (class 2606 OID 36858)
+-- Name: oauth_clients oauth_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.oauth_clients
+    ADD CONSTRAINT oauth_clients_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3664 (class 2606 OID 37955)
+-- Name: part_slots part_slots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.part_slots
+    ADD CONSTRAINT part_slots_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3658 (class 2606 OID 37669)
+-- Name: parts parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parts
+    ADD CONSTRAINT parts_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3660 (class 2606 OID 37671)
+-- Name: parts parts_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parts
+    ADD CONSTRAINT parts_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3485 (class 2606 OID 33605)
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3487 (class 2606 OID 33607)
+-- Name: payments payments_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3459 (class 2606 OID 25003)
+-- Name: permissions_levels permissions_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.permissions_levels
+    ADD CONSTRAINT permissions_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3586 (class 2606 OID 34872)
+-- Name: product_additional_files product_additional_files_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_additional_files
+    ADD CONSTRAINT product_additional_files_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3628 (class 2606 OID 36019)
+-- Name: product_combinations product_combinations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_combinations
+    ADD CONSTRAINT product_combinations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3644 (class 2606 OID 36765)
+-- Name: product_favorites product_favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_favorites
+    ADD CONSTRAINT product_favorites_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3654 (class 2606 OID 36905)
+-- Name: product_holding_reference_images product_holding_reference_images_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_holding_reference_images
+    ADD CONSTRAINT product_holding_reference_images_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3656 (class 2606 OID 36910)
+-- Name: product_holding_types product_holding_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_holding_types
+    ADD CONSTRAINT product_holding_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3652 (class 2606 OID 36893)
+-- Name: product_holdings product_holdings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_holdings
+    ADD CONSTRAINT product_holdings_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3529 (class 2606 OID 34061)
+-- Name: product_materials product_materials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_materials
+    ADD CONSTRAINT product_materials_pkey PRIMARY KEY (product_id, material_id);
+
+
+--
+-- TOC entry 3662 (class 2606 OID 37679)
+-- Name: product_parts product_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_parts
+    ADD CONSTRAINT product_parts_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3538 (class 2606 OID 34154)
+-- Name: product_reference_images product_reference_images_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_reference_images
+    ADD CONSTRAINT product_reference_images_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3497 (class 2606 OID 33737)
+-- Name: product_verticals product_verticals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_verticals
+    ADD CONSTRAINT product_verticals_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3499 (class 2606 OID 33739)
+-- Name: product_verticals product_verticals_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_verticals
+    ADD CONSTRAINT product_verticals_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3517 (class 2606 OID 33966)
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3519 (class 2606 OID 33968)
+-- Name: products products_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3650 (class 2606 OID 36878)
+-- Name: project_holdings project_holdings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_holdings
+    ADD CONSTRAINT project_holdings_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3670 (class 2606 OID 38720)
+-- Name: project_resources_uploads project_resources_uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_resources_uploads
+    ADD CONSTRAINT project_resources_uploads_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3574 (class 2606 OID 34608)
+-- Name: project_status_types project_status_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project_status_types
+    ADD CONSTRAINT project_status_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3505 (class 2606 OID 33819)
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3507 (class 2606 OID 33821)
+-- Name: projects projects_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT projects_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3536 (class 2606 OID 34144)
+-- Name: rabbit_message_action_status_texts rabbit_message_action_status_texts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_message_action_status_texts
+    ADD CONSTRAINT rabbit_message_action_status_texts_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3533 (class 2606 OID 34136)
+-- Name: rabbit_message_action_types rabbit_message_action_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_message_action_types
+    ADD CONSTRAINT rabbit_message_action_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3475 (class 2606 OID 25200)
+-- Name: rabbit_message_status_types rabbit_message_status_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_message_status_types
+    ADD CONSTRAINT rabbit_message_status_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3477 (class 2606 OID 25227)
+-- Name: rabbit_messages rabbit_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rabbit_messages
+    ADD CONSTRAINT rabbit_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3473 (class 2606 OID 25169)
+-- Name: rework_messages rework_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rework_messages
+    ADD CONSTRAINT rework_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3441 (class 2606 OID 16537)
+-- Name: roles roles_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 3443 (class 2606 OID 16535)
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3453 (class 2606 OID 24891)
+-- Name: source_data_types source_data_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.source_data_types
+    ADD CONSTRAINT source_data_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3666 (class 2606 OID 38682)
+-- Name: studios studios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.studios
+    ADD CONSTRAINT studios_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3668 (class 2606 OID 38684)
+-- Name: studios studios_uid_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.studios
+    ADD CONSTRAINT studios_uid_key UNIQUE (uid);
+
+
+--
+-- TOC entry 3626 (class 2606 OID 36011)
+-- Name: texture_types texture_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.texture_types
+    ADD CONSTRAINT texture_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3525 (class 2606 OID 34022)
+-- Name: unit_types unit_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.unit_types
+    ADD CONSTRAINT unit_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3638 (class 2606 OID 36263)
+-- Name: user_agreement_responses user_agreement_responses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_agreement_responses
+    ADD CONSTRAINT user_agreement_responses_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3634 (class 2606 OID 36246)
+-- Name: user_agreement_types user_agreement_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_agreement_types
+    ADD CONSTRAINT user_agreement_types_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3636 (class 2606 OID 36254)
+-- Name: user_agreements user_agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_agreements
+    ADD CONSTRAINT user_agreements_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3572 (class 2606 OID 34549)
+-- Name: user_clients user_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_clients
+    ADD CONSTRAINT user_clients_pkey PRIMARY KEY (user_id, client_id);
+
+
+--
+-- TOC entry 3445 (class 2606 OID 16602)
+-- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_pkey PRIMARY KEY (user_id, role_id);
+
+
+--
+-- TOC entry 3433 (class 2606 OID 34078)
+-- Name: users users_api_token_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_api_token_key UNIQUE (api_token);
+
+
+--
+-- TOC entry 3435 (class 2606 OID 16481)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3437 (class 2606 OID 16483)
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 3495 (class 2606 OID 33706)
+-- Name: web_crawler_queries web_crawler_queries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.web_crawler_queries
+    ADD CONSTRAINT web_crawler_queries_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3467 (class 2606 OID 25101)
+-- Name: zip_logs zip_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.zip_logs
+    ADD CONSTRAINT zip_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3618 (class 1259 OID 35795)
+-- Name: asset_spin_sets_asset_id_angle_resolution_image_count; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX asset_spin_sets_asset_id_angle_resolution_image_count ON public.asset_spin_sets USING btree (asset_id, angle, resolution, image_count);
+
+
+--
+-- TOC entry 3601 (class 1259 OID 35510)
+-- Name: job_deadline_snapshots_date_type_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX job_deadline_snapshots_date_type_id ON public.job_deadline_snapshots USING btree (date, type_id);
+
+
+--
+-- TOC entry 3534 (class 1259 OID 34145)
+-- Name: rabbit_message_action_status_texts_action_id_status_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX rabbit_message_action_status_texts_action_id_status_id ON public.rabbit_message_action_status_texts USING btree (action_id, status_id);
+
+
+--
+-- TOC entry 3687 (class 2606 OID 35221)
+-- Name: asset_submission_issues asset_submission_issues_asset_submission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submission_issues
+    ADD CONSTRAINT asset_submission_issues_asset_submission_id_fkey FOREIGN KEY (asset_submission_id) REFERENCES public.asset_submissions(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3682 (class 2606 OID 34278)
+-- Name: asset_submissions asset_submissions_asset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_submissions
+    ADD CONSTRAINT asset_submissions_asset_id_fkey FOREIGN KEY (asset_id) REFERENCES public.assets(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3671 (class 2606 OID 16484)
+-- Name: asset_tags asset_tags_asset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_tags
+    ADD CONSTRAINT asset_tags_asset_id_fkey FOREIGN KEY (asset_id) REFERENCES public.assets(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3672 (class 2606 OID 16489)
+-- Name: asset_tags asset_tags_dev_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_tags
+    ADD CONSTRAINT asset_tags_dev_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3675 (class 2606 OID 25152)
+-- Name: asset_upload_logs asset_upload_logs_asset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.asset_upload_logs
+    ADD CONSTRAINT asset_upload_logs_asset_id_fkey FOREIGN KEY (asset_id) REFERENCES public.assets(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3678 (class 2606 OID 33859)
+-- Name: assignment_materials assignment_materials_assignment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_materials
+    ADD CONSTRAINT assignment_materials_assignment_id_fkey FOREIGN KEY (assignment_id) REFERENCES public.assignments(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3679 (class 2606 OID 33864)
+-- Name: assignment_materials assignment_materials_material_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.assignment_materials
+    ADD CONSTRAINT assignment_materials_material_id_fkey FOREIGN KEY (material_id) REFERENCES public.materials(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3686 (class 2606 OID 34716)
+-- Name: client_brands client_brands_client_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.client_brands
+    ADD CONSTRAINT client_brands_client_id_fkey FOREIGN KEY (client_id) REFERENCES public.clients(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3683 (class 2606 OID 34521)
+-- Name: login_tokens login_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.login_tokens
+    ADD CONSTRAINT login_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3681 (class 2606 OID 34067)
+-- Name: product_materials product_materials_material_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_materials
+    ADD CONSTRAINT product_materials_material_id_fkey FOREIGN KEY (material_id) REFERENCES public.materials(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3680 (class 2606 OID 34062)
+-- Name: product_materials product_materials_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_materials
+    ADD CONSTRAINT product_materials_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3676 (class 2606 OID 25170)
+-- Name: rework_messages rework_messages_assignment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rework_messages
+    ADD CONSTRAINT rework_messages_assignment_id_fkey FOREIGN KEY (assignment_id) REFERENCES public.assignments(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3677 (class 2606 OID 25175)
+-- Name: rework_messages rework_messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rework_messages
+    ADD CONSTRAINT rework_messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3685 (class 2606 OID 34555)
+-- Name: user_clients user_clients_client_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_clients
+    ADD CONSTRAINT user_clients_client_id_fkey FOREIGN KEY (client_id) REFERENCES public.clients(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3684 (class 2606 OID 34550)
+-- Name: user_clients user_clients_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_clients
+    ADD CONSTRAINT user_clients_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3674 (class 2606 OID 16608)
+-- Name: user_roles user_roles_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.roles(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3673 (class 2606 OID 16603)
+-- Name: user_roles user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3810 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: cloudsqlsuperuser
+--
+
+REVOKE ALL ON SCHEMA public FROM cloudsqladmin;
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO cloudsqlsuperuser;
+GRANT ALL ON SCHEMA public TO PUBLIC;
