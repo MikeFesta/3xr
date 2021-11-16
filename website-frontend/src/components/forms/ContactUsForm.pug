@@ -1,0 +1,40 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  v-container(v-if='submitSuccess')
+    v-row
+      v-col(cols='12')
+        h1
+          | Thank you! We'll be in touch soon.
+  v-container(v-else)
+    v-row
+      v-col(cols='12', sm='6')
+        v-text-field#firstName(@focus='errorMessage = ""', label='First name*', v-model='input.firstName', required)
+      v-col(cols='12', sm='6')
+        v-text-field#lastName(@focus='errorMessage = ""', label='Last name*', v-model='input.lastName', required)
+      v-col(cols='12')
+        v-select(:items='interests', label='Interested in', v-model='input.interest')
+      v-col(cols='12')
+        v-text-field#email(@focus='errorMessage = ""', label='Email*', type='email', v-model='input.email', required)
+      v-col(cols='12')
+        v-text-field(label='Company', v-model='input.company')
+      v-col(cols='12')
+        v-text-field(label='Phone', v-model='input.phone')
+      v-col(cols='12')
+        v-textarea(@focus='errorMessage = ""', label='Message', v-model='input.message', required)
+    small *indicates required field
+  v-container(v-if='errorMessage')
+    v-row
+      .error-message
+        | {{ this.errorMessage }}
+  v-card-actions
+    v-spacer
+    slot(name='close')
+    spinner-button(
+      color='blue',
+      label='Send',
+      :loading='submitting',
+      :onClick='submitInquireForm',
+      v-if='!submitSuccess'
+    )
+      template(#iconRight)
+        img.ml-3(src='https://cdn.3xr.com/images/demo/svg/arrow_2.svg', width='20px')

@@ -1,0 +1,53 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-row.ma-0.col-12.wrappper(:class='{ "pl-12": isChildComment }', :id='commentId')
+  v-col.text-center.d-none.d-sm-block(cols=2)
+    v-avatar(:color='avatarColor')
+      span.initials
+        | {{ commentUserInitials }}
+  v-col(xs=12, sm=10, :class='{ "pr-0": isChildComment }')
+    .author.pb-2
+      b
+        | {{ displayedIdentity }}
+      span.secondary-text.mr-4.order-2.order-sm-1.time
+        | {{ time }}
+      .order-1.order-sm-2
+        v-menu.menu(left)
+          template(v-slot:activator='{ on, attrs }')
+            v-icon(v-bind='attrs', v-on='on') mdi-dots-vertical
+          v-list
+            v-list-item(@click='handleEdit', v-if='isOwner')
+              v-icon.mr-2(color='light_blue') mdi-pencil
+              v-list-item-title Edit
+            v-list-item(@click='handleDelete', v-if='isOwner')
+              v-icon.mr-2(color='light_blue') mdi-delete
+              v-list-item-title Delete
+            v-list-item(@click='handleReply')
+              v-icon.mr-2(color='light_blue') mdi-reply
+              v-list-item-title Reply
+    v-text-field(v-if='isEdit', v-model='localComment.content', v-on:keyup.enter='handleSave')
+    v-row(v-if='isEdit')
+      v-col.text-left(cols=12)
+        v-btn(color='blue', @click='handleSave')
+          | Save
+        v-btn(color='white', @click='handleCancelEdit')
+          .red-font
+            | Cancel
+    .comment(v-else)
+      | {{ comment.content }}
+
+  .col-12(@click='expandNestedComments', v-if='shouldShowExpand')
+    p.show-more Show more replies
+  single-comment(
+    v-for='childComment in comment.childComment',
+    v-if='isExpanded',
+    :comment='childComment',
+    :key='childComment.id'
+  )
+
+  new-comment(
+    v-if='isReply',
+    :tab='tab',
+    :initials='userInitials',
+    :parentId='comment.parentCommentId || comment.id',
+    :handleReplyToParent='handleReplyToParent'
+  )

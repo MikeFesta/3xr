@@ -1,0 +1,17 @@
+//- SPDX-License-Identifier: Apache-2.0
+//- Can probably remove this component and move it up to where is it used (asset review, product details)
+v-row(v-if='product.units')
+  v-col.details-row(cols=3)
+    | {{ label }}
+  v-col.details-row(cols=3, v-if='product.width > 0')
+    | {{ product.width.toFixed(2) }} {{ product.units.name }}
+  v-col.details-row(cols=3, v-else)
+    | N/A
+  v-col.details-row(cols=3, v-if='product.height > 0')
+    | {{ product.height.toFixed(2) }} {{ product.units.name }}
+  v-col.details-row(cols=3, v-else)
+    | N/A
+  v-col.details-row(cols=3, v-if='product.depth > 0')
+    | {{ product.depth.toFixed(2) }} {{ product.units.name }}
+  v-col.details-row(cols=3, v-else)
+    | N/A

@@ -1,0 +1,323 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-card
+    v-card-title(v-if='purchaseOrderIsNew')
+      | New Purchase Order
+    v-card-title(v-else)
+      | Edit Details
+    div(v-if='loading || loadingLocal')
+      v-row
+        v-col.text-center
+          v-progress-circular(color='primary', indeterminate)
+    v-form.px-4(v-else)
+      div(v-if='purchaseOrderIsNew')
+        p.project-imports-info(v-if='projectHoldings.length', color='primary') Looks like you've imported products from BigCommerce. Select the product group to get started.
+        v-row.ma-0.pa-0(v-if='projectHoldings.length')
+          v-col.ma-0.pa-0(cols=11)
+            v-select#product-group-input(
+              label='Product group',
+              :items='projectHoldings',
+              item-text='name',
+              item-value='id',
+              required,
+              v-model='currentProjectHoldingId',
+              @focus='clearMessages()',
+              @input='updateFromPicklist()'
+            )
+              template(v-slot:item='data')
+                | {{ data.item.name }} ({{ data.item.productHoldings.length }} Products)
+              template(v-slot:selection='data')
+                | {{ data.item.name }} ({{ data.item.productHoldings.length }} Products)
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-text-field#name(label='P.O. Name', required, v-model='purchaseOrder.name', @focus='clearMessages()')
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogName', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Naming Your Purchase Order
+              v-card-text
+                | Choose a unique name that best describes the collection of products.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogName = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-autocomplete#client(
+            label='Client',
+            :items='clients',
+            item-text='name',
+            item-value='id',
+            v-model='purchaseOrder.client.id',
+            @focus='clearMessages()',
+            @change='updateBrandAndClass()',
+            @input='updateFromPicklist()'
+          )
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogClient', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Choosing a Client
+              v-card-text(v-if='isClient')
+                | This should be set to your company. If not, please reach out to 3XR admin.
+              v-card-text(v-else)
+                | Select a client for this purchase order to be associated to. If a client is missing from the dropdown, please reach out to a 3XR admin.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogClient = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-autocomplete#studio(
+            label='Studio',
+            :items='studios',
+            item-text='name',
+            item-value='id',
+            required,
+            v-model='purchaseOrder.studio.id',
+            @focus='clearMessages()',
+            @change='loadArtists()',
+            @input='updateFromPicklist()'
+          )
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogStudio', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Choosing a Studio
+              v-card-text(v-if='isStudioAdmin')
+                | This should be set to your company. If not, please reach out to 3XR admin.
+              v-card-text(v-else)
+                | Select a studio for this purchase order to be associated to. If a studio is missing from the dropdown, please reach out to a 3XR admin.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogStudio = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0(v-if='!isClient')
+        v-col.ma-0.pa-0(cols=11)
+          v-autocomplete#artist(
+            label='Default Artist',
+            :items='artists',
+            item-text='lastName',
+            item-value='id',
+            :filter='artistFilter',
+            v-model='purchaseOrder.artist.id',
+            @focus='clearMessages()',
+            @input='updateFromPicklist()'
+          )
+            template(v-slot:item='data')
+              | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+            template(v-slot:selection='data')
+              | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogArtist', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Choosing an Artist
+              v-card-text(v-if='isStudioAdmin')
+                | This list includes all artists assocatied with the selected studio. Assigning a default artist here can speed up the assignment process later.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogArtist = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-autocomplete#brand(
+            label='Default Brand',
+            :items='clientBrands',
+            item-text='name',
+            item-value='id',
+            required,
+            v-model='purchaseOrder.brand.id',
+            @focus='clearMessages()',
+            @input='updateFromPicklist()',
+          )
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogBrand', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Choosing a Brand
+              v-card-text(v-if='isClient')
+                | Before placing your purchase order, make sure your company brands have been added on your
+                |
+                router-link(to='/client/account')
+                  | account page.
+              v-card-text(v-else)
+                | If a brand is missing, ask the client to add it on their account page.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogBrand = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-autocomplete#class(
+            label='Default Class',
+            :items='clientClasses',
+            item-text='name',
+            item-value='id',
+            required,
+            v-model='purchaseOrder.class.id',
+            @input='updateFromPicklist()',
+            @focus='clearMessages()',
+          )
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogClass', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Choosing a Class
+              v-card-text(v-if='isClient')
+                | Before placing your purchase order, make sure your company classes have been added on your
+                |
+                router-link(to='/client/account')
+                  | account page.
+              v-card-text(v-else)
+                | If a class is missing, ask the client to add it on their account page.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogClass = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-select#units(
+            label='Default Units',
+            :items='pickList.units',
+            item-text='name',
+            item-value='id',
+            required,
+            v-model='purchaseOrder.units.id',
+            @focus='clearMessages()',
+            @input='updateFromPicklist()'
+          )
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogUnits', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Defining Units
+              v-card-text
+                | Choose your preferred unit of measurements.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogUnits = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-text-field(
+            label='Default Price (in dollars)',
+            @focus='clearMessages',
+            step='1',
+            type='number',
+            v-model='purchaseOrder.defaultPrice',
+          )
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogUnits', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Defining Units
+              v-card-text
+                | Choose your preferred unit of measurements.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogUnits = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.ma-0.pa-0(cols=11)
+          v-menu(
+            ref='deadlineCalendar',
+            v-model='deadlineCalendar',
+            :close-on-content-click='true',
+            transition='expand-transition',
+            min-width='290px'
+          )
+            template(v-slot:activator='{ on, attrs }')
+              v-text-field#dateDue(
+                v-model='purchaseOrder.dateDue',
+                label='Deadline',
+                readonly='',
+                v-bind='attrs',
+                v-on='on'
+              )
+            v-date-picker(v-model='purchaseOrder.dateDue', no-title='', scrollable='')
+              v-spacer
+              v-btn(text='', color='primary', @click='deadlineCalendar = false') Cancel
+        v-col.text-right(cols=1)
+          v-dialog(v-model='dialogDeadline', width='500')
+            template(v-slot:activator='{ on }')
+              v-icon(color='orange', v-on='on', style='padding-left:10px;')
+                | mdi-help-circle
+            v-card
+              v-card-title(primary-title='')
+                .orange-font
+                  | Setting a Deadline
+              v-card-text
+                | Defaults to 2 weeks from now, but can be changed to match the client's needs.
+              v-divider
+              v-card-actions
+                v-spacer
+                v-icon(color='primary', text='', @click='dialogDeadline = false')
+                  | mdi-close-circle
+      v-row.ma-0.pa-0
+        v-col.text-right
+          v-card-actions.justify-end
+          .error-message.text-left(v-if='errorMessage')
+            | {{ errorMessage }}
+          .success-message(v-if='successMessage')
+            | {{ successMessage }}
+
+          v-btn.mr-4(color='error', :to='{ name: "purchase-orders" }') Cancel
+
+          spinner-button#submit(
+            v-if='purchaseOrder.uid == ""',
+            color='primary',
+            label='Open Purchase Order',
+            :loading='spinner',
+            loadingLabel='Creating',
+            :onClick='createProject'
+          )
+          spinner-button#submit(
+            v-else,
+            color='primary',
+            label='Update Purchase Order',
+            :loading='spinner',
+            loadingLabel='Saving',
+            :onClick='saveProject'
+          )

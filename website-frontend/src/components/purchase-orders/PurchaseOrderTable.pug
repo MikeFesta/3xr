@@ -1,0 +1,38 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-card-title
+    v-text-field(v-model='search', append-icon='mdi-magnify', label='Search', single-line, hide-details)
+    v-spacer
+    v-btn(color='primary', :to='{ name: "purchase-orders-new" }')
+      v-icon mdi-plus
+      | Create New Purchase Order
+  dialog-component(v-if='isDialogOpen', @close='closeDialog')
+    template(#header) Purchase Order
+    template(#body) {{ dialogBodyText }}
+    template(#footer, v-if='allowedToDelete')
+      v-btn(color='primary', outlined, @click='closeDialog') Cancel
+      v-btn(color='warning', @click='deletePurchaseOrder') Delete
+  v-data-table.elevation-1(
+    @click:row='selectProject',
+    :headers='headers',
+    :items='projects',
+    :items-per-page='10',
+    :loading='loading',
+    loading-text='Loading Purchase Orders',
+    :no-results-text='"No Matching Purchase Orders Found for " + search',
+    :search='search',
+    :sort-by.sync='sortBy',
+    :sort-desc.sync='sortDesc'
+  )
+    template(v-slot:item.updatedAt='{ item }')
+      | {{ formatDate(item.updatedAtDate) }}
+    template(v-slot:item.status.name='{ item }')
+      .status-container
+        span.name {{ item.status.name }}
+        v-menu.menu(left, transition='expand-transition')
+          template(v-slot:activator='{ on, attrs }')
+            v-icon(v-bind='attrs', v-on='on') mdi-dots-vertical
+          v-list
+            v-list-item(@click='handleDelete(item)')
+              v-icon.mr-2(color='light_blue') mdi-delete
+              v-list-item-title Delete

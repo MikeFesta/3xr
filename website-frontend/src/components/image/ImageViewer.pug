@@ -1,0 +1,24 @@
+//- SPDX-License-Identifier: Apache-2.0
+.text-center(v-if='loading')
+  v-progress-circular(color='primary', indeterminate)
+.image-viewer-wrapper(v-else)
+  .viewer-container-outer
+    .viewer-container-inner
+      img.img-fit(@click='select', :src='selectedImage.src')
+      viewer(@inited='viewerInitialized', :images='imageNamesAsStringArray', :options='viewerOptions')
+        template(slot-scope='scope')
+          img.hidden(v-for='src in scope.images', :src='src', :key='src')
+  v-slide-group(center-active, mandatory, v-model='sliderStatus')
+    v-slide-item(v-for='(_, slotIndex) in sliderSlotsCount', :key='slotIndex', v-slot:default='{ active, toggle }')
+      xr-add-img(v-if='slotIndex === 0', v-show='showImageUploader', :onChangeImage='onChangeImage')
+      xr-image-roll-img(
+        v-else,
+        :active='selectedImageIndex === getImageIndexBasedOnSlotPosition(slotIndex)',
+        :image='images[getImageIndexBasedOnSlotPosition(slotIndex)]',
+        :showPrimaryImageStar='showPrimaryImageStar',
+        :showSecondaryImageStar='showSecondaryImageStar',
+        :showRemoveImage='showRemoveImage',
+        :onClickImage='() => { toggle(); setImage(getImageIndexBasedOnSlotPosition(slotIndex)); select(); }',
+        :onClickRemove='onClickRemove',
+        :onClickSecondaryStar='onClickSecondaryStar'
+      )

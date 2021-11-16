@@ -1,0 +1,58 @@
+//- SPDX-License-Identifier: Apache-2.0
+.product-banner
+  v-card.mb-5
+    v-row
+      v-col(cols=9)
+        img.product-thumbnail(
+          :src='loading ? "https://cdn.3xr.com/images/image_not_available.svg" : product.primaryImage'
+        )
+        .d-flex.flex-column(v-if='loading')
+          .product-title Loading
+          .text-center
+            v-progress-circular(color='primary', indeterminate)
+        .d-flex.flex-column(v-else)
+          .product-title
+            | {{ product.name }}
+          div
+            b
+              | Status:
+              |
+            span
+              | {{ product.job ? product.job.status.name : "Unknown" }}
+          div(v-if='!isClient')
+            span
+              b
+                | Artist:
+                |
+              span
+                | {{ product.artist ? product.artist.fullName : "Unassigned" }}
+          div
+            b
+              | Due Date:
+              |
+            span
+              | {{ product.job ? product.job.dateDue : "Unknown" }}
+        v-checkbox(label='Favorite', v-model='favorite', on-icon='mdi-heart', off-icon='mdi-heart-plus-outline')
+      v-col.text-right(v-if='!isClient', cols=3)
+        product-download-zip(:product='product')
+        .text-left.mt-3(v-if='isAdmin')
+          .admin-info
+            | Job: {{ product.job ? product.job.uid : 'n/a' }}
+          .admin-info
+            | Product: {{ product.uid }}
+          .admin-info
+            | Asset: {{ product.asset ? product.asset.uid : 'n/a' }}
+  v-spacer
+  .d-flex.pt-3
+    router-link.flex-grow-1(:to='!product.uid ? "" : "/product/details/" + product.uid')
+      .text-center(:class='activeTab == 1 ? "product-tab-active" : "product-tab"')
+        | Product Details
+    router-link.flex-grow-1(
+      v-if='asset.submissions.length',
+      :to='!product.uid ? "" : "/product/review/" + product.uid'
+    )
+      .text-center(:class='activeTab == 2 ? "product-tab-active" : "product-tab"')
+        | QA Review
+    router-link.flex-grow-1(v-if='asset.published', :to='!asset ? "" : "/asset/details/" + asset.uid')
+      .text-center(:class='activeTab == 3 ? "product-tab-active" : "product-tab"')
+        | Final Asset

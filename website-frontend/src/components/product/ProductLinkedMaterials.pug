@@ -1,0 +1,39 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  h3 Linked Materials
+  ul(v-if='materials.length')
+    li(v-for='material in materials')
+      | [{{ material.productMaterial.slotName }}]
+      |
+      a(:href="'/library/materials/view/' + material.uid") {{ material.name }}
+      v-icon(@click='unlinkMaterial(material.id)') mdi-close
+  div(v-else)
+    | No Materials Linked
+  v-btn(v-if='!linkingMaterial', @click='linkingMaterial = true', color='primary')
+    v-icon.mr-2 mdi-link-plus
+    | Link Material
+  v-form(v-else)
+    v-autocomplete(
+      :items='availableSlots',
+      :filter='filterByName',
+      item-text='name',
+      item-value='name',
+      label='Slot Name',
+      no-data-text="No Slots Available",
+      prepend-icon='mdi-focus-field-horizontal',
+      v-model='newSlotName',
+    )
+    v-autocomplete(
+      :items='allMaterials',
+      :filter='filterByName',
+      item-text='name',
+      item-value='id',
+      label='Material',
+      prepend-icon='mdi-crystal-ball',
+      v-model='materialIdToLink',
+    )
+    v-btn(@click='linkMaterial()', color='primary') Submit
+    v-btn(@click='linkingMaterial = false; clearMessages()', color='red', style='margin-left:10px') Cancel
+  v-spacer
+  .error-message(v-if='errorMessage') {{ errorMessage }}
+  .success-message(v-if='successMessage') {{ successMessage }}

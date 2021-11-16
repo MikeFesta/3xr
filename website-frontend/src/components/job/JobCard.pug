@@ -1,0 +1,91 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-card.pl-4.pr-4(:data-test='job.product.name')
+  v-row
+    v-col(cols=12)
+      .name-length
+        router-link(:to='job.statusData.link')
+          |
+          | {{ job.product.name }}
+    v-col.order-image-container(cols=12, md=4)
+      xr-img(
+        :aspectRatio='2 / 1',
+        :alt='job.product.name || "Image Not Available"',
+        :isContained='true',
+        :src='job.product.primaryImage',
+        :height='150',
+        @click.native='onClickEditButton(job.product.uid)'
+      )
+    v-col.text-left(cols=12, md=8)
+      .controls
+        v-btn(icon, @click='handleProductEdit')
+          v-icon(color='orange') mdi-pencil
+        v-btn(icon, @click='toggleDeleteModal')
+          v-icon(color='dark_gray') mdi-delete
+      .descriptors
+        b
+          | Brand:
+        span
+          |
+          | {{ job.brand.name }}
+        br
+        b
+          | Class:
+        span
+          |
+          | {{ job.class.name }}
+        br
+        b
+          | Part Number:
+        span
+          |
+          | {{ job.product.partNumber || "N/A" }}
+        br
+        b
+          | Dimensions:
+        span
+          |
+          | {{ job.product.width }} X {{ job.product.height }} X {{ job.product.depth }}
+        br
+        b
+          | Price:
+        span
+          |
+          | {{ job.price ? '$' + job.price : 'N/A' }}
+
+        dialog-component(v-if='isDelete', @close='toggleDeleteModal')
+          template(#header) {{ job.product.name }}
+          template(#body) Are you sure you want to delete this product?
+          template(#footer)
+            v-btn(color='primary', outlined, @click='toggleDeleteModal') Cancel
+            v-btn(color='warning', @click='deleteJob') Delete
+      .artist-hr
+      v-row.pl-4.pr-1(align='center', justify='center')
+        v-col.info-section.pa-0(cols=10)
+          div
+            b
+              | Status:
+            span.pl-2
+              router-link(
+                :to='{ name: "product-details", params: { uid: job.product.uid, productTableEditEnabled: "true" } }',
+                data-test='job-status-label'
+              )
+                span(
+                  v-if='isHighlightedImportedJobStatus',
+                  :class='{ "red-font": isJobPendingReview, "green-font": isImportedJobAndReadyToSubmit }'
+                )
+                  | {{ highlightedImportedJobStatusLabel }}
+                span(v-else)
+                  | {{ job.status.name }}
+          div(v-if='(isAdmin || isStudioAdmin) && job.product.artist.id')
+            b
+              | Artist
+            span.pl-2
+              | {{ job.product.artist.username || "N/A" }}
+        v-col.pa-0(cols=2)
+          span.float-right.check-artist.pr-2
+            //- Highlighted-state, indicates awaiting Client Review, shown to all roles
+            v-icon.red-font(v-if='isJobPendingReview') mdi-file-find
+            //- Highlighted-state, indicates job is ready to submit
+            v-icon.green-font(v-else-if='!(isAdmin || isStudioAdmin) && isImportedJobAndReadyToSubmit') mdi-file-check
+            //- Admin, should be able able to delegate this Job to Artists if neccesary
+            v-checkbox(v-else-if='(isAdmin || isStudioAdmin)', v-model='jobSelected')

@@ -1,0 +1,13 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  .error-message(v-if='errorMessage') {{ errorMessage }}
+  .success-message(v-if='successMessage') {{ successMessage }}
+  spinner-button(
+    color='blue',
+    :disabled='disabled',
+    :icon='icon ? icon : "mdi-rabbit"',
+    :label='label',
+    :loading='processing',
+    :loadingLabel='loadingLabel',
+    :onClick='submit'
+  )

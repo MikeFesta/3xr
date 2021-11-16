@@ -1,0 +1,15 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-row.ma-0
+  v-col.text-center(cols=2)
+    v-avatar(:color='avatarColor')
+      span.initials
+        | {{ initials }}
+  v-col(cols=10)
+    v-textarea(placeholder='Add a comment...', v-model='message', v-on:keyup.enter='handleSave', auto-grow, rows=1)
+    v-row(v-if='message')
+      v-col.text-left(cols=12)
+        v-btn(color='blue', @click='handleSave')
+          | Save
+        v-btn(color='white', @click='handleCancel')
+          .red-font
+            | Cancel

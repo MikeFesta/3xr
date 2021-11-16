@@ -1,0 +1,240 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col(cols=12)
+      .text-center.ma-4
+        h1.xl-font
+          | TRANSFORM THE CUSTOMER EXPERIENCE
+        h3.xl-font
+          | with AR ‘View in room’ 3D Models
+  v-row
+    v-col(cols=12, md=6)
+      .text-left
+        h2.intro-tag.ma-8
+          | The 3XR platform streamlines content production, enabling amazing customer experiences
+    v-col(cols=12, md=5)
+      iframe(
+        allowfullscreen,
+        height='400',
+        width='100%',
+        src='https://embed.3xr.com/jyrduy68z1k2?bg=ffffff&nologo=true',
+        frameborder='0'
+      )
+  v-row.light-blue-bkg.text-center.px-10.py-12
+    v-col(cols=12)
+      h1.black-font.text-uppercase.reduce-pb
+        | Visualize products in your space
+    v-col(cols=12)
+      template(background-color='#eff2f9')
+        div(flat='', background-color='#eff2f9')
+          v-tabs(v-model='currentTab', background-color='#eff2f9', flat, centered, icons-and-text='')
+            v-tab(v-for='tab in shuffledTabs', v-bind:key='tab.name')
+              | {{ tab.name }}
+              v-icon {{ tab.icon }}
+            v-tab-item.tabs-wrapper.flex-column.flex-md-row(
+              v-for='tab in shuffledTabs',
+              :key='tab.name',
+              background-color='#eff2f9'
+            )
+              v-col(cols=12, md=4, v-for='frame in tab.iframes', :key='frame.src')
+                iframe(
+                  allowfullscreen,
+                  height='400',
+                  width='100%',
+                  :src='frame.src',
+                  frameborder='0',
+                  v-bind:key='frame.src'
+                )
+  v-row
+    v-col.text-center(cols=12)
+      h1.blue-font.pa-4
+        | Compatible Across Popular Platforms
+      img.pa-6(src='https://cdn.3xr.com/images/logos/google-bw.svg', height='90px', style='padding-bottom:10px')
+      img.pa-8(src='https://cdn.3xr.com/images/logos/facebook-bw.svg', height='95px', style='padding-bottom:10px')
+      img.pa-6(src='https://cdn.3xr.com/images/logos/apple.svg', height='100px', style='padding-bottom:10px')
+      img.pa-8(src='https://cdn.3xr.com/images/logos/android-bw.svg', height='90px', style='padding-bottom:10px')
+      img.pa-6(src='https://cdn.3xr.com/images/logos/shopify-bw.svg', height='90px', style='padding-bottom:10px')
+      img.pa-6(src='https://cdn.3xr.com/images/logos/3dcommerce-bw.svg', height='100px', style='padding-bottom:10px')
+      img.pa-6(src='https://cdn.3xr.com/images/logos/big-commerce.png', height='100px', style='padding-bottom:10px')
+  v-row.light-blue-bkg
+    v-col(cols=12, md=8, offset-md=2)
+      iframe.video-home(
+        width='100%',
+        src='https://www.youtube.com/embed/8G7B-vgFeGc',
+        frameborder='0',
+        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+        allowfullscreen=''
+      )
+  v-row.section-white.text-center.px-10.py-12
+    v-col(cols=12)
+      h1.black-font.text-uppercase
+        | Product Visualization in a New Dimension
+      p.pa-10
+        | With a few simple clicks, innovation leaders, marketers and brand creatives can transform their online catalog into an immersive, engaging 3D experience that customers are demanding.
+      v-spacer
+      v-row
+        v-col.d-flex(cols=12, md=4)
+          .home-card.flex
+            img(src='https://cdn.3xr.com/images/home/QA-icon.svg', height='100px')
+            h2.upper.text-center
+              b
+                | Manage content
+            p.black-font.text-left
+              ul.pt-2
+                li
+                  | Track production progress and review your models
+                li
+                  | Have a voice in process - provide feedback on models directly on platform
+        v-col.d-flex(cols=12, md=4)
+          .home-card.flex
+            img(src='https://cdn.3xr.com/images/home/channels.svg', height='100px')
+            h2.upper.text-center
+              b
+                | Flexibly Distribute
+            p.black-font.text-left
+              ul.pt-2
+                li
+                  | Embed on your website, send links and QR codes to your customers to see the product in their space in 360 view
+                li
+                  | Download standard 3D files for distribution to multiple retailers
+        v-col.d-flex(cols=12, md=4)
+          .home-card.flex
+            img(src='https://cdn.3xr.com/images/home/manage-icon.svg', height='100px')
+            h2.upper.text-center
+              b
+                | Measure Impact
+            p.black-font.text-left
+              ul.pt-2
+                li
+                  | Collect data on how your customers are interacting with 3D models
+  v-row.x-10.py-12.section-blue
+    v-col.pl-8.pr-8(cols=12, md=6)
+      .block2.pl-10.pr-10
+        h1.text-center.white-font
+          | APPLICABLE ACROSS 1 BILLION DEVICES TODAY
+        v-row
+          v-col(cols=12, md=10, offset-md=1)
+            v-list.pa-2
+              v-list-item.pa-4
+                v-icon.pa-2(color='blue') mdi-check
+                p
+                  | Mobile/Tablet: view products in your space with no app necessary
+              v-list-item.pa-4
+                v-icon.pa-2(color='blue') mdi-check
+                p
+                  | Desktop: interactive 360 degree web viewer on any browser
+    v-col(cols=12, md=6)
+      .pa-4.text-center
+        img(src='https://cdn.3xr.com/images/demo/svg/illustr.svg', width='80%')
+  v-container.my-5
+    v-row
+      v-col(cols=12)
+        h1.text-center
+          | THE PLATFORM
+      v-row
+        v-col(cols=12, md=6)
+          v-row
+            v-col.text-center(cols=4, md=3)
+              img(src='https://cdn.3xr.com/images/home/upload-icon.svg', width='100%')
+            v-col(cols=8, md=9)
+              h4.pa-4
+                | Upload product data and imagery to request high quality AR-3D models to provide your customer with the experience they’re demanding.
+            v-col.text-center(cols=4, md=3)
+              img(src='https://cdn.3xr.com/images/home/manage-icon.svg', width='100%')
+            v-col(cols=8, md=9)
+              h4.pa-4
+                | Build out a reusable model and material library to expedite your new product introduction cycle.
+            v-col.text-center(cols=4, md=3)
+              img(src='https://cdn.3xr.com/images/home/QA-icon.svg', width='100%')
+            v-col(cols=8, md=9)
+              h4.pa-4
+                | Have a voice in the model QA process. Track, review, and comment on models in real time to ensure quality standards are met.
+            v-col.text-center(cols=4, md=3)
+              img(src='https://cdn.3xr.com/images/home/channels.svg', width='100%')
+            v-col(cols=8, md=9)
+              h4.pa-4
+                | Streamlined distribution of your product content to the channels you need. Forget about the technical standards, 3XR assets are platform agnostic.
+        v-col(cols=12, md=6)
+          .pt-8
+            img(src='https://cdn.3xr.com/images/home/PO-view.jpg', width='100%')
+  v-row.light-blue-bkg
+    v-container
+      v-row
+        v-col(cols=12, md=6, align-self='center')
+          iframe(
+            allowfullscreen,
+            height='400',
+            width='100%',
+            src='https://embed.3xr.com/rsst5hde6bq3?bg=eff2f9&nologo=true',
+            frameborder='0'
+          )
+        v-col.top-margin.pa-10(cols=12, md=6)
+          h1.pa-6
+            | REDEFINE HOW CUSTOMERS SHOP WITH AR
+          p.pa-8
+            | We help brands provide
+            b
+              | a better customer experience, that the consumer is demanding.
+
+            br
+            br
+            | 3XR platform provides endless opportunities to create amazing customer experiences with a single source of truth asset.
+  v-row.med-blue-bkg.padding-top-less.padding-btm-less
+    v-col(cols=12)
+      v-container
+        v-row
+          v-col(cols=12)
+            h1.pa-4
+              | ONE MODEL, ENDLESS CUSTOMER OPPORTUNITIES
+            p.pa-4
+              | Our platform unlocks the ability to use
+              b
+                |
+                | a single source of truth,
+              span
+                | one 3D model, to push the customer experience to
+              b
+                |
+                | all your distribution channels.
+              br
+              br
+              span
+                | The 3XR Final Asset page provides your team with the enhanced product content you need to bring an
+              b
+                |
+                | AR commerce experience to your customer.
+        v-row
+          v-col(cols=12, md=6)
+            v-list
+              v-list-item
+                v-icon.pa-2(color='blue') mdi-check
+                .span
+                  | High quality, AR 3D models.
+              v-list-item
+                v-icon.pa-2(color='blue') mdi-check
+                .span
+                  | Code to embed your AR ready models
+              v-list-item
+                v-icon.pa-2(color='blue') mdi-check
+                .span
+                  | 3D asset files in formats compatible with all major retailers.
+              v-list-item
+                v-icon.pa-2(color='blue') mdi-check
+                .span
+                  | White background silo product images
+              v-list-item
+                v-icon.pa-2(color='blue') mdi-check
+                .span
+                  | 360 degree spin view videos
+              v-list-item
+                v-icon.pa-2(color='blue') mdi-check
+                .span
+                  | QR codes for use in sales, marketing, internal discussions.
+          v-col(cols=12, md=6)
+            iframe(
+              allowfullscreen,
+              height='400',
+              width='100%',
+              src='https://embed.3xr.com/2z0rpfz335cb?bg=cce5f4&nologo=true',
+              frameborder='0'
+            )

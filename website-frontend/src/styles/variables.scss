@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: Apache-2.0
+// COLORS (1/2)
+// TODO: Keep this in sync with /src/store/interfaces/ColorSet.ts (2/2)
+// Note: ColorSet.ts changes /src/plugins/vuetify.ts
+
+// Use in <style lang="scss">
+// @import '@/styles/variables.scss';
+// Note: avoid importing when using <style scoped> because all colors get pulled in
+// https://stackoverflow.com/questions/57536228/export-sass-scss-variables-to-javascript-without-exporting-them-to-css
+
+$color-black: #000000;
+$color-blue: #0b82c5;
+$color-dark-blue: #1c5c87;
+$color-dark-gray: #2d2d2d;
+$color-gray: #5d5d5d;
+$color-green: #1eac4d;
+$color-light-blue: #4fa0d4;
+$color-light-gray: #f2f2f2;
+$color-light-green: #84d09d;
+$color-light-purple: #aa97e1;
+$color-orange: #dda349;
+$color-pink: #f26e87;
+$color-purple: #7963ba;
+$color-red: #d82849;
+$color-white: #ffffff;
+
+// Directives for tables
+// General order: blue, orange, purple, pink, red, light blue, light green, green, dark blue, light purple
+// Positive connotation colors: light green, green, blue, light blue
+// Negative connotation colors: red, pink, dark blue

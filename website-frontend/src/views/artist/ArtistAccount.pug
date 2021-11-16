@@ -1,0 +1,43 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col(cols=12)
+      h1
+        | Manage Your 3XR Profile and Account
+  v-container
+    v-row
+      v-col(cols=12, md=5)
+        h2
+          | Account Information
+        v-form
+          v-text-field(label='First Name', v-model='user.firstName', @focus='clearMessages()')
+          v-text-field(label='Last Name', v-model='user.lastName', @focus='clearMessages()')
+          v-text-field(label='Username', v-model='user.username', disabled)
+          v-text-field#email(label='Email', v-model='user.email', required, type='email', @focus='clearMessages()')
+          v-switch(v-model='emailNotifications', label='Email notifications')
+        v-card-actions.justify-end
+        .error-message(v-if='errorMessage')
+          | {{ errorMessage }}
+        .success-message(v-if='successMessage')
+          | {{ successMessage }}
+        spinner-button(
+          color='info',
+          label='Save Changes',
+          :loading='saving',
+          loadingLabel='Saving',
+          :onClick='saveChanges'
+        )
+        v-spacer
+        br
+        v-card.light_gray(v-if='!isQa')
+          h2
+            | Blender Add-on API Token
+          v-form
+            v-text-field(label='API Token', v-model='user.apiToken', readonly)
+          spinner-button(
+            color='info',
+            label='Generate API Token',
+            :loading='generating',
+            loadingLabel='Generating',
+            :onClick='generateApiToken'
+          )

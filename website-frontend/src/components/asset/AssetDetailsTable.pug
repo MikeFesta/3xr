@@ -1,0 +1,41 @@
+//- SPDX-License-Identifier: Apache-2.0
+.details-container
+  h3.details-header
+    | Asset Details
+  div(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='white', indeterminate)
+  div(v-else)
+    v-row.admin-details-row(v-if='isAdmin')
+      v-col.details-row.left-table(cols=6)
+        | UID
+      v-col.details-row(cols=6)
+        | {{ asset.uid }}
+    v-row.admin-details-row(v-if='isAdmin')
+      v-col.details-row.left-table(cols=6)
+        | Name
+      v-col.details-row(cols=6)
+        | {{ asset.name }}
+    v-row
+      v-col.details-row.left-table(cols=6)
+        | Published?
+      v-col.details-row(cols=6)
+        | {{ asset.published ? "Yes" : "No" }}
+    v-row(v-if='asset.published')
+      v-col.details-row.left-table(cols=6)
+        | Link
+      v-col.details-row(cols=6)
+        a(:href='"https://view.3xr.com/" + asset.uid')
+          | https://view.3xr.com/{{ asset.uid }}
+    v-row(v-if='asset.published')
+      v-col.details-row.left-table(cols=6)
+        | Downloads
+      v-col.details-row(cols=6)
+        v-btn(color='primary', :href='downloadRootUrl + ".glb"')
+          v-icon mdi-download
+          | GLB
+        v-spacer
+        v-btn(color='primary', :href='downloadRootUrl + ".usdz"')
+          v-icon mdi-download
+          | USDZ

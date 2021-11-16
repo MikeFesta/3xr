@@ -1,0 +1,8 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  h3 Linked Products
+  ul
+    li(v-for='product in products', :key='product.id')
+      a(:href='"/product/details/" + product.uid')
+        | {{ product.name }}
+  .note Note: Parts and Materials are linked on the Product Page

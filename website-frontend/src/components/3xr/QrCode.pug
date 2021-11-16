@@ -1,0 +1,6 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  img.img-full-width(v-if='imgSrc', :src='imgSrc', :alt='url')
+  qrcode-vue(v-else, :value='url', size='180', level='H')
+  a(v-if='showUrl', :href='url')
+    | {{ url }}

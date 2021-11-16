@@ -1,0 +1,24 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  purchase-order-banner(:activeTab='2', :loading='loadingProject')
+  v-card.mt-3
+    v-card-title
+      | Bulk Product Image/Resources Upload
+    a(href='https://cdn.3xr.com/templates/3XR%20Bulk%20Product%20Upload%20-%20Template.csv')
+      v-btn.ma-4(color='primary') Download csv Template
+    v-divider
+    v-form(v-if='!uploading && !processing')
+      v-file-input(
+        accept='.csv',
+        placeholder='Click to upload csv',
+        prepend-icon='mdi-file-table',
+        @change='uploadCSV',
+        @focus='clearError'
+      )
+    div(v-else)
+      h3 Processing
+      v-progress-circular(color='primary', indeterminate)
+      v-spacer
+  .error-message(v-if='errorMessage') {{ errorMessage }}
+  .success-message(v-if='successMessage') {{ successMessage }}

@@ -1,0 +1,160 @@
+//- SPDX-License-Identifier: Apache-2.0
+div(v-if='loading')
+  v-col.text-center
+    v-progress-circular(color='primary', indeterminate)
+div(v-else)
+  v-dialog(v-model='isSubmittedDialogOpen', width='500')
+    template(v-slot:activator='{ on }')
+    v-card
+      v-card-title(primary-title='', color='blue')
+        .orange-font
+          | Purchase Order Submitted
+      v-card-text
+        div(v-if='project.isCreatedFromHolding')
+          | Purchase Order Submitted - Please watch your email for production updates from 3XR.
+        div(v-else)
+          | Please stand by for approval from a 3XR admin.
+      v-divider
+      v-card-actions
+        v-spacer
+        v-btn.ma-2(
+          v-if='project.isCreatedFromHolding',
+          color='light_blue',
+          href='https://www.bigcommerce.com/',
+          target='_blank'
+        )
+          .white-font
+            | Big Commerce
+            v-icon mdi-logout-variant
+        v-icon(v-else, color='primary', text='', @click='closeSubmittedDialog()', data-test='close-confirm-dialog')
+          | mdi-close-circle
+  v-row
+    v-col(cols=12)
+      v-row.mt-2
+        v-col(cols=12, md=6)
+          v-tooltip(right, :disabled='!isProjectSubmitted', max-width='240')
+            template(v-slot:activator='{ on, attrs }')
+              .btn-wrapper.ml-6(v-on='on', v-bind='attrs', v-bind:class='{ "disabled-cursor": isProjectSubmitted }')
+                v-btn.py-5(
+                  color='primary',
+                  :to='{ name: "purchase-order-bulk-upload-csv", params: { projectUid: projectUid } }',
+                  :disabled='isProjectSubmitted'
+                )
+                  v-icon.pr-1(:color='isProjectSubmitted ? "dark_gray" : "white"') mdi-plus
+                  b(v-bind:class='{ "add-product-btn": isProjectSubmitted }')
+                    | Bulk Add Products from CSV
+            span This purchase order is in production, please create a new P.O. to request subsequent products
+          v-spacer
+          v-tooltip(right, :disabled='!hasNoProducts', max-width='240')
+            template(v-slot:activator='{ on, attrs }')
+              .btn-wrapper.ml-6(v-on='on', v-bind='attrs', v-bind:class='{ "disabled-cursor": hasNoProducts }')
+                v-btn.py-5(
+                  color='primary',
+                  :to='{ name: "purchase-order-bulk-upload-zip", params: { projectUid: projectUid } }',
+                  :disabled='hasNoProducts'
+                )
+                  v-icon.pr-1(:color='hasNoProducts ? "dark_gray" : "white"') mdi-upload
+                  b(v-bind:class='{ "add-product-btn": hasNoProducts }')
+                    | Bulk Upload Images/Resources
+            span This purchase order is in production, please create a new P.O. to request subsequent products
+        v-col(cols=12, md=6)
+          p.summary-hr(v-if='countOfUniqueModels')
+            | Jobs Assigned
+            span.float-right
+              | {{ assignedJobs }} / {{ countOfUniqueModels }}
+          v-divider(v-if='assignedArtists.length')
+          span(v-if='isAdmin || isStudioAdmin')
+            v-expansion-panels(v-if='assignedArtists.length')
+              v-expansion-panel
+                v-expansion-panel-header Artists ({{ assignedArtists.length }})
+                v-expansion-panel-content
+                  p.summary-hr(v-for='artist in assignedArtists')
+                    | {{ artist.username }}
+                    |
+                    span.float-right
+                      | {{ artist.count }}
+          v-autocomplete.mt-3(
+            label='Assign Artist',
+            :items='artists',
+            item-text='lastName',
+            item-value='id',
+            flat,
+            dense,
+            color='blue',
+            @change='confirmAssignArtist',
+            transition='slide-y-transition',
+            :disabled='selectedJobs.length == 0'
+          )
+            template(v-slot:item='data')
+              | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+            template(v-slot:selection='data')
+              | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+          dialog-component(v-if='confirmAssignment', @close='closeConfirmAssignArtist')
+            template(#header) Artist Assignment
+            template(#body) Are you sure you want to assign artist
+              span.blue-font
+                |
+                | {{ selectedArtist.lastName }},
+                | {{ selectedArtist.firstName }}
+                | {{ selectedArtist.username }}
+                | {{ selectedArtist.email }}
+              span
+                | to the following products:
+              ul.mt-2
+                li(v-for='job in selectedJobs') {{ job.product.name }}
+            template(#footer)
+              v-btn(color='primary', outlined, @click='closeConfirmAssignArtist') Cancel
+              v-btn(color='primary', @click='assignArtist') Assign
+          div.text-right
+            v-btn(v-if='selectedJobs.length == 0', color='primary', @click='selectAllJobs')
+              | Select All Jobs
+            v-btn(v-else, color='secondary', @click='resetSelectedJobs')
+              | Deselect All Jobs
+  hr.my-3
+  div(v-if='editUid')
+    v-btn(color='primary', @click='clearQuery')
+      v-icon(color='white') mdi-arrow-left-circle
+      span.pl-2 Back
+    product-details(:uid='editUid', :withBanner='false')
+  div.mt-3(v-else)
+    v-row(v-if='jobs.length === 0')
+      v-col.text-center(cols=12)
+        h3
+          | No Products Yet on this Purchase Order
+        p
+          | Add products by uploading a CSV
+    v-row(v-else)
+      v-col.text-right(cols=12)
+        .error-message(v-if='errorMessage')
+          | {{ errorMessage }}
+        v-btn.submit-btn(
+          v-if='!isProjectSubmitted && isAllJobsReviewed',
+          color='primary',
+          @click='toggleDialog',
+          data-test='submit-project'
+        )
+          b Submit Order
+      v-col.pa-4.order-container(cols=12, md=6, v-for='job in jobs', :key='job.id')
+        job-card(
+          :job='job',
+          :project='project',
+          @toggled='handleJobToggle',
+          :selected='isSelectedJob(job)',
+          @selected='handleJobToggle'
+        )
+    v-row
+      v-col.d-flex.flex-column.align-end.pr-8.text-right(cols=12)
+        v-spacer
+        dialog-component(v-if='isDialogActive', @close='toggleDialog')
+          template(#header) Submit Purchase Order
+          template(#body) Are you sure you want to submit this purchase order? Submitting a P.O. is final, once submitted, you will no longer be able to add products within this order.
+          template(#footer)
+            v-btn(color='warning', outlined, @click='toggleDialog') Cancel
+            v-btn(color='primary', @click='handleSubmit', data-test='submit-project-confirm') Submit
+        v-btn.submit-btn(
+          v-if='!isProjectSubmitted && isAllJobsReviewed',
+          color='primary',
+          @click='toggleDialog',
+          data-test='submit-project'
+        )
+          b Submit Order

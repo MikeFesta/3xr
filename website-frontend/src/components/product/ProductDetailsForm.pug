@@ -1,0 +1,335 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  div(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='primary', indeterminate)
+  v-stepper.elevation-0(v-else, v-model='step', non-linear='')
+    v-stepper-header.elevation-0
+      v-stepper-step(:complete='step > 1', step='1', @click='clearError(); step = 1') Details
+      v-divider
+      v-stepper-step(:complete='step > 2', step='2', @click='clearError(); step = 2') Images
+      v-divider
+      v-stepper-step(:complete='step > 3', step='3', @click='clearError(); step = 3') Additional Information
+      v-divider(v-if='isAdmin')
+      v-stepper-step(v-if='isAdmin', :complete='step > 4', step='4', @click='clearError(); step = 4') Assign Artist
+    v-stepper-items
+      v-stepper-content(step='1')
+        v-card.elevation-0.mb-12(height='auto')
+          v-row
+            v-col(cols=12)
+              h2
+                | Product Details
+                v-dialog(v-model='dialog1', width='500')
+                  template(v-slot:activator='{ on }')
+                    v-icon(color='orange', v-on='on', style='padding:5px; font-size:20px')
+                      | mdi-help-circle
+                  v-card
+                    v-card-title(primary-title='', color='blue')
+                      .orange-font
+                        | Adding Product Details
+                    v-card-text
+                      | Please add relevant product information here.
+                    v-divider
+                    v-card-actions
+                      v-spacer
+                      v-icon(color='primary', text='', @click='dialog1 = false')
+                        | mdi-close-circle
+              v-form
+                v-row
+                  v-col(cols=12, md=6)
+                    v-select#brand(
+                      @focus='clearError',
+                      :items='client.brands',
+                      item-text='name',
+                      item-value='id',
+                      label='Brand Name',
+                      required,
+                      v-model='input.brand'
+                    )
+                    v-select#class(
+                      @focus='clearError',
+                      :items='client.classes',
+                      item-text='name',
+                      item-value='id',
+                      label='Class',
+                      required,
+                      v-model='input.class'
+                    )
+                    v-text-field#name(@focus='clearError', label='Name', required, v-model='input.name')
+                    v-text-field(@focus='clearError', label='Part # (optional)', v-model='input.partNumber')
+                    v-text-field(@focus='clearError', label='ASIN (optional)', v-model='input.asin')
+                    v-text-field(@focus='clearError', label='URL (optional)', v-model='input.url')
+                    v-select#priority(
+                      @focus='clearError',
+                      :items='pickList.jobPriority',
+                      item-text='name',
+                      item-value='id',
+                      label='Priority',
+                      required,
+                      v-model='input.priority'
+                    )
+                    v-text-field(@focus='clearError', @change='validateForm()', label='Price (optional)', type='number', v-model='input.price')
+                    v-text-field#dateDue(
+                      @focus='clearError',
+                      label='Deadline',
+                      required,
+                      type='date',
+                      v-model='input.dateDue'
+                    )
+                  v-col(cols=12, md=6)
+                    h3
+                      | Dimensions:
+                    br
+                    v-select#units(
+                      @focus='clearError',
+                      :items='pickList.units',
+                      item-text='name',
+                      item-value='id',
+                      label='Units',
+                      required,
+                      v-model='input.dimensions.units'
+                    )
+                    v-text-field#height(
+                      @focus='clearError',
+                      label='Height',
+                      min='0.01',
+                      required,
+                      step='0.001',
+                      type='number',
+                      v-model='input.dimensions.height'
+                    )
+                    v-text-field#width(
+                      @focus='clearError',
+                      label='Width',
+                      min='0.01',
+                      required,
+                      step='0.001',
+                      type='number',
+                      v-model='input.dimensions.width'
+                    )
+                    v-text-field#depth(
+                      @focus='clearError',
+                      label='Depth',
+                      min='0.01',
+                      required,
+                      step='0.001',
+                      type='number',
+                      v-model='input.dimensions.depth'
+                    )
+                    v-textarea(
+                      @focus='clearError',
+                      label='Additional Dimensions',
+                      v-model='input.dimensions.additional'
+                    )
+                    //- TODO: Add Artist Assignment
+              pre.error-message(v-if='errorMessage')
+                | {{ errorMessage }}
+        .text-center
+          spinner-button(
+            color='primary',
+            label='Save and Continue',
+            :loading='saving',
+            loadingLabel='Saving',
+            :onClick='submitDetails'
+          )
+      v-stepper-content(step='2')
+        v-card.elevation-0.mb-12(height='auto')
+          v-row
+            v-col(cols=12)
+              h2
+                | Add Product Images
+                v-dialog(v-model='dialog2', width='500')
+                  template(v-slot:activator='{ on }')
+                    v-icon(color='orange', v-on='on', style='padding:5px; font-size:20px')
+                      | mdi-help-circle
+                  v-card
+                    v-card-title(primary-title='', color='blue')
+                      .orange-font
+                        | Uploading Images
+                    v-card-text
+                      | We currently accept .png and .jpg file formats.
+                      br
+                      br
+                      v-icon(color='primary')
+                        | mdi-star-circle
+                      span
+                        | Select an image to make it the primary reference image for modeling and quality assurance.
+                    v-divider
+                    v-card-actions
+                      v-spacer
+                      v-icon(color='primary', text='', @click='dialog2 = false')
+                        | mdi-close-circle
+              v-form(v-if='!uploading')
+                v-file-input(
+                  chips,
+                  multiple,
+                  accept='image/*',
+                  counter,
+                  show-size,
+                  placeholder='click to upload images',
+                  prepend-icon='mdi-camera',
+                  @change='uploadImages',
+                  @focus='clearError'
+                )
+              h2(v-else)
+                | Uploading
+                v-progress-linear(v-model='uploadProgress')
+              .error-message(v-if='errorMessage')
+                | {{ errorMessage }}
+              br
+              //- this will appear when they have uploaded at least one, first one will be main automatically but they should be able to choose another
+              //- should also be able to delete with a click to the x
+              .container-orange-border(v-if='job.product.referenceImages.length > 0')
+                .reference-image(v-for='image in job.product.referenceImages')
+                  v-icon.primary-img-flag(v-if='image.sortWeight === 1', color='primary') mdi-star-circle
+                  v-icon.primary-img-flag(
+                    v-if='image.sortWeight !== 1', color='orange',
+                    @click.native='setPrimaryImage(image.id)') mdi-star-circle
+                  xr-img(
+                    :aspectRatio='2 / 1',
+                    :alt='image.filename',
+                    :className='"assets-thumb ma-2"',
+                    :isContained='true',
+                    :src='"https://x.3xr.com/x/products/" + job.product.uid + "/reference/images/" + image.filename',
+                    :height='150'
+                  )
+                  .text-right.close
+                    v-icon.action(@click='removeImage(image.id, image.filename)', color='red') mdi-close-circle
+              .help-message
+                v-icon(color='primary') mdi-star-circle
+                | Select an image to make it the primary reference image for modeling and quality assurance.
+              .text-center
+                v-btn.ma-4(color='secondary', @click='step = 1')
+                  .black-font
+                    | Back
+                v-btn.ma-4(color='primary', @click='step = 3') Continue
+      v-stepper-content(step='3')
+        v-card.elevation-0.mb-12(height='auto')
+          //- TODO two new fields to be connected to backend
+          v-row
+            v-col(cols=12, md=5)
+              h2
+                | Modeling Instructions
+                v-dialog(v-model='dialog3', width='500', transition='')
+                  template(v-slot:activator='{ on }')
+                    v-icon(color='orange', v-on='on', style='padding:5px; font-size:20px')
+                      | mdi-help-circle
+                  v-card
+                    v-card-title(primary-title='', color='blue')
+                      .orange-font
+                        | Adding Modeling Instructions
+                    v-card-text
+                      | Please add any specific directions regarding how the model needs to be made.
+                    v-divider
+                    v-card-actions
+                      v-spacer
+                      v-icon(color='primary', text='', @click='dialog3 = false')
+                        | mdi-close-circle
+              v-textarea(@focus='clearError', v-model='input.modelingInstructions')
+            v-col(cols=12, md=5, offset-md=1)
+              h2
+                | Material Information
+                v-dialog(v-model='dialog4', width='500')
+                  template(v-slot:activator='{ on }')
+                    v-icon(color='orange', v-on='on', style='padding:5px; font-size:20px')
+                      | mdi-help-circle
+                  v-card
+                    v-card-title(primary-title='', color='blue')
+                      .orange-font
+                        | Adding Material Information
+                    v-card-text
+                      | Please provide information around the material makeup of the product here. More information provided up front will help guarantee model accuracy from the start.
+                    v-divider
+                    v-card-actions
+                      v-spacer
+                      v-icon(color='primary', text='', @click='dialog4 = false')
+                        | mdi-close-circle
+              v-textarea(v-model='input.materialInformation')
+          v-row
+            v-col(cols=12)
+              h2
+                | Upload supporting files
+                v-dialog(v-model='dialog5', width='500')
+                  template(v-slot:activator='{ on }')
+                    v-icon(color='orange', v-on='on', style='padding:5px; font-size:20px')
+                      | mdi-help-circle
+                  v-card
+                    v-card-title(primary-title='', color='blue')
+                      .orange-font
+                        | Adding Supporting Files
+                    v-card-text
+                      | Upload PDFs or any other supporting materials which provide further detail of the product.
+                    v-divider
+                    v-card-actions
+                      v-spacer
+                      v-icon(color='primary', text='', @click='dialog5 = false')
+                        | mdi-close-circle
+              v-form(v-if='!uploading')
+                v-file-input(
+                  chips,
+                  counter,
+                  multiple,
+                  show-size,
+                  placeholder='click to upload flies',
+                  @change='uploadFiles',
+                  @focus='clearError'
+                )
+              h2(v-else)
+                | Uploading
+                v-progress-linear(v-model='uploadProgress')
+              .error-message(v-if='errorMessage')
+                | {{ errorMessage }}
+              br
+              .container-orange-border(v-if='job.product.additionalFiles.length > 0')
+                h3
+                  | Files Added
+                ul
+                  li(v-for='file in job.product.additionalFiles')
+                    | {{ file.filename }}
+                    |
+                    v-icon(@click='removeAdditionalFile(file.id, file.filename)', color='red') mdi-close
+            .text-center
+              v-btn.ma-4(color='secondary', @click='step = 2')
+                .black-font
+                  | Back
+              spinner-button(
+                color='primary',
+                label='Save and Continue',
+                :loading='saving',
+                loadingLabel='Saving',
+                :onClick='submitDetails'
+              )
+      v-stepper-content(step='4')
+        v-card.elevation-0.mb-12(height='auto')
+          v-row
+            v-col(cols=12)
+              h2
+                | Artist Assignment (admin)
+              v-form
+                v-row
+                  v-col
+                    v-select#artist(
+                      label='Assigned Artist',
+                      :items='artists',
+                      item-text='lastName',
+                      item-value='id',
+                      v-model='selectedArtistId'
+                    )
+                      template(v-slot:item='data')
+                        | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+                      template(v-slot:selection='data')
+                        | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+              .text-center
+                .error-message(v-if='errorMessage')
+                  | {{ errorMessage }}
+                v-btn.ma-4(color='secondary', @click='step = 3')
+                  .black-font
+                    | Back
+                v-btn.ma-4(v-if='selectedArtistId != job.product.artist.id', color='primary', @click='assignArtist')
+                  | Assign Artist
+                router-link(
+                  v-else,
+                  :to='{ name: "purchase-order-products", params: { projectUid: project.uid || job.project.uid } }'
+                )
+                  v-btn.ma-4(color='primary') Return to Purchase Order

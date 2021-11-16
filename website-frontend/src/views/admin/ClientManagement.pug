@@ -1,0 +1,35 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  v-card-title
+    v-text-field(v-model='searchString', append-icon='mdi-magnify', label='Search', single-line, hide-details)
+    v-spacer
+    v-btn(color='primary', :to='{ name: "admin-client-management-new-client" }')
+      v-icon mdi-plus
+      | New Client
+  v-data-table.elevation-1(
+    @click:row='(item, slot) => slot.expand(!slot.isExpanded)',
+    :headers='headers',
+    :items='clients',
+    :items-per-page='resultsPerPage',
+    :loading='loading',
+    loading-text='Loading Clients',
+    :footer-props='{ "items-per-page-options": [15, 20, 35, 50] }',
+    :search='searchString',
+    show-expand,
+    single-expand
+  )
+    template(v-slot:item.createdAt='{ item }')
+      | {{ item.createdAtFormatted }}
+    template(v-slot:expanded-item='{ headers, item }')
+      td(:colspan='headers.length')
+        router-link(:to='{ name: "admin-client-management-view-client", params: { uid: item.uid } }')
+          | View Client
+        div(v-if='item.users.length > 0')
+          h3 User Accounts
+          ul
+            li(v-for='user in item.users')
+              router-link(:to='{ name: "admin-user-management-view-user", params: { username: user.username } }')
+                | {{ user.fullName }} ({{ user.username }})
+        div(v-else)
+          | No User Accounts Linked

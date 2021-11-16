@@ -1,0 +1,32 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  h3 Linked Parts
+  ul(v-if='parts.length')
+    li(v-for='part in parts' key='id')
+      | [
+      span(v-for='(slot, index) in part.slots' :key='index')
+        | {{ slotNameWithComma(slot.slotName, index, part.slots.length) }}
+      | ]
+      |
+      a(:href="'/library/parts/view/' + part.uid") {{ part.name }}
+      v-icon(@click='unlinkPart(part.id)') mdi-close
+  div(v-else)
+    | No Parts Linked
+  v-btn(v-if='!linkingPart', @click='linkingPart = true', color='primary')
+    v-icon.mr-2 mdi-link-plus
+    | Link Part
+  v-form(v-else)
+    v-autocomplete(
+      :items='allParts',
+      :filter='filterParts',
+      item-text='name',
+      item-value='id',
+      label='Part',
+      prepend-icon='mdi-cog',
+      v-model='partIdToLink',
+    )
+    v-btn(@click='linkPart()', color='primary') Submit
+    v-btn(@click='linkingPart = false; clearMessages()', color='red', style='margin-left:10px') Cancel
+  v-spacer
+  .error-message(v-if='errorMessage') {{ errorMessage }}
+  .success-message(v-if='successMessage') {{ successMessage }}

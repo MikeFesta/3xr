@@ -1,0 +1,19 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  div(v-else)
+    purchase-order-banner(:activeTab='2', :loading='loadingProject')
+    v-row
+      v-col(cols=12)
+        purchase-order-results(
+          :errorMessage='errorMessage',
+          :isSubmittedDialogOpen='isSubmittedDialogOpen',
+          :closeSubmittedDialog='closeSubmittedDialog',
+          :loading='loadingJobs',
+          :submitPurchaseOrder='submitPurchaseOrder',
+          :deleteJobById='deleteJobById',
+          :projectUid='project.uid',
+          title='Products'
+        )

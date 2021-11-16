@@ -1,0 +1,26 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  div(v-else)
+    product-banner(:activeTab='1', :loading='loadingProduct', v-if='withBanner')
+    v-container(fluid)
+      v-row
+        v-col(cols=12, md=6)
+          product-image-viewer(
+            :loading='loadingProduct',
+            :product='product',
+            :showSecondaryImageStar='true',
+            :showImageUploader='true',
+            :showRemoveImage='true',
+            :onChangeImage='uploadImages',
+            :onClickImage='() => {}',
+            :onClickRemove='removeImage',
+            :onClickSecondaryStar='setPrimaryImage'
+          )
+          product-additional-file-manager
+          product-linked-materials(v-if='isAdmin', :loading='loadingJob', :materials='product.materials', :productId='product.id', :slots='allPartSlots')
+          product-linked-parts(v-if='isAdmin', :loading='loadingJob', :parts='product.parts', :productId='product.id')
+        v-col(cols=12, md=6)
+          product-details-table(:loading='loadingProduct', :editEnabled='productTableEditEnabled=="true"')
+          job-details-table(v-if='isAdmin', :loading='loadingJob')

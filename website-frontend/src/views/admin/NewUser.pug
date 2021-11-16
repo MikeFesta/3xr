@@ -1,0 +1,39 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  v-card-title
+    h2 New User
+  v-row
+    v-col(cols=6, offset=3)
+      v-text-field(@change='setChanged', label='Username', required, v-model='user.username')
+      v-text-field(@change='setChanged', label='Email', required, v-model='user.email')
+      v-text-field(@change='setChanged', label='First Name', required, v-model='user.firstName')
+      v-text-field(@change='setChanged', label='Last Name', required, v-model='user.lastName')
+      v-text-field(
+        :append-icon='showPassword ? "mdi-eye" : "mdi-eye-off"',
+        @click:append='showPassword = !showPassword',
+        @change='setChanged',
+        label='Password',
+        :type='showPassword ? "text" : "password"',
+        required,
+        v-model='user.newPassword'
+      )
+      v-select#class(
+        @change='setChanged',
+        :items='pickList.userRole.filter(i => i.name != "Admin")',
+        item-text='name',
+        item-value='id',
+        label='Primary Role',
+        required,
+        v-model='user.primaryRoleId'
+      )
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      v-col.text-right
+        spinner-button(
+          color='primary',
+          label='Add User',
+          :loading='saving',
+          loadingLabel='Creating User',
+          :onClick='createUser'
+        )

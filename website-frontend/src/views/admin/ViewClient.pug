@@ -1,0 +1,61 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  h2 Client Details
+  div(v-if='loading')
+    v-col.text-center
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      v-progress-circular(v-else, color='primary', indeterminate)
+  div(v-else)
+    v-form
+      v-row
+        v-col(cols=6, offset=3)
+          v-text-field(label='ID', required, v-model='client.id', disabled)
+          v-text-field(@change='setChanged', label='Name', required, v-model='client.name')
+          .error-message(v-if='errorMessage')
+            | {{ errorMessage }}
+          .success-message(v-if='successMessage')
+            | {{ successMessage }}
+          v-col.text-right
+            spinner-button(
+              color='primary',
+              :disabled='!changed',
+              :label='changed ? "Save Changes" : "Saved"',
+              :loading='saving',
+              loadingLabel='Saving',
+              :onClick='saveClient'
+            )
+      h2 Studios
+      div(v-if='loadingStudios')
+        v-progress-circular(color='primary', indeterminate)
+      div(v-else)
+        div(v-if='studios.length == 0')
+          | Not linked to any studio
+        ul(v-else)
+          li(v-for='studio in studios')
+            //-router-link(:to="'/admin/studio-management/view/' + studio.uid")
+            | {{ studio.name }}
+            v-icon(color='red', @click='unlinkStudio(studio.id)') mdi-close
+        v-btn(v-if='!linkingStudio', @click='linkingStudio = true', color='primary')
+          v-icon.mr-2 mdi-link-plus
+          | Link Studio
+        v-form(v-else)
+          v-autocomplete(
+            :items='studioPicklist',
+            :filter='filterClientOrStudio',
+            item-text='name',
+            item-value='id',
+            label='Studio',
+            prepend-icon='mdi-office-building',
+            v-model='studioIdToLink',
+          )
+          v-btn(@click='linkStudio()', color='primary') Submit
+          v-btn(@click='linkingStudio = false; clearMessages()', color='red', style='margin-left:10px') Cancel
+      h2.mt-5 Users
+      div(v-if='loadingStudios')
+        v-progress-circular(color='primary', indeterminate)
+      ul(v-else)
+        li(v-for='user in users')
+          router-link(:to='{ name: "admin-user-management-view-user", params: { username: user.username } }')
+            | {{ user.username }} - {{ user.fullName }} &lt;{{ user.email }}&gt;

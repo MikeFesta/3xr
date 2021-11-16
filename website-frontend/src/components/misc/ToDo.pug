@@ -1,0 +1,8 @@
+//- SPDX-License-Identifier: Apache-2.0
+.todo(v-if='user.admin')
+  v-tooltip(bottom)
+    template(v-slot:activator="{ on, attrs }")
+      v-icon(slot="activator", color='primary', v-on="on") mdi-pin
+    | Planned by {{ due }}
+  .label(v-if='label') {{ label }}
+  .note {{ note }}

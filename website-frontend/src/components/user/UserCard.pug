@@ -1,0 +1,5 @@
+//- SPDX-License-Identifier: Apache-2.0
+router-link(:to='"/artist/profile/" + user.username')
+  v-card.user-card
+    v-card-title {{ user.fullName }}
+    v-card-subtitle {{ user.username }}

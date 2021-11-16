@@ -1,0 +1,9 @@
+//- SPDX-License-Identifier: Apache-2.0
+span
+  .image-wraper.mt-2
+    .xr-add-img-upload-container.assets-thumb(@click='onButtonClick')
+      .vertical-center 
+        v-icon mdi-file-image
+        br
+        | Add
+  input.d-none(ref='uploader', type='file', accept='image/*', @change='onFileChanged', multiple)

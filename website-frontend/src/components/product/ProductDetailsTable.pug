@@ -1,0 +1,300 @@
+//- SPDX-License-Identifier: Apache-2.0
+span
+  .details-container
+    form(@submit='submitForm')
+      h3.details-header
+        | Product Details
+        span.float-right(v-if='isAbleToEditTable')
+          v-icon(v-if='!isEditEnabled', color='white', @click='toggleEdit()') mdi-pencil-box-outline
+          span(v-else)
+            v-icon(color='white', @click='setIsEditEnabled()') mdi-window-close
+            v-icon(color='white', @click='submitForm()') mdi-content-save
+      pre.error-message(v-if='isEditEnabled && errorMessage')
+        | {{ errorMessage }}
+      div(v-if='loading')
+        v-row
+          v-col.text-center
+            v-progress-circular(color='white', indeterminate)
+      div(v-else)
+        v-row.admin-details-row(v-if='isAdmin')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | UID
+          v-col.details-row.align-vertical(cols=8)
+            span {{ input.uid }}
+        v-row.admin-details-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Purchase Order
+          v-col.details-row.align-vertical(cols=8)
+            router-link(:to=' {name:"purchase-order-products", params: {projectUid: job.project.uid}, }') {{ job.project.uid }}
+        v-row.admin-details-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Studio
+          v-col.details-row.align-vertical(cols=8)
+            | {{ job.studio.name }}
+        v-row.admin-details-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Product Class
+          v-col.details-row.align-vertical(cols=8)
+            v-select#class(
+              v-if='isEditEnabled',
+              @focus='clearMessages',
+              :items='client.classes',
+              item-text='name',
+              item-value='id',
+              label='Class',
+              required,
+              v-model='productClass'
+            )
+            span(v-else) {{ productClassName }}
+        v-row.admin-details-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Brand Name
+          v-col.details-row.align-vertical(cols=8)
+            v-select#brand(
+              v-if='isEditEnabled',
+              @focus='clearMessages',
+              :items='client.brands',
+              item-text='name',
+              item-value='id',
+              label='Brand Name',
+              required,
+              v-model='productBrand'
+            )
+            span(v-else) {{ productBrandName }}
+        v-row.admin-details-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Name
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textfield#name(
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.name',
+              label='(Optional)',
+              v-model='input.name'
+            )
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Part #
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textfield#partNumber(
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.partNumber',
+              label='(Optional)',
+              v-model='input.partNumber'
+            )
+        v-row(v-if='product.asin || isAdmin')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | ASIN
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textfield#asin(
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.asin',
+              label='Optional',
+              v-model='input.asin'
+            )
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | URL
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textfield#url(
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.url',
+              label='(Optional)',
+              v-model='input.url'
+            )
+              template(v-slot:format='fieldStatej')
+                a(v-if='fieldStatej.state.length > 0', :href='fieldStatej.state', target='_blank')
+                  | Link
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Price
+          v-col.details-row.align-vertical(cols=8)
+            | {{ input.price > 0 ? '$' : ''}}
+            xr-inline-numberfield#price(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.price',
+              step='1',
+              type='number',
+              v-model.number='input.price'
+            )
+        v-row.admin-details-row(v-if='isAdmin')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Assigned Artist
+          v-col.details-row.align-vertical(v-if='product.artist.id', cols=8)
+            span
+              | {{ product.artist.lastName }}, {{ product.artist.firstName }}
+              span(v-if='product.artist.email') &lt;{{ product.artist.email }}&gt;
+          v-col.details-row(v-else, cols=8)
+            | Unassigned
+        v-row.admin-details-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Blender Filename
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textfield#blendName(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.blendName',
+              required,
+              v-model='input.blendName'
+            )
+        v-row.admin-details-row(v-if='isAdmin')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Create/Update Zip
+          v-col.details-row.align-vertical(cols=8)
+            rabbit-button(label='Init Product', :data='initProductData', queue='init_product')
+        v-row.admin-details-row(v-if='isAdmin')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Auto Generate
+          v-col.details-row.align-vertical(cols=8)
+            rabbit-button(label='From Part + Material', :data='productPartMaterialData', queue='product_part_material')
+        v-row(v-if='!isEditEnabled')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Dimensions
+          v-col.details-row(cols=8)
+            | W
+            span(cols=4, v-if='input.dimensions.width > 0')
+              | {{ input.dimensions.width }} {{ product.units.name }},
+            span(cols=4, v-else)
+              | N/A,
+            span
+              | H
+            span(cols=4, v-if='input.dimensions.height > 0')
+              | {{ input.dimensions.height }} {{ product.units.name }},
+              |
+            span(cols=4, v-else)
+              | N/A,
+            span
+              | D
+            span(cols=4, v-if='input.dimensions.depth > 0')
+              | {{ input.dimensions.depth }} {{ product.units.name }}
+            span(cols=4, v-else)
+              | N/A
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Units
+          v-col.details-row.align-vertical(cols=8)
+            v-select(
+              v-if='isEditEnabled',
+              :items='pickList.units',
+              item-text='name',
+              item-value='id',
+              v-model='input.dimensions.unitTypeId'
+            )
+            span(v-else) {{ unitTypeName }}
+        v-row(v-if='isEditEnabled')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Height
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-numberfield#height(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.dimensions.height',
+              min='0.01',
+              required,
+              step='0.001',
+              type='number',
+              v-model.number='input.dimensions.height'
+            )
+        v-row(v-if='isEditEnabled')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Width
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-numberfield#width(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.dimensions.width',
+              min='0.01',
+              required,
+              step='0.001',
+              type='number',
+              v-model.number='input.dimensions.width'
+            )
+        v-row(v-if='isEditEnabled')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Depth
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-numberfield#depth(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.dimensions.depth',
+              min='0.01',
+              required,
+              step='0.001',
+              type='number',
+              v-model.number='input.dimensions.depth'
+            )
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Additional Dimensions
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textareafield#additionalDimensions(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.dimensions.additionalDimensions',
+              v-model='input.dimensions.additional'
+            )
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Additional Files Provided
+          v-col.details-row.align-vertical(cols=8)
+            | {{ product.additionalFiles.length > 0 ? "Yes" : "No" }}
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Modeling Instructions
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textareafield#modelingInstructions(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.modelingInstructions',
+              v-model='input.modelingInstructions'
+            )
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Material Information
+          v-col.details-row.align-vertical(cols=8)
+            xr-inline-textareafield#materialInformation(
+              @focus='clearMessages',
+              :isEditEnabled='isEditEnabled',
+              :fieldValue='input.materialInformation',
+              v-model='input.materialInformation'
+            )
+        v-row(v-if='isAdmin')
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Priority
+          v-col.details-row.align-vertical(cols=8)
+            v-select#priority(
+              v-if='isEditEnabled',
+              @focus='clearMessages',
+              :items='pickList.jobPriority',
+              item-text='name',
+              item-value='id',
+              label='Priority',
+              required,
+              v-model='input.priority'
+            )
+            span(v-else) {{ priorityName }}
+        v-row
+          v-col.details-row.left-table.align-vertical(cols=4)
+            | Deadline
+          v-col.details-row.align-vertical(cols=8)
+            v-text-field#dateDue(
+              v-if='isEditEnabled',
+              @focus='clearMessages',
+              required,
+              type='date',
+              v-model='input.dateDue'
+            )
+            span(v-else) {{ input.dateDue }}
+  span(v-if='isEditEnabled')
+    v-btn.text-right(v-if='isEditEnabled', @click='setIsEditEnabled', color='white')
+      .red-font
+        | Cancel
+    v-btn.text-right.mr-2(
+      v-if='isJobPendingReview(job)',
+      @click='submitForm',
+      color='green',
+      data-test='save-and-approve'
+    )
+      | Save And Approve
+    v-btn.text-right.mr-2(v-else, @click='submitForm', color='primary')
+      | Save

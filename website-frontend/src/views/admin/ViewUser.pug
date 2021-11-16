@@ -1,0 +1,101 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  h2 User Details
+  div(v-if='loading')
+    v-col.text-center
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      v-progress-circular(v-else, color='primary', indeterminate)
+  div(v-else)
+    v-form
+      v-row
+        v-col(cols=6, offset=3)
+          v-text-field(label='ID', required, v-model='user.id', disabled)
+          v-text-field(@change='setChanged', label='Username', required, v-model='user.username')
+          v-text-field(@change='setChanged', label='Email', required, v-model='user.email')
+          v-text-field(@change='setChanged', label='First Name', required, v-model='user.firstName')
+          v-text-field(@change='setChanged', label='Last Name', required, v-model='user.lastName')
+          v-text-field(
+            :append-icon='showPassword ? "mdi-eye" : "mdi-eye-off"',
+            @click:append='showPassword = !showPassword',
+            @change='setChanged',
+            label='Change Password',
+            :type='showPassword ? "text" : "password"',
+            required,
+            v-model='user.newPassword'
+          )
+          v-select#class(
+            @change='setChanged',
+            :items='user.admin ? pickList.userRole : pickList.userRole.filter(i => i.name != "Admin")',
+            item-text='name',
+            item-value='id',
+            label='Primary Role',
+            required,
+            v-model='user.primaryRoleId'
+          )
+          .error-message(v-if='errorMessage')
+            | {{ errorMessage }}
+          .success-message(v-if='successMessage')
+            | {{ successMessage }}
+          v-col.text-right
+            spinner-button(
+              color='primary',
+              :disabled='!changed',
+              :label='changed ? "Save Changes" : "Saved"',
+              :loading='saving',
+              loadingLabel='Saving',
+              :onClick='saveUser'
+            )
+      h2 Clients
+      div(v-if='loadingClients')
+        v-progress-circular(color='primary', indeterminate)
+      div(v-else)
+        div(v-if='clients.length == 0')
+          | Not linked to any client
+        ul(v-else)
+          li(v-for='client in clients')
+            //-router-link(:to="'/admin/client-management/view/' + client.uid")
+            | {{ client.name }}
+            v-icon(color='red', @click='unlinkClient(client.id)') mdi-close
+        v-btn(v-if='!linkingClient', @click='linkingClient = true', color='primary')
+          v-icon.mr-2 mdi-link-plus
+          | Link Client
+        v-form(v-else)
+          v-autocomplete(
+            :items='clientPicklist',
+            :filter='filterClientOrStudio',
+            item-text='name',
+            item-value='id',
+            label='Client',
+            prepend-icon='mdi-office-building',
+            v-model='clientIdToLink',
+          )
+          v-btn(@click='linkClient()', color='primary') Submit
+          v-btn(@click='linkingClient = false; clearMessages()', color='red', style='margin-left:10px') Cancel
+      h2.mt-5 Studios
+      div(v-if='loadingStudios')
+        v-progress-circular(color='primary', indeterminate)
+      div(v-else)
+        div(v-if='studios.length == 0')
+          | Not linked to any studio
+        ul(v-else)
+          li(v-for='studio in studios')
+            //-router-link(:to="'/admin/studio-management/view/' + studio.uid")
+            | {{ studio.name }}
+            v-icon(color='red', @click='unlinkStudio(studio.id)') mdi-close
+        v-btn(v-if='!linkingStudio', @click='linkingStudio = true', color='primary')
+          v-icon.mr-2 mdi-link-plus
+          | Link Studio
+        v-form(v-else)
+          v-autocomplete(
+            :items='studioPicklist',
+            :filter='filterClientOrStudio',
+            item-text='name',
+            item-value='id',
+            label='Studio',
+            prepend-icon='mdi-office-building',
+            v-model='studioIdToLink',
+          )
+          v-btn(@click='linkStudio()', color='primary') Submit
+          v-btn(@click='linkingStudio = false; clearMessages()', color='red', style='margin-left:10px') Cancel

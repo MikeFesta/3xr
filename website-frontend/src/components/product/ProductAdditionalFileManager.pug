@@ -1,0 +1,27 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  v-alert(v-if='errorMessage')
+  | {{ errorMessage }}
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  .container-orange-border
+    .comments.pb-2
+      | Supporting Files
+    v-form(v-if='!uploadingFile')
+      v-file-input(
+        chips,
+        counter,
+        multiple,
+        show-size,
+        placeholder='Click to upload flies',
+        @change='uploadFiles',
+        @focus='clearMessages'
+      )
+    h2(v-else)
+      | Uploading
+      v-progress-linear(v-model='uploadProgress')
+    ul(v-if='product.additionalFiles.length > 0')
+      li(v-for='file in sortedAdditionalFiles', :key='file.id')
+        a(:href='file.url', target='_new')
+          | {{ file.filename }}
+        v-icon(@click='removeAdditionalFile(file.id, file.filename)', color='red') mdi-close

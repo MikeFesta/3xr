@@ -1,0 +1,25 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row(v-if='loading')
+    v-col.text-center(cols=12)
+      h3 Searching for {{ searchString }}
+      v-progress-circular(color='primary', indeterminate)
+  v-row(v-else)
+    v-col(cols=12)
+      v-row
+        v-col
+          h2 Results for
+            |
+            |
+            .inline.font-weight-bold.font-italic {{ searchString }}
+      v-row(v-if='errorMessage')
+        v-col.error
+          | {{ errorMessage }}
+      v-row(v-if='resultsCount == 0')
+        v-col.no-results No Results Found for {{ searchString }}
+      v-row(v-if='products.length > 0')
+        v-col
+          h3 {{ products.length }} Product{{ products.length > 1 ? "s" : "" }} Found
+      v-row(v-if='products.length > 0')
+        v-col.d-flex.flex-wrap
+          product-card(v-for='product in products', :asset='product.asset', :product='product', :key='product.id')

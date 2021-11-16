@@ -1,0 +1,12 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  job-results-with-preview(
+    :admin='isAdmin',
+    dateSearchIsForApprovals=true,
+    :errorMessage='errorMessage',
+    :loading='loading',
+    title='Jobs Complete',
+    :statusFilterId='statusFilterId',
+    showDownloads=true
+  )

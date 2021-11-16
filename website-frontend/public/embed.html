@@ -1,0 +1,331 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="icon" href="https://cdn.3xr.com/images/3xr_studio_icosahedron.ico" />
+  <title>3XR - Embedded Viewer</title>
+  <meta name="description"
+    content="3XR empowers brands to enhance their online presence through a platform-based solution where brands can effectively create high quality, custom 3D content." />
+  <meta name="keywords"
+    content="AR products, AR models, AR VR model, 3D models, hire AR modeler, AR modelers, freelance AR, freelance blender, blender modeler, virual reality models, augmented reality models, how to make AR, AR products, sell in AR, sell in VR" />
+  <meta property="og:url" content="https://www.3xr.com/platform" />
+  <meta property="og:image" content="https://cdn.3xr.com/images/3xr.svg" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="3XR Model Viewer" />
+  <meta name="og:description"
+    content="3XR empowers brands to enhance their online presence through a platform-based solution where brands can effectively create high quality, custom 3D content." />
+  <style>
+    body {
+      font-family: arial;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    #background {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 100vh;
+    }
+
+    #arQrButton,
+    #errorMessage,
+    #exitFullscreenButton,
+    #fullscreenButton,
+    #loading,
+    #modelViewer,
+    #qrCodePopup {
+      display: none;
+    }
+
+    @keyframes elongate {
+      from {
+        transform: translateX(100px);
+      }
+
+      to {
+        transform: translateX(-100px);
+      }
+    }
+
+    #hand {
+      animation: elongate 2s infinite ease-in-out alternate;
+      display: none;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+    }
+
+    .model-viewer {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but 3XR doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="errorMessage"></div>
+  <div id="loading"></div>
+  <div id="background">
+    <model-viewer id="modelViewer">
+      <button id="arButton" slot="ar-button"></button>
+      <button id="exitFullscreenButton"></button>
+      <button id="fullscreenButton"></button>
+    </model-viewer>
+    <div id="arQrButton"></div>
+    <div id="qrCodePopup">
+      <div>
+        <button id="qrExitButton" style="display:block"></button>
+        <div class="instructions">
+          <h2>SCAN WITH YOUR MOBILE CAMERA</h2>
+        </div>
+        <div id='qrCode'></div>
+      </div>
+    </div>
+  </div>
+  <div id="hand">
+    <img src="https://cdn.3xr.com/images/icon/hand.svg" width=25 height=36 alt="pointing hand">
+  </div>
+  <script type="text/javascript">
+    const START_TIME = Date.now();
+    function _(n) {
+      return document.createElement(n)
+    }
+    function $(n) {
+      return document.getElementById(n)
+    }
+    function addHiddenInput(id, v) {
+      const i = _('input');
+      set(i, 'id', id);
+      set(i, 'type', 'hidden');
+      set(i, 'value', v);
+      document.body.appendChild(i);
+    }
+    function hide(e) {
+      e.style.display = 'none'
+    }
+    function set(e, n, v) {
+      e.setAttribute(n, v);
+    }
+    function show(e) {
+      e.style.display = 'block'
+    }
+    function showError(message) {
+      const em = $('errorMessage');
+      em.innerHTML = message;
+      show(em);
+      hide($('loading'));
+      hide($('hand'));
+      $('background').style.backgroundImage = 'none';
+      //TODO: Report error back to 3xr
+    }
+    var url = new URL(window.location.href);
+    var params = new URLSearchParams(url.search);
+    var ASSET_UID = params.get('a');
+    if (!ASSET_UID) {
+      showError('Missing Model ID. Please check your embed code.');
+    }
+    var AUTOLOAD = false;
+    if (params.has('autoload')) {
+      AUTOLOAD = true;
+    }
+    var BG_COLOR = 'fff';
+    if (params.has('bg')) {
+      BG_COLOR = params.get('bg');
+    }
+    var CUSTOMER_UID = '';
+    if (params.has('c')) {
+      CUSTOMER_UID = params.get('c');
+    }
+    var DEVICE_TYPE_ID = 3;
+    if (_('a').relList.supports('ar')) {
+      DEVICE_TYPE_ID = 1;
+    } else if (/Android/i.test(navigator.userAgent)) {
+      DEVICE_TYPE_ID = 2;
+    }
+    $('background').style.backgroundColor = '#' + BG_COLOR;
+    var POSTER_URL = 'https://cdn.3xr.com/images/cube-spinner.gif'
+    var SESSION_STARTED = false;
+
+    if (ASSET_UID) {
+      var img = _('img');
+      set(img, 'src', 'https://cdn.3xr.com/models/' + ASSET_UID + '/' + ASSET_UID + '-poster.jpg');
+      img.onload = function () {
+        POSTER_URL = img.src;
+        $('background').style.backgroundImage = "url('" + POSTER_URL + "')";
+        if (!SESSION_STARTED) {
+          show($('hand'));
+        }
+
+        var viewer = $('model-viewer');
+        if (viewer) {
+          // If the viewer has already been created, update the poster attribute
+          set(viewer, 'poster', POSTER_URL);
+        }
+      }
+      img.onerror = function () {
+        // Cube spinner used if the poster does not exist
+        $('background').style.backgroundImage = "url('" + POSTER_URL + "')";
+      };
+
+      if (AUTOLOAD) {
+        ['keydown', 'mouseover', 'touchmove', 'scroll'].forEach(e => {
+          document.body.addEventListener(e, startSession, { once: true });
+        });
+      } else {
+        document.body.addEventListener('click', startSession, { once: true });
+      }
+    }
+
+    function startSession() {
+      if (!SESSION_STARTED) {
+        SESSION_STARTED = true;
+        hide($('hand'));
+        show($('loading'));
+        loadCSS();
+        load3xrScript();
+        loadModelViewer();
+      }
+    }
+
+    function loadCSS() {
+      const c = _('link');
+      set(c, 'rel', 'stylesheet');
+      set(c, 'type', 'text/css');
+      set(c, 'href', 'https://cdn.3xr.com/css/3xr_viewer-215.css');
+      document.body.appendChild(c);
+    }
+
+    function load3xrScript() {
+      const s = _('script');
+      s.type = 'module';
+      s.src = 'https://cdn.3xr.com/scripts/3xr_viewer-215.js';
+      // TODO: minify
+      document.body.appendChild(s);
+      loadModelInfo(); // need to wait for the 3xr script to load before loading the model
+    }
+
+    function loadModelViewer() {
+      const s = _('script');
+      s.type = 'module';
+      s.src = 'https://unpkg.com/@google/model-viewer@1.6.0/dist/model-viewer.js';
+      document.body.appendChild(s);
+    }
+
+    function loadModelInfo() {
+      // TODO: keep an eye out for CORS issues when moving to production
+      req = new XMLHttpRequest();
+      if (req) {
+        req.onreadystatechange = function () {
+          if (req.readyState === XMLHttpRequest.DONE) {
+            if ([400, 404].includes(req.status)) {
+              showError(req.response);
+              // TODO: Handle Password - create an input field
+            } else if (req.status == 200) {
+              const data = JSON.parse(req.response);
+              createModelViewerFromJson(data);
+              addHiddenInputs(data);
+            }
+          }
+        }
+        req.open('POST', 'https://view.3xr.com', true);
+        req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        req.send('assetUid=' + ASSET_UID + '&deviceTypeId=' + DEVICE_TYPE_ID + '&interactionDelay=' + (Date.now() - START_TIME));
+      }
+    }
+
+    function addHiddenInputs(data) {
+      addHiddenInput('abId', data.abId);
+      addHiddenInput('asset', data.uid);
+      addHiddenInput('customerUid', CUSTOMER_UID);
+      addHiddenInput('productUrl', data.productUrl);
+      addHiddenInput('session', data.session);
+      addHiddenInput('viewerSessionUid', data.viewerSessionUid);
+    }
+
+    function createModelViewerFromJson(data) {
+      const v = $('modelViewer');
+      set(v, 'alt', data.productTitle);
+      set(v, 'ar', '');
+      set(v, 'ar-modes', 'webxr scene-viewer quick-look fallback');
+      set(v, 'autoplay', '');
+      set(v, 'ar-scale', 'fixed'); //TODO: this used to need to be set to auto if apple pay is being used
+      set(v, 'src', data.url + '.glb?src=embed');
+      set(v, 'camera-controls', '');
+      set(v, 'camera-orbit', data.orbit);
+      set(v, 'camera-target', data.target);
+      set(v, 'environment-image', data.environmentImage);
+      set(v, 'exposure', data.exposure);
+      set(v, 'ios-src', data.url + '.usdz?src=embed'); // + '#allowContentScalling=0' + data.applePayUrlData);
+      set(v, 'interaction-prompt-style', 'wiggle');
+      set(v, 'interaction-policy', 'allow-when-focused');
+      set(v, 'poster', POSTER_URL); // Global
+      set(v, 'quick-look-browsers', 'safari chrome');
+      set(v, 'shadow-intensity', data.shadowIntensity);
+      set(v, 'style', '--poster-color:#' + BG_COLOR); // Global
+
+      if (data.showBanner) {
+        const buyBanner = _('div');
+        set(buyBanner, 'id', 'buyBanner');
+        const buyButton = _('div');
+        set(buyButton, 'id', 'buyButton');
+        const bannerBuy = _('div');
+        set(bannerBuy, 'id', 'bannerBuy');
+        bannerBuy.innerHTML = data.productButtonText;
+        buyButton.appendChild(bannerBuy);
+        const bannerTitle = _('div');
+        set(bannerTitle, 'id', 'bannerTitle');
+        bannerTitle.innerHTML = data.productTitle;
+        buyButton.appendChild(bannerTitle);
+        const bannerSubtitle = _('div');
+        set(bannerSubtitle, 'id', 'bannerSubtitle');
+        bannerSubtitle.innerHTML = data.productSubtitle + ' ' + data.productPrice;
+        buyButton.appendChild(bannerSubtitle);
+        const bannerUrl = _('div');
+        set(bannerUrl, 'id', 'bannerUrl');
+        bannerUrl.innerHTML = data.productUrlDomain;
+        buyButton.appendChild(bannerUrl);
+        buyBanner.appendChild(buyButton);
+        v.appendChild(buyBanner);
+      }
+
+      if (data.combinations.length > 0) {
+        const buttons = _('div');
+        set(buttons, 'id', 'buttons');
+        data.combinations.forEach(c => {
+          const button = _('button');
+          button.classList.add('combination-option-button');
+          set(button, 'diffuse', c.diffuseFilename);
+          set(button, 'style', "background-color:#" + c.color);
+          set(button, 'qr', c.qr);
+          set(button, 'usdz', c.usdz);
+          buttons.appendChild(button);
+        });
+        v.appendChild(buttons);
+      }
+
+      const qrcode = $('qrCode');
+      qrcode.style.backgroundImage = "url(" + data.qrUrl + ")";
+
+      v.addEventListener('load', ev => {
+        // Show the 3XR logo only after a successful load
+        $('background').style.backgroundImage = "url('https://cdn.3xr.com/images/3xr-gray50.svg')";
+        $('background').style.backgroundPosition = "10px 10px";
+        $('background').style.backgroundSize = "10%";
+        hide($('loading'));
+      });
+
+      v.style.display = 'block';
+    }
+  </script>
+
+</html>

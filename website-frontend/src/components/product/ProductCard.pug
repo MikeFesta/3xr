@@ -1,0 +1,23 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-card.product-card
+  v-card.mx-auto.bio-card(flat='')
+    router-link(:to='"/product/details/" + product.uid')
+      v-img.product-thumbnail(:src='product.primaryImage')
+  v-row
+    v-col(cols=12, md=10)
+      v-card-subtitle
+        | {{ product.name }}
+    v-col(cols=12, md=2)
+      v-checkbox(v-model='favorite', on-icon='mdi-heart', off-icon='mdi-heart-plus-outline')
+  .ma-1
+    v-btn.button-link(color='primary', :to='"/product/details/" + product.uid')
+      .white-font
+        | Product Details
+  .ma-1(v-if='hasSubmissions')
+    v-btn.button-link(color='orange', :to='"/product/review/" + product.uid')
+      .white-font
+        | Review Page
+  .ma-1(v-if='published')
+    v-btn.button-link(color='green', :to='"/asset/details/" + product.asset.uid')
+      .white-font
+        | Final Asset

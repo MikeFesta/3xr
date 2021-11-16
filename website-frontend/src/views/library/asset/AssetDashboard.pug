@@ -1,0 +1,21 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  library-tabs
+  v-card-title
+    v-text-field(v-model='searchString', append-icon='mdi-magnify', label='Search', single-line, hide-details)
+    v-spacer
+  v-data-table.elevation-1(
+    @click:row='viewDetails',
+    :headers='headers',
+    :items='assets',
+    :items-per-page='resultsPerPage',
+    :loading='loading',
+    loading-text='Loading Assets',
+    :footer-props='{ "items-per-page-options": [15, 20, 35, 50] }',
+    :search='searchString'
+  )
+    template(v-slot:item.thumbnail='{ item }')
+      | Thumbnail Here
+      //-xr-img.ma-2(:aspectRatio='1', :className='"job-thumbnail"', :src='item.primaryImage', :width='150')
+    template(v-slot:item.updatedAt='{ item }')
+      | {{ item.updatedAtFormatted }}

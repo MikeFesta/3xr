@@ -1,0 +1,21 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-row
+  v-col.text-left(cols=12)
+    .comments.pb-2
+      | Comments
+    v-tabs(v-if='isAdmin || isQa', v-model='tab')
+      v-tab Client
+      v-tab Artist
+    new-comment(:initials='initials', :tab='tab')
+    template(v-for='(comment, idx) in visibleComments')
+      single-comment(
+        :comment='comment',
+        :active='idx === activeIndex',
+        :tab='tab',
+        @mouseover.native='setActiveIndex(idx)',
+        @mouseleave.native='removeActiveIndex'
+      )
+  v-row.ma-2.previous(v-if='shouldShowMore')
+    v-col(cols=12)
+      p(@click='handleShowMore')
+        | Show previous messages

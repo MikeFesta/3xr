@@ -1,0 +1,16 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  library-tabs
+  v-row(v-if='loading')
+    v-col.text-center(cols=12)
+      h3 Loading Material
+      v-progress-circular(color='primary', indeterminate)
+  v-row
+    v-col(cols=12)
+      material-banner(:loading='loading')
+    v-col(cols=12)
+      material-details-table(:loading='loading')
+      //-p TODO: Show 3D viewer - need .usdz/.glb first
+      //-p TODO: Show Node Tree
+      //-p TODO: Show Variants
+      product-list(:loading='loading', :products='material.products')

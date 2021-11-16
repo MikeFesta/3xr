@@ -1,0 +1,26 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-list-item(v-if='current')
+  v-hover(v-slot:default='{ hover }', v-if='current.content')
+    .list-item
+      .list-content
+        .list-title
+          router-link(:to='current.route') {{ current.linkText }}
+        div {{ current.content }}
+        .secondary-text {{ current.time }}
+      div
+        .buttons-container
+          v-tooltip(bottom, v-if='hover', open-delay=700)
+            template(v-slot:activator='{ on, attrs }')
+              button(@click='deleteNotification(notification.id)', v-bind='attrs', v-on='on')
+                v-icon mdi-close-circle-outline
+            span Remove notification
+          v-tooltip(bottom, open-delay=700)
+            template(v-slot:activator='{ on, attrs }')
+              button.read-notification(
+                @click='markRead(notification.id)',
+                v-if='notification.readStatusId != 2',
+                v-bind='attrs',
+                v-on='on'
+              )
+                v-icon(color='primary') mdi-circle-slice-8
+            span Mark as read

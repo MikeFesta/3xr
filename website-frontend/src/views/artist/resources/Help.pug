@@ -1,0 +1,36 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col(cols=12, md=4)
+      div
+        v-expansion-panels(accordion, multiple, v-model='panels', flat='')
+          v-expansion-panel(v-for='(chapter, i) in chapters', :key='i')
+            v-expansion-panel-header(disable-icon-rotate)
+              h2
+                | {{ chapter.title }}
+              template(v-slot:actions='')
+                v-icon(color='primary')
+                  | mdi-{{ chapter.icon }}
+            v-expansion-panel-content
+              ol
+                li(v-for='section in chapter.sections')
+                  router-link(:to='"/artist/resources/help/" + chapter.id + "/" + section.sortWeight')
+                    | {{ section.title }}
+    v-col(cols=12, md=8)
+      h1
+        | {{ activeChapter.title }}
+      div(v-for='(section, i) in activeChapter.sections', :id='"section-" + section.sortWeight')
+        h2
+          | {{ i + 1 }}. {{ section.title }}
+        hr
+        .help-content(v-html='section.content')
+        .help-section-spacer
+      v-btn(v-if='editPage', color='success', @click='addNewSection')
+        | New Section
+      br
+      h2
+        | Still Stuck?
+      h3
+        | Head over to the
+        |
+        router-link(to='/artist/resources/faq') FAQ Section

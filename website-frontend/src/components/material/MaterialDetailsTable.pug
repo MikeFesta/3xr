@@ -1,0 +1,44 @@
+//- SPDX-License-Identifier: Apache-2.0
+.details-container.mt-2
+  h3.details-header
+    | Material Details
+  div(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='white', indeterminate)
+  div(v-else)
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Network Location
+      v-col.details-row.align-vertical(cols=8)
+        | /Volumes/exchange/materials/{{ material.uid }}/
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Date Created
+      v-col.details-row.align-vertical(cols=8)
+        | {{ material.dateCreated }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | UID
+      v-col.details-row.align-vertical(cols=8)
+        | {{ material.uid }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Blend Name
+      v-col.details-row.align-vertical(cols=8)
+        | {{ material.blendName }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Reset
+      v-col.details-row.align-vertical(cols=8)
+        rabbit-button(
+          label='Re-Initialize',
+          :data='initMaterialData()',
+          queue='init_material',
+          confirmMessage='Are you sure you want to reset this material? Existing Node Tree will be lost!'
+        ) 
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Render Thumbnail
+      v-col.details-row.align-vertical(cols=8)
+        rabbit-button(label='Render Thumbnail', :data='renderMaterialData()', queue='render_material') 

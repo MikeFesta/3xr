@@ -1,0 +1,49 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col
+      h2 Billing
+  v-row(v-if='errorMessage')
+    v-col
+      .error-message {{ errorMessage }}
+  v-row(v-if='loading')
+    v-col.text-center
+      v-progress-circular(color='primary', indeterminate)
+  v-row(v-if='!loading && !errorMessage')
+    v-col
+      v-card
+        v-card-title
+          | {{ currentMonthLabel }}
+        v-card-text
+          h3
+            | {{ currentMonthBalance }} processed to date
+          p {{ currentMonthJobsComplete.length }} jobs processed.
+            |  (
+            a(v-if='!showCurrentMonthJobsComplete', @click='showCurrentMonthJobsComplete = true') show jobs
+            a(v-else, @click='showCurrentMonthJobsComplete = false') hide jobs
+            | )
+          ul(v-if='showCurrentMonthJobsComplete')
+            li(v-for='job in currentMonthJobsComplete')
+              router-link(:to='{ name: "product-details", params: {uid: job.product.uid}}')
+                | {{ job.product.name }}
+              | - ${{ job.billingPlatformCharge }}.00
+          h3.mt-4 {{ pendingCosts }} pending submission
+          p {{ pendingJobs.length }} jobs have not reached Modeler QA Status.
+  v-row(v-if='!loading && !errorMessage && lastMonthJobsComplete.length > 0')
+    v-col
+      v-card
+        v-card-title
+          | {{ lastMonthLabel }}
+        v-card-text
+          h3
+            | {{ lastMonthBalance }}
+          p {{ lastMonthJobsComplete.length }} jobs processed.
+            |  (
+            a(v-if='!showLastMonthJobsComplete', @click='showLastMonthJobsComplete = true') show jobs
+            a(v-else, @click='showLastMonthJobsComplete = false') hide jobs
+            | )
+          ul(v-if='showLastMonthJobsComplete')
+            li(v-for='job in lastMonthJobsComplete')
+              router-link(:to='{ name: "product-details", params: {uid: job.product.uid}}')
+                | {{ job.product.name }}
+              | - ${{ job.billingPlatformCharge }}.00

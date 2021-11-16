@@ -1,0 +1,55 @@
+//- SPDX-License-Identifier: Apache-2.0
+.purchase-order-banner
+  v-card.mt-3(v-if='loading')
+    v-card-title
+      v-progress-circular.mr-2(color='primary', indeterminate)
+      | Loading
+  v-card.mt-3(v-else)
+    v-card-title
+      v-icon.mr-2(color='primary') mdi-clipboard-outline
+      | {{ purchaseOrder.name }}
+    v-card-subtitle
+      | Expected By:
+      | {{ purchaseOrder.dateDue }}
+      br
+      | Status:
+      | {{ purchaseOrder.status ? purchaseOrder.status.name : "Unknown" }}
+    .text-right
+      v-btn(:to='{ name: "jobs", query: { poId: purchaseOrder.id } }', color='primary')
+        v-icon.mr-2 mdi-briefcase
+        | View Jobs Tab
+  .d-flex.mt-3
+    router-link.flex-grow-1(
+      :event='!isPODetailsDisabled() ? "click" : ""',
+      :to='{ name: "purchase-order-details", params: { projectUid: purchaseOrder.uid } }'
+    )
+      div(
+        :class='["purchase-order-tab", { "is-active": isPODetailsSelected() }, { "is-disabled": isPODetailsDisabled() }]'
+      )
+        | PO Details
+    router-link.flex-grow-1(
+      :event='!isProductsDisabled() ? "click" : ""',
+      :to='{ name: "purchase-order-products", params: { projectUid: purchaseOrder.uid } }'
+    )
+      div(
+        :class='["purchase-order-tab", { "is-active": isProductsSelected() }, { "is-disabled": isProductsDisabled() }]'
+      )
+        | Products
+    router-link.flex-grow-1(
+      v-if='!isModelsToReviewDisabled()',
+      :event='!isModelsToReviewDisabled() ? "click" : ""',
+      :to='{ name: "purchase-order-review-models", params: { projectUid: purchaseOrder.uid } }'
+    )
+      div(
+        :class='["purchase-order-tab", { "is-active": isModelsToReviewSelected() }, { "is-disabled": isModelsToReviewDisabled() }]'
+      )
+        | Models to Review
+    router-link.flex-grow-1(
+      v-if='!isFinalAssetsDisabled()',
+      :event='!isFinalAssetsDisabled() ? "click" : ""',
+      :to='{ name: "purchase-order-assets", params: { projectUid: purchaseOrder.uid } }'
+    )
+      div(
+        :class='["purchase-order-tab", { "is-active": isFinalAssetsSelected() }, { "is-disabled": isFinalAssetsDisabled() }]'
+      )
+        | Final Assets

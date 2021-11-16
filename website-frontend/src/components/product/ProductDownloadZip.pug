@@ -1,0 +1,12 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  .download-button(v-else)
+    v-btn(@click='downloadBlendFile', text)
+      .black-font
+        v-progress-circular(v-if='downloading', :size='20', :width='2', color='white', indeterminate)
+        v-icon(v-else) mdi-file-download
+        | &nbsp;
+        |
+        | Starter File (.zip)

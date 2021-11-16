@@ -1,0 +1,44 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  purchase-order-banner(:activeTab='2', :loading='loadingProject')
+  v-card.mt-3
+    v-card-title
+      | Bulk Upload Images/Resources
+    v-card-text.instruction-block
+      h3 Instructions:
+      p
+        | This zip template is available once there are products on this PO.
+        | Download and extract the zip template on your computer. Each product has
+        | a folder starting with the product name and ending with a unique id. Each folder has
+        | a link to the provided url to make image lookup easier. Save images to the images
+        | folder and additional files to the other folder.
+      p
+        | When complete, re-zip the parent folder and upload here. Note that the primary image for
+        | each product is the first one uploaded (alphabetically), but can be changed by clicking
+        | on the yellow star on the product page.
+      p
+        | The zip folder can be uploaded more than once and new files will be added.
+        | Missing files will not be deleted. Files can be deleted from the product
+        | details page.
+    a(:href='"https://www.3xr.com/a/project/resources_template_zip/" + projectUid')
+      v-btn.ma-4(color='primary')
+        v-icon.pr-1(color='white') mdi-download
+        | Download zip Template for this PO
+    v-divider
+    v-form(v-if='!uploading && !processing')
+      v-file-input(
+        accept='.zip',
+        placeholder='Click to upload zip for this PO',
+        prepend-icon='mdi-upload',
+        @change='uploadZip',
+        @focus='clearError'
+      )
+    div(v-else)
+      h3 Uploading
+      .text-center
+        v-progress-circular(color='primary', :value='uploadProgress')
+          | {{ uploadProgress }}
+      v-spacer
+  .error-message(v-if='errorMessage') {{ errorMessage }}
+  .success-message(v-if='successMessage') {{ successMessage }}

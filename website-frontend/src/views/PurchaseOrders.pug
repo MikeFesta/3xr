@@ -1,0 +1,9 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  purchase-order-table(
+    :admin='isAdmin',
+    :loading='loading',
+    :projects='projects',
+    title='All Purchase Orders'
+  )

@@ -1,0 +1,10 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-tabs(v-model='activeTab', centered, icons-and-text, fixed-tabs)
+  v-tabs-slider
+  v-tab(v-for='tab in tabs', :key='tab.link', exact, :to='tab.link', optional)
+    p.text-center
+      v-icon.pa-2 {{ tab.icon }}
+      | {{ tab.title }}
+  v-tab-item(v-for='tab in tabs', :value='tab.link', :key='tab.link')
+    .wrapper
+      router-view

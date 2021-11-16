@@ -1,0 +1,6 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container
+  v-row(v-if='loading')
+    v-col.text-center
+      v-progress-circular(color='white', indeterminate)
+  vue-product-spinner(v-else, :images='spinSet', :mouseWheel='false', :slider='true', sliderClass='slider')

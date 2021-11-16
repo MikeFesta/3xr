@@ -1,0 +1,8 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  div(v-else)
+    purchase-order-banner(:activeTab='1', :loading='loadingHeader')
+    purchase-order-form(:loading='loadingDetails')

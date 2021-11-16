@@ -1,0 +1,7 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-tabs(v-model='section')
+  v-tab(v-for='tab in tabs', :key='tab.id', :to='tab.link')
+    v-layout(align-center, justify-center)
+      p.text-center
+        v-icon.pa-2 {{ tab.icon }}
+        | {{ tab.title }}

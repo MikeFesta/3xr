@@ -1,0 +1,60 @@
+//- SPDX-License-Identifier: Apache-2.0
+.material-banner
+  v-row
+    v-col(cols=12)
+      .material-details
+        h1 {{ material.name }}
+    v-col(cols=12, md=2)
+      xr-img.material-thumbnail(:aspectRatio='1', :className='"job-thumbnail pa-1"', :src='material.thumbnailUrl')
+    v-col(cols=12, md=1)
+      .material-additional-details
+        .color-swatch(:style='"background-color:#" + material.hexString')
+    v-col(cols=12, md=3)
+      .material-additional-details 
+        p 
+          b
+            | RGB:
+          span 
+            |
+            | ({{ material.diffuseRedValue }}, {{ material.diffuseGreenValue }}, {{ material.diffuseBlueValue }})
+          br
+          b
+            | HEX:
+          span 
+            |
+            | &#35;{{ material.hexString }}
+          br
+          b
+            | Metallic:
+          span 
+            |
+            | {{ material.metallicValue }}
+          br
+    v-col(cols=12, md=3)
+      .material-additional-details
+        p
+          b
+            | Roughness:
+          span 
+            |
+            | {{ material.roughnessValue }}
+          br
+          b
+            | Normal Strength:
+          span 
+            |
+            | {{ material.normalStrengthValue }}
+          br
+          b
+            | Mapping Scale:
+          span 
+            |
+            | {{ material.mappingScaleValue }}
+    v-col(cols=12, md=3)
+      .material-download
+        .download-button
+          v-btn.ma-4(@click='downloadMaterial', text)
+            v-progress-circular(v-if='downloading', :size='20', :width='2', color='white', indeterminate)
+            v-icon(v-else) mdi-file-download
+            .black-font
+              | Material File (.blend)

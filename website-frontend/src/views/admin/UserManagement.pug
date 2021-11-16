@@ -1,0 +1,30 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  v-card-title
+    v-text-field(v-model='searchString', append-icon='mdi-magnify', label='Search', single-line, hide-details)
+    v-spacer
+    v-btn(color='primary', :to='{ name: "admin-user-management-new-user" }')
+      v-icon mdi-plus
+      | New User
+  v-data-table.elevation-1(
+    @click:row="viewUser",
+    :expanded.sync='selectedUsers',
+    :headers='headers',
+    :items='users',
+    :items-per-page='resultsPerPage',
+    :loading='loading',
+    loading-text='Loading Users',
+    :footer-props='{ "items-per-page-options": [15, 20, 35, 50] }',
+    :search='searchString',
+  )
+    template(v-slot:item.username='{ item }')
+      .admin(v-if='item.admin')
+        | {{ item.username }}
+      div(v-else)
+        | {{ item.username }}
+    template(v-slot:item.clients='{ item }')
+      div(v-for='client in item.clients')
+        | {{ client.name }}
+    template(v-slot:item.createdAt='{ item }')
+      | {{ item.createdAtFormatted }}

@@ -1,0 +1,137 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-stepper.elevation-0(v-model='step', non-linear='')
+  v-stepper-header.elevation-0
+    v-stepper-step(:complete='step > 1', step='1', @click='showStep(1)') Product Images
+    v-divider
+    v-stepper-step(:complete='step > 2', step='2', @click='showStep(2)') Model Size
+    v-divider
+    v-stepper-step(:complete='step > 3', step='3', @click='showStep(3)') Textures
+    v-divider
+    v-stepper-step(:step='4', @click='showStep(4)') AR View
+  v-stepper-items
+    v-stepper-content.ma-0.pa-0(step='1')
+      v-card.elevation-0.ma-0.pa-0(height='auto')
+        v-row
+          v-col.ma-4.pa-2
+            product-image-viewer(:loading='loading', :product='product')
+        v-row.pa-2
+          v-col.text-right(cols=12)
+            v-btn(color='primary', @click='showStep(2)')
+              | Continue to Model Size
+        v-row(v-if='!isArtist')
+          v-col
+            qa-submission-issue-form(:categoryId='1', :assetSubmission='assetSubmission')
+    v-stepper-content.ma-0.pa-0(step='2')
+      v-card.elevation-0.ma-0.pa-0(height='auto')
+        .details-container
+          v-row
+            v-col.details-header(cols=12)
+              h3
+                | Dimensions
+          v-row
+            v-col.details-header(cols=3)
+
+            v-col.details-header(cols=3)
+              | Width
+            v-col.details-header(cols=3)
+              | Height
+            v-col.details-header(cols=3)
+              | Depth
+          //- Note: submission is not type Product, but has the same dimensions attributes
+          product-dimensions(label='Model', :product='assetSubmission')
+          product-dimensions(label='Product', :product='product')
+          v-row.left-table
+            v-col.details-row.left-table(cols=3)
+              | Error
+            v-col.details-row.left-table(cols=3)
+              span(:class='Math.abs(widthError) < 5 ? "size-ok" : "size-wrong"')
+                | {{ widthError.toFixed(2) }} %
+            v-col.details-row.left-table(cols=3)
+              span(:class='Math.abs(heightError) < 5 ? "size-ok" : "size-wrong"')
+                | {{ heightError.toFixed(2) }} %
+            v-col.details-row.left-table(cols=3)
+              span(:class='Math.abs(depthError) < 5 ? "size-ok" : "size-wrong"')
+                | {{ depthError.toFixed(2) }} %
+        .details-container
+          v-row
+            v-col.details-header(cols=12)
+              h3
+                | Model Size
+          v-row
+            v-col.details-row(cols=3)
+              | Triangle Count
+            v-col.details-row(cols=9)
+              | {{ assetSubmission.triangleCount ? assetSubmission.triangleCount.toLocaleString() : "N/A" }}
+        .details-container
+          v-row
+            v-col.details-header(cols=12)
+              h3
+                | Lighting
+          v-row
+            v-col.details-row(cols=3)
+              | Point Light Count
+            v-col.details-row(cols=9)
+              | {{ assetSubmission.lightCount }}
+        v-row
+          v-col.text-left(cols=6)
+            v-btn(color='secondary', @click='showStep(1)')
+              .white-font
+                | Back to Product Images
+          v-col.text-right(cols=6)
+            v-btn(color='primary', @click='showStep(3)')
+              span
+                | Continue to Textures
+        v-row(v-if='!isArtist')
+          v-col
+            qa-submission-issue-form(:categoryId='2', :assetSubmission='assetSubmission')
+    v-stepper-content.ma-0.pa-0(step='3')
+      v-card.elevation-0.ma-0.pa-0(height='auto')
+        v-row
+          v-col.ma-4.pa-2
+            asset-submission-textures(:loading='loading', :product='product', :assetSubmission='assetSubmission')
+        v-row
+          v-col.text-left(cols=6)
+            v-btn(color='secondary', @click='showStep(2)')
+              .white-font
+                | Back to Model Size
+          v-col.text-right(cols=6)
+            v-btn(color='primary', @click='showStep(4)')
+              | Continue to AR View
+        v-row(v-if='!isArtist')
+          v-col
+            qa-submission-issue-form(:categoryId='3', :assetSubmission='assetSubmission')
+    v-stepper-content.ma-0.pa-0(:step='4')
+      v-card.ma-0.pa-0(height='auto')
+        v-row
+          v-col.ma-0.pa-0.text-center
+            qr-code(:uid='product.asset.uid', :submissionNumber='assetSubmission.submissionNumber', :showUrl='true')
+        v-row
+          v-col.text-left(cols=6)
+            v-btn(color='secondary', @click='showStep(3)')
+              .white-font
+                | Back to Textures
+          v-col.text-right(v-if='showSubmitButtons', cols=6)
+            spinner-button(
+              color='green',
+              v-if='this.assetSubmission.openIssues.length == 0 && assetSubmission.status.id == 14',
+              :onClick='approve',
+              label='Approve',
+              :loading='loadingApprove',
+              loadingLabel='Approving'
+            )
+              | Approve
+            spinner-button(
+              color='red',
+              v-if='this.assetSubmission.openIssues.length > 0 && assetSubmission.status.id == 14',
+              :onClick='needsRevision',
+              label='Send Feedback',
+              :loading='loadingNeedsRevision',
+              loadingLabel='Sending Feedback'
+            )
+        v-row(v-if='errorMessageSubmit')
+          v-col
+            .error-message
+              | {{ errorMessageSubmit }}
+        v-row(v-if='!isArtist')
+          v-col
+            qa-submission-issue-form(:categoryId='4', :assetSubmission='assetSubmission')

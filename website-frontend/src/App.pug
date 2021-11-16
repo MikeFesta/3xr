@@ -1,0 +1,109 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-app
+  v-navigation-drawer(
+    v-if='authenticated',
+    v-model='showDrawer',
+    app,
+    color='primary',
+    width='180',
+    dark,
+    src='https://cdn.3xr.com/images/minibkg.jpg'
+  )
+    v-list-item
+      v-list-item-avatar
+        v-img.user-thumb(src='https://cdn.3xr.com/images/3xr_studio_icosahedron_padded.svg')
+      v-list-item-title
+        v-select(
+          v-if='user.admin',
+          @input='changePrimaryRole',
+          :label='user.username',
+          :items='pickList.userRole',
+          item-text='name',
+          item-value='id',
+          :value='user.primaryRoleId'
+        )
+        div(v-else)
+          | {{ user.username }}
+    v-divider
+    v-list(dense='')
+      v-list-item(v-for='item in currentSidebar', :key='item.url', link, :to='item.url')
+        v-list-item-icon
+          v-icon {{ item.icon }}
+        v-list-item-content
+          v-list-item-title {{ item.title }}
+    template(v-slot:append='')
+      .pa-2
+        a(href='https://www.linkedin.com/company/3xr', target='_blank')
+          v-icon mdi-linkedin
+        v-spacer
+        a(href='https://www.facebook.com/3XRInc/')
+          v-icon mdi-facebook
+        v-spacer
+        a(href='https://twitter.com/3XR_Inc')
+          v-icon mdi-twitter
+  v-app-bar(app, color='blue', flat)
+    v-btn(v-if='authenticated', text, icon, @click='showDrawer = !showDrawer')
+      v-icon(v-if='showDrawer') mdi-menu-left
+      v-icon(v-else) mdi-menu
+    router-link(v-if='authenticated', to='/')
+      .banner-logo
+    router-link(v-else, to='/')
+      .banner-logo
+    .admin-banner(v-if='user.admin')
+      | {{ role }}
+    v-spacer
+    .navLinks.shift-r
+      v-btn.top-nav(
+        v-for='navLink in navLinks',
+        v-if='!authenticated && $vuetify.breakpoint.mdAndUp',
+        color='primary',
+        dark='',
+        :key='navLink.href',
+        :to='navLink.to',
+        :href='navLink.href',
+        :target='navLink.target'
+      ) {{ navLink.text }}
+    v-text-field.site-search(
+      v-model='searchString',
+      @keydown.enter='search',
+      append-icon='mdi-magnify',
+      label='Search 3XR',
+      single-line,
+      hide-details
+    )
+    v-spacer
+    notification-center(v-if='authenticated')
+    v-spacer(v-if='!authenticated')
+    .menuIcon(v-if='!authenticated && $vuetify.breakpoint.smAndDown')
+      v-menu(bottom, offset-y, right, max-height=800, max-width=250, :close-on-content-click='true')
+        template(v-slot:activator='{ on, attrs }')
+          v-btn(dark, icon, v-bind='attrs', v-on='on', rounded)
+            v-icon mdi-menu
+        v-list.list
+          v-list-item(v-for='navLink in navLinks', :key='navLink.to')
+            router-link(v-if='navLink.to', :to='navLink.to') {{ navLink.text }}
+            a(v-else, :href='navLink.href', target='_blank') {{ navLink.text }}
+    .auth
+      v-btn(v-if='!authenticated', text, to='/login', rounded, color='white')
+        .login-btn.outline-btn
+          | Login
+      v-btn(@click.native='logout()', text, rounded, color='white', v-else)
+        | logout
+  v-main
+    router-view
+  v-footer(color='blue', padless)
+    v-col.text-center(cols='12')
+      privacy-dialog(v-if='authenticated')
+      span(v-else)
+        router-link(to='policy')
+          span.white-font
+            | Privacy Policy |
+            |
+            |
+        router-link(to='terms')
+          span.white-font
+            | Terms of Use |
+            |
+            |
+      span.white-font
+        | &copy; {{ new Date().getFullYear() }} 3XR Inc.

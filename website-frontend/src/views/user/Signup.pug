@@ -1,0 +1,38 @@
+//- SPDX-License-Identifier: Apache-2.0
+.background
+  .pa-2
+    v-card.mx-auto.mt-5(width=400)
+      v-card-title
+        h1.display-1
+          | New 3XR Account
+      v-card-text
+        v-form
+          v-text-field#username(
+            autofocus,
+            @focus='clearError()',
+            label='Create a Username',
+            prepend-icon='mdi-account-circle',
+            required,
+            v-model='input.username'
+          )
+          v-text-field#email(
+            @focus='clearError()',
+            label='Email Address',
+            prepend-icon='mdi-email',
+            required,
+            type='email',
+            v-model='input.email'
+          )
+      vue-recaptcha.recaptcha(
+        @expired='onExpired',
+        :loadRecaptchaScript='true',
+        sitekey='REDACTED',
+        :theme='recaptchaTheme',
+        @verify='onVerify'
+      )
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      .success-message(v-if='successMessage')
+        | {{ successMessage }}
+      v-card-actions.justify-end
+        spinner-button(color='blue', label='Create Account', :loading='loading', :onClick='submit')

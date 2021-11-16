@@ -1,0 +1,22 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-dialog(v-model='dialog', persistent='', max-width='1200', content-class='tos-dialog')
+  template(v-slot:activator='{ on, attrs }')
+    v-btn.mr-2(v-bind='attrs', v-on='on')
+      .black-font
+        | Privacy Policy and Terms
+  v-card
+    v-card-title.justify-center 
+      div
+        | To continue using our services, please review and agree to 3XR's Terms Of Use.
+    v-row
+      v-col(cols=10, offset=1)
+        a(name='policy')
+        .scroll-policy 
+          div(v-html="contractContent" )
+        v-card-actions
+          v-spacer
+          span(v-if='user.id && dialogPromptShowing') 
+            v-btn(color='red', text='', @click='() => { respondToUserAgreement(false); }') Disagree
+            v-btn#tc-agree(color='green', text='', @click='() => { respondToUserAgreement(true); }') Agree
+          span(v-else)
+            v-btn(color='red', text='', @click='() => { closeDialog(); }') Close

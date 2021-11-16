@@ -1,0 +1,30 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col(cols=12)
+      v-chip.float-right(close, @click:close='close') Close Preview
+      h2(v-if='loading')
+        | Loading Preview
+        v-progress-linear(indeterminate)
+      h2(v-else)
+        div(v-if='errorMessage')
+          | Error Loading
+          v-progress-linear(value=0)
+          | {{ errorMessage }}
+        div(v-else)
+          router-link(:to='"/product/details/" + job.product.uid')
+            | {{ job.product.name }}
+          v-progress-linear(value=100)
+  v-row(v-if='!loading && !errorMessage')
+    v-col.text-center(cols=12, lg=6)
+      h3
+        | Rendered Image
+      img(alt='Render', :src='job.product.asset.primaryRender', width='90%')
+    v-col.text-center(cols=12, lg=6)
+      h3
+        | Product Image
+        img(alt='Primary Reference Image', :src='job.product.primaryImage', width='90%')
+    v-col(cols=12)
+      job-details-table(:loading='loading')
+      product-details-table(:loading='loading')
+      asset-details-table(v-if='job.product.asset.uid', :loading='loading')

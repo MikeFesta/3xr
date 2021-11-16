@@ -1,0 +1,38 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-expansion-panel
+  v-expansion-panel-header
+    div
+      v-icon.mr-2(v-if='issue.resolved', color='green') mdi-check-decagram
+      v-icon.mr-2(v-else, color='red') mdi-alert
+      | {{ issue.description }}
+    v-spacer
+  v-expansion-panel-content
+    .text-right.mb-2(v-if='isAdmin')
+      spinner-button(
+        color='secondary',
+        confirmMessage='Really delete this issue?',
+        label='Delete Issue',
+        :loading='deleting',
+        loadingLabel='Deleting',
+        :onClick='deleteIssue'
+      )
+    img.qa-image(v-for='image in issue.images', :src='imageBaseUrl + image.filename')
+    .reply.mb-2(v-if='issue.response')
+      v-icon.mr-2(color='primary') mdi-comment-quote-outline
+      | {{ issue.response }}
+    v-form(v-if='!issue.resolved')
+      v-checkbox(v-model='input.resolved', :label='`Mark as Fixed`')
+      .comment(v-if='input.resolved')
+        v-textarea(name='product', placeholder='Response (optional):', v-model='input.response')
+      .text-right
+        v-btn(color='green', @click='markResolved', v-if='input.resolved || input.response')
+          span.white-font
+            | Mark Fixed
+          span.ml-1(v-if='input.response')
+            | &amp; Send Response
+    .error-message(v-if='errorMessage')
+      | {{ errorMessage }}
+    .date(v-if='issue.resolved')
+      | Resolved: {{ issue.resolutionTime }}
+    .date
+      | Opened: {{ issue.createdAt }}

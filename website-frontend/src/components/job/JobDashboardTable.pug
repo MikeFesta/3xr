@@ -1,0 +1,236 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-card-title.reduce-margin-sides.reduce-margin-top
+    v-expansion-panels(accordion='', flat='', v-model='showFilterIndex')
+      v-expansion-panel
+        v-expansion-panel-header(color='light_blue')
+          h2.white-font
+            v-icon(color='white').mr-3 mdi-filter-variant
+            | Search Filters
+        v-expansion-panel-content
+          v-row.pt-2
+            v-col.py-0
+              v-text-field(
+                v-model='filterSearchString',
+                :append-icon="filterSearchString ? undefined: 'mdi-magnify'",
+                label='Enter specific product names here',
+                single-line,
+                hint='Exclude by putting - at the start of a word',
+                clearable,
+                clear-icon='mdi-close'
+              )
+            v-col.py-0(cols=2)
+              v-menu(
+                ref='calenderDueDateAfter',
+                v-model='calenderDueDateAfter',
+                :close-on-content-click='true',
+                transition='expand-transition',
+                offset-y='',
+                min-width='290px',
+              )
+                template(v-slot:activator='{ on, attrs }')
+                  v-text-field(
+                    v-model='filterDateDueAfter',
+                    label='Start Date',
+                    readonly='',
+                    v-bind='attrs',
+                    v-on='on',
+                    :append-icon="filterDateDueAfter ? undefined : 'mdi-calendar'",
+                    clearable
+                  )
+                v-date-picker(v-model='filterDateDueAfter', no-title='', scrollable='')
+                  v-spacer
+                  v-btn(text='', color='primary', @click='calenderDueDateAfter = false') Cancel
+            v-col.py-0(cols=2)
+              v-menu(
+                ref='calenderDueDateBefore',
+                v-model='calenderDueDateBefore',
+                :close-on-content-click='true',
+                transition='expand-transition',
+                offset-y='',
+                min-width='290px'
+              )
+                template(v-slot:activator='{ on, attrs }')
+                  v-text-field(
+                    v-model='filterDateDueBefore',
+                    label='End Date',
+                    readonly='',
+                    v-bind='attrs',
+                    v-on='on',
+                    :append-icon="filterDateDueBefore ? undefined : 'mdi-calendar'",
+                    clearable
+                  )
+                v-date-picker(v-model='filterDateDueBefore', no-title='', scrollable='')
+                  v-spacer
+                  v-btn(text='', color='primary', @click='calenderDueDateBefore = false') Cancel
+          v-row
+            v-col.py-0(cols=4)
+              v-select(
+                label='Client',
+                :items='clients',
+                item-text='name',
+                item-value='id',
+                v-model='filterClient',
+                :disabled='clients.length == 1',
+                clearable
+              )
+            v-col.py-0(cols=4)
+              v-select(
+                label='Brand',
+                :items='clientBrands',
+                item-text='name',
+                item-value='id',
+                :no-data-text='filterClient > 0 ? "Client has no active brands" : "Select a client to see brands"',
+                v-model='filterBrand',
+                clearable
+              )
+            v-col.py-0(cols=4)
+              v-select(
+                label='Class',
+                :items='clientClasses',
+                item-text='name',
+                item-value='id',
+                :no-data-text='filterClient > 0 ? "Client has no active product classes" : "Select a client to see product classes"',
+                v-model='filterClass',
+                clearable
+              )
+          v-row
+            v-col.py-0(:cols="isClient ? 8 : 4")
+              v-select(
+                label='Studio',
+                :items='studios',
+                item-text='name',
+                item-value='id',
+                v-model='filterStudio',
+                :disabled='studios.length == 1',
+                clearable
+              )
+            v-col.py-0(v-if='!isClient', cols=4)
+              v-select(
+                label='Artist',
+                :items='artists',
+                item-text='fullName',
+                item-value='id',
+                v-model='filterArtist',
+                clearable
+              )
+                template(v-slot:item='data')
+                  | {{ data.item.lastName }}, {{ data.item.firstName }} &lt;{{ data.item.email }}&gt;
+                template(v-slot:selection='data')
+                  | {{ data.item.lastName }}, {{ data.item.firstName }}
+            v-col.py-0(cols=4)
+              v-select(
+                label='Number of Submissions',
+                :items='submissionCount',
+                item-text='name',
+                item-value='id',
+                v-model='filterSubmissionCount',
+              )
+          v-row
+            v-col.py-0(cols=8)
+              v-select(
+                chips,
+                :items='projects',
+                item-text='name',
+                item-value='id',
+                label='Purchase Order',
+                multiple,
+                v-model='filterProject',
+                clearable
+              )
+            v-col.py-0(cols=4)
+              v-select(
+                chips,
+                :items='pickList.jobStatus',
+                item-text='name',
+                item-value='id',
+                label='Status',
+                multiple,
+                v-model='filterStatus',
+                :disabled='statusFilterId > 0',
+                :clearable="(filterStatus.length > 1) || filterStatus > 0",
+              )
+  v-data-table.elevation-1(
+    :custom-filter='filterIncludesAndExcludes',
+    :headers='headers',
+    :items='jobs',
+    :footer-props='footerProps',
+    item-key='uid',
+    :items-per-page='initialItemsPerPage',
+    :loading='loading || loadingLocal',
+    loading-text='Loading Products',
+    :search='filterSearchString',
+    :show-select='showDownloads',
+    @update:options='optionsUpdate',
+    v-model='selectedForDownload',
+  )
+    template(v-slot:no-data)
+      | No Results Found. Check your filters.
+    template(v-slot:item.thumbnail='{ item }')
+      xr-img(
+        :aspectRatio='1',
+        :className='"job-thumbnail pa-1"',
+        :src='item.product.primaryImage',
+        :width='100',
+        @click.native='showPreviewOrReroute(item)'
+      )
+    template(v-slot:item.product.name='{ item }')
+      .product-name(@click='showPreviewOrReroute(item)')
+        p {{ item.product.name }}
+    template(v-slot:item.product.asset='{ item }')
+      p(v-if='!item.product.asset.uid')
+        | N/A
+      p(v-else)
+        v-btn.mr-2(v-for="link in getDownloadLinks(item.product.asset)", color='primary', :href='link.url')
+          v-icon mdi-download
+          | {{ link.name }}
+    template(v-slot:item.status.name='{ item }')
+      .status-name
+        | {{ item.status.name }}
+      br
+      v-btn(:to='item.statusData.link', :color='item.statusData.color')
+        .black-font
+          | {{ item.statusData.text }}
+  v-row.mt-1(v-if='showDownloads')
+    v-col.text-right
+      spinner-button.mr-2(
+        color='primary',
+        :disabled='glbDownloadCount == 0 || usdzZipping || cbzipZipping',
+        :errorMessage='glbErrorMessage',
+        icon='mdi-download',
+        :label='glbDownloadText',
+        :loading='glbZipping',
+        loadingLabel='Zipping GLBs',
+        :onClick='downloadGLBs'
+      )
+      spinner-button.mr-2(
+        color='primary',
+        :disabled='usdzDownloadCount == 0 || glbZipping || cbzipZipping',
+        :errorMessage='usdzErrorMessage',
+        icon='mdi-download',
+        :label='usdzDownloadText',
+        :loading='usdzZipping',
+        loadingLabel='Zipping USDZs',
+        :onClick='downloadUSDZs'
+      )
+      spinner-button(
+        color='primary',
+        :disabled='cbzipDownloadCount == 0 || glbZipping || usdzZipping',
+        :errorMessage='cbzipErrorMessage',
+        icon='mdi-download',
+        :label='cbzipDownloadText',
+        :loading='cbzipZipping',
+        loadingLabel='Zipping Zips',
+        :onClick='downloadCbZips'
+      )
+  v-row.mt-1(v-else)
+    v-col.text-right
+      spinner-button(
+        color='primary',
+        :errorMessage='csvErrorMessage',
+        icon='mdi-download',
+        label='Download CSV',
+        :loading='csvLoading',
+        loadingLabel='Preparing CSV',
+        :onClick='downloadCSV'
+      )

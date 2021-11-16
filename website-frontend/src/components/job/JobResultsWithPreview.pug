@@ -1,0 +1,16 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-row
+  v-col(:cols='previewOpen ? 6 : 12')
+    .error-message(v-if='errorMessage')
+      | {{ errorMessage }}
+    job-dashboard-table(
+      :dateSearchIsForApprovals='dateSearchIsForApprovals',
+      :statusFilterId='statusFilterId',
+      :title='title',
+      :loading='loading',
+      :projectUid='projectUid',
+      :showDownloads='showDownloads',
+      :showPreview='showPreview'
+    )
+  v-col#preview(v-if='previewOpen', cols=6)
+    job-preview(:admin='admin', :close='closePreview', :errorMessage='errorMessage', :loading='loadingPreview')

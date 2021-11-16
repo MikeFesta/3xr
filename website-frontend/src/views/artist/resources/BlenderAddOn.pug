@@ -1,0 +1,129 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col(cols=12)
+      h1
+        | Blender Add-on - 3XR Studio
+  v-container
+    v-row
+      v-col(cols=12)
+        br
+        h2
+          | Video Instructions
+          br
+          br
+        iframe.video(
+          width='90%',
+          src='https://www.youtube.com/embed/-Iopsva0w1o',
+          frameborder='0',
+          allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+          allowfullscreen=''
+        )
+    v-row
+      v-col(cols=12)
+        h2 Installation Instructions
+        v-stepper.elevation-0(v-model='e6', vertical='', non-linear)
+          v-stepper-step(:complete='e6 > 1', step='1')
+            v-btn.elevation-0(color='white', @click='e6 = 1')
+              .black-font
+                | Download and Open
+          v-stepper-content(step='1')
+            v-card.mb-12.elevation-0(height='auto')
+              p
+                | Download Add-on and un-zip file:
+              v-btn(:href='downloadLink', color='green')
+                v-icon(left) mdi-file-download
+                | xrs.{{ currentVersion }}.zip
+              br
+              a(href='https://docs.google.com/document/d/1c3JgRpnJBvfe0Y2HLwSmsXBzBlb8T5cP_dEyu1W35e0/edit')
+                | Release Notes
+              br
+              br
+              p
+                | Open
+                |
+                a(href='https://www.blender.org/download/', target='_blank') Blender {{ blenderVersion }}
+                |
+                | (or newer)
+              v-btn(color='primary', @click='e6 = 2') Continue
+          v-stepper-step(:complete='e6 > 2', step='2')
+            v-btn.elevation-0(color='white', @click='e6 = 2')
+              .black-font
+                | Click Edit > Preferences
+          v-stepper-content(step='2')
+            v-card.mb-12.elevation-0(height='auto')
+              img(
+                src='https://cdn.3xr.com/images/documentation/blender-preferences.png',
+                width='100%',
+                style='max-width:300px'
+              )
+              br
+              br
+              v-btn(color='primary', @click='e6 = 3') Continue
+              v-btn.ma-4-l-r(color='orange', @click='e6 = 1')
+                .black-font Back
+          v-stepper-step(:complete='e6 > 3', step='3')
+            v-btn.elevation-0(color='white', @click='e6 = 3')
+              .black-font
+                | Select Add-ons, Install
+          v-stepper-content(step='3')
+            v-card.mb-12.elevation-0(height='auto')
+              img(src='https://cdn.3xr.com/images/documentation/blender-plugin-install-button.png', width='100%')
+              br
+              br
+              v-btn(color='primary', @click='e6 = 4') Continue
+              v-btn.ma-4-l-r(color='orange', @click='e6 = 2')
+                .black-font Back
+          v-stepper-step(:complete='e6 > 4', step='4')
+            v-btn.elevation-0(color='white', @click='e6 = 4')
+              .black-font
+                | Choose the .zip file you downloaded and click install
+          v-stepper-content(step='4')
+            v-card.mb-12.elevation-0(height='auto')
+              img(src='https://cdn.3xr.com/images/documentation/blender-plugin-install-zip.png', width='100%')
+              br
+              br
+              v-btn(color='primary', @click='e6 = 5') Continue
+              v-btn.ma-4-l-r(color='orange', @click='e6 = 3')
+                .black-font Back
+          v-stepper-step(:complete='e6 > 5', step='5')
+            v-btn.elevation-0(color='white', @click='e6 = 5')
+              .black-font
+                | Search for 3XR to show the settings
+          v-stepper-content(step='5')
+            v-card.mb-12.elevation-0(height='auto')
+              img(src='https://cdn.3xr.com/images/documentation/blender-plugin-3xr-search.png', width='100%')
+              br
+              br
+              v-btn(color='primary', @click='e6 = 6') Continue
+              v-btn.ma-4-l-r(color='orange', @click='e6 = 4')
+                .black-font Back
+          v-stepper-step(:complete='e6 > 6', step='6')
+            v-btn.elevation-0(color='white', @click='e6 = 6')
+              .black-font
+                | Generate your API Token from your
+                |
+                router-link(to='/artist/account') User Account Page
+          v-stepper-content(step='6')
+            v-card.mb-12.elevation-0(height='auto')
+              img(src='https://cdn.3xr.com/images/documentation/blender-plugin-api-token.png', width='100%')
+              br
+              br
+              v-btn(color='primary', @click='e6 = 7') Continue
+              v-btn.ma-4-l-r(color='orange', @click='e6 = 5')
+                .black-font Back
+          v-stepper-step(step='7')
+            v-btn.elevation-0(color='white', @click='e6 = 7')
+              .black-font
+                | 3XR Studio tab is located on the Properties panel, under World Settings
+          v-stepper-content(:complete='e6 > 7', step='7')
+            v-card.mb-12.elevation-0(height='auto')
+              img(src='https://cdn.3xr.com/images/documentation/blender-plugin-3xr-search.png')
+              br
+              | Note that the Product ID is required for submission and will be
+              | pre-set in files that you download from your dashboard
+              h2
+                | Mission complete!
+              br
+              v-btn.ma-4-l-r(color='orange', @click='e6 = 6')
+                .black-font Back

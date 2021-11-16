@@ -1,0 +1,18 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  v-card-title
+    h2 New Studio
+  v-row
+    v-col(cols=6, offset=3)
+      v-text-field(@change='setChanged', label='Name', required, v-model='studio.name')
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      v-col.text-right
+        spinner-button(
+          color='primary',
+          label='Add Studio',
+          :loading='saving',
+          loadingLabel='Creating Studio',
+          :onClick='createStudio'
+        )

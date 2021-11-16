@@ -1,0 +1,20 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  dashboard-tabs
+  v-row(v-if='loading')
+    v-col.text-center(cols=12)
+      v-progress-circular(color='primary', indeterminate)
+  v-row(v-else)
+    v-col.text-center(cols=12)
+      v-card.mt-3
+        v-card-title
+          | Production Overview
+        bar-graph(:chart-data='statusWaterfallData', :onClick='showJobsByStatusFilter', :options='barGraphOptions')
+      v-card.mt-3(v-if='isAdmin || isArtist || isStudioAdmin', cols=12)
+        v-card-title
+          | Deadline Risk
+        bar-graph(:chart-data='deadlineRiskData', :onClick='showJobsByRiskFilter', :options='barGraphOptions')
+      v-card.mt-3(v-if='isAdmin')
+        v-card-title
+          | Daily Status Changes
+        line-graph(:chart-data='statusSnapshotData', :options='lineGraphOptions')

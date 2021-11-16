@@ -1,0 +1,58 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  v-row(v-if='warningMessage')
+    v-col(cols=12)
+      v-icon(color='primary') mdi-information
+      |
+      | {{ warningMessage }}
+  v-form(v-if='readyToStartQa')
+    spinner-button(
+      color='light_blue',
+      icon='mdi-ray-start-arrow',
+      label='Start Review',
+      :loading='startingReview',
+      loadingLabel='Starting QA',
+      :onClick='startReview'
+    )
+  v-form(v-if='qaInProgress')
+    .margin-btm-neg-less
+      v-select(
+        :items='options',
+        label='Select an Issue',
+        dense,
+        item-text='name',
+        item-value='id',
+        v-model='selectedValue'
+      )
+    div(v-if='selectedValue != ""')
+      v-textarea(name='product', placeholder='Description of Issue', v-model='description')
+      .hotspots(v-for='hotspot in assetSubmissionIssueHotspots.assetSubmissionIssueHotspots', v-if='!hotspot.deleted')
+        v-btn(@click='removeHotspot(hotspot.id)', color='red')
+          | Remove # {{ hotspot.id }}
+      v-btn(v-if='!assetSubmissionIssueHotspots.addingHotspot', @click='addHotspot', color='secondary')
+        | Add Hotspot
+      v-btn(v-else, @click='cancelAddingHotspot', color='red')
+        | Cancel Adding Hotspot
+      .filename(v-for='filename in imageFilenames')
+        | {{ filename }}
+        //- TODO: Delete images
+      v-form(v-if='!uploading')
+        v-file-input(
+          accept='image/*',
+          chips,
+          multiple,
+          placeholder='click to upload images',
+          prepend-icon='mdi-camera',
+          @change='uploadImages',
+          @focus='clearError'
+        )
+      h2(v-else)
+        | Uploading Image
+        v-progress-linear(v-model='uploadProgress')
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+    v-col.d-flex(cols='12')
+      v-row.mt-2
+        v-spacer
+        v-btn(color='red', :disabled='description == ""', @click='openIssue')
+          | Open Issue

@@ -1,0 +1,63 @@
+//- SPDX-License-Identifier: Apache-2.0
+.viewer-wrapper(@keydown.esc='cancelAddingHotspot', tabindex='-1')
+  .viewer-overlay(v-if='assetSubmissionIssueHotspots.addingHotspot', @click='addHotspot')
+    .add-hotspot-text Click to Add Hotspot
+  model-viewer(
+    :alt='name',
+    :ios-src='iosSrc',
+    :src='src',
+    ar,
+    ar-modes='webxr scene-viewer quick-look fallback',
+    camera-controls,
+    :exposure='exposure',
+    :environment-image='environmentImage',
+    interaction-policy='allow-when-focused',
+    interaction-prompt='none',
+    preload,
+    quick-look-browsers='safari chrome',
+    reveal='auto',
+    shadow-intensity=0.8
+  )
+    button.hotspot-open(
+      @click='selectHotspot(hotspot.assetSubmissionIssueId)',
+      v-if='!assetSubmissionIssueHotspots.addingHotspot',
+      v-for='hotspot in hotspotsOpen',
+      :slot='"hotspot-" + hotspot.id',
+      :data-position='hotspot.position',
+      :data-normal='hotspot.normal',
+      :style='assetSubmissionIssueHotspots.assetSubmissionIssueId == hotspot.issueId ? "background-color: #ff0" : ""'
+    )
+    button.hotspot-resolved(
+      @click='selectHotspot(hotspot.assetSubmissionIssueId)',
+      v-if='!assetSubmissionIssueHotspots.addingHotspot',
+      v-for='hotspot in hotspotsResolved',
+      :slot='"hotspot-" + hotspot.id',
+      :data-position='hotspot.position',
+      :data-normal='hotspot.normal',
+      :style='assetSubmissionIssueHotspots.assetSubmissionIssueId == hotspot.issueId ? "background-color: #ff0" : ""'
+    )
+    button.hotspot-new(
+      v-for='hotspot in assetSubmissionIssueHotspots.assetSubmissionIssueHotspots',
+      v-if='!hotspot.deleted',
+      :slot='"hotspot-new-" + hotspot.id',
+      :data-position='hotspot.position',
+      :data-normal='hotspot.normal'
+    )
+      .annotation
+        | {{ hotspot.id }}
+  div(v-if='showImageButtons', style='display: flex')
+    v-spacer
+    v-btn(@click='saveImage', color='primary')
+      v-icon(left) mdi-download
+      | Download Snapshot
+    v-spacer
+    //-Turning off the ability to render images while in review, but may turn it on again in the future
+    //-rabbit-button(
+      :dataFunction='renderMasterImageData',
+      :failureCallback='imageRenderedFailureCallback',
+      icon='mdi-camera',
+      label='Generate High Quality Image',
+      queue='render_image_from_angle',
+      :successCallback='imageRenderedSuccessCallback'
+      )
+    //-v-spacer

@@ -1,0 +1,83 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  v-row
+    v-col(cols=12)
+      h1
+        | {{ client.name }}
+        | Client Profile
+  v-container
+    v-row
+      v-col(cols=12, lg=4, md=6)
+        h2
+          | User Information
+        v-form
+          v-text-field(label='First Name', v-model='user.firstName', @focus='clearMessages()')
+          v-text-field(label='Last Name', v-model='user.lastName', @focus='clearMessages()')
+          v-text-field(label='Username', v-model='user.username', @focus='clearMessages()')
+          v-text-field(label='Email', v-model='user.email', @focus='clearMessages()')
+          v-switch(v-model='emailNotifications', label='Email notifications')
+        v-card-actions.justify-end
+        .error-message(v-if='errorMessage')
+          | {{ errorMessage }}
+        .success-message(v-if='successMessage')
+          | {{ successMessage }}
+        spinner-button(
+          color='info',
+          label='Save Changes',
+          :loading='saving',
+          loadingLabel='Saving',
+          :onClick='saveChanges'
+        )
+      v-col(cols=12, md=6, lg=4)
+        v-row
+          v-col(cols=8)
+            h2 Current Brands
+          v-col(cols=4)
+            v-btn(color='primary', v-if='!addBrand', @click='showAddBrand')
+              v-icon mdi-plus
+              | Brand
+            div(v-show='addBrand')
+              v-text-field#newBrandName(
+                label='Brand Name',
+                v-model='newBrandName',
+                required,
+                @focus='clearMessages()'
+              )
+              v-btn(color='primary', @click='addNewBrand')
+                | Save
+        div(v-if='client.brands.length > 0')
+          v-row
+            v-col(cols=12, v-for='brand in client.brands', v-bind:key='brand.id')
+              v-row.brands
+                v-col(cols=10)
+                  | {{ brand.name }}
+                v-col.text-center(cols=1)
+                  v-icon(color='red', small='', @click='deleteBrand(brand.id)')
+                    | mdi-close
+      v-col(cols=12, md=4)
+        //- product
+        v-row
+          v-col(cols=8)
+            h2 Classes
+          v-col(cols=4)
+            v-btn(color='primary', v-if='!addClass', @click='showAddClass')
+              v-icon mdi-plus
+              | Class
+            div(v-show='addClass')
+              v-text-field#newClassName(
+                label='Class Name',
+                v-model='newClassName',
+                required,
+                @focus='clearMessages()'
+              )
+              v-btn(color='primary', @click='addNewClass')
+                | Save
+          div(v-if='client.classes.length > 0')
+            v-row
+              v-col(cols=12, v-for='clss in client.classes', v-bind:key='clss.id')
+                v-row.classes
+                  v-col(cols=10)
+                    | {{ clss.name }}
+                  v-col.text-center(cols=1)
+                    v-icon(color='red', small='', @click='deleteClass(clss.id)')
+                      | mdi-close

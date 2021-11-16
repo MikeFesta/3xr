@@ -1,0 +1,21 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  v-icon.status-star(v-if='showPrimaryImageStar && image.sortWeight == 1', color='primary') mdi-star-circle
+  v-icon.status-star(
+    v-else-if='showSecondaryImageStar',
+    color='secondary',
+    @click='() => { onClickSecondaryStar(image); }'
+  ) mdi-star-circle
+  .image-wraper
+    xr-img.assets-thumb.ma-2(
+      :aspectRatio='3 / 1',
+      :alt='image.alt',
+      :class='active ? "selected" : "unselected"',
+      :src='image.src',
+      :title='image.alt',
+      :height='imageHeight',
+      :width='imageWidth',
+      @click.native='() => { onClickImage(image); }'
+    )
+    .text-right.close-icon(v-show='showRemoveImage')
+      v-icon.action(@click='() => { onClickRemove(image); }', color='red') mdi-close-circle

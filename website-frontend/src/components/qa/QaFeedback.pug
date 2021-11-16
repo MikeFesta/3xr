@@ -1,0 +1,46 @@
+//- SPDX-License-Identifier: Apache-2.0
+div
+  v-container(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='primary', indeterminate)
+  v-container.ma-0.pa-0
+    v-row.ma-0.pa-0
+      v-col.ma-0.pa-0
+        h1 QA Feedback
+    v-row(v-if='assetSubmission.status.id == 17')
+      v-col.text-center
+        .error-message(v-if='errorMessage')
+          | {{ errorMessage }}
+        spinner-button(
+          color='primary',
+          icon='mdi-cube-send',
+          label='Submit for QA',
+          :loading='submittingForQA',
+          loadingLabel='Submitting',
+          :onClick='submitForQA'
+        )
+    v-row
+      v-col
+        h3.mb-1 Open Issues
+        .ma-3(v-if='assetSubmission.openIssues.length == 0')
+          v-icon(color='green') mdi-check-decagram
+          |
+          | None
+        v-expansion-panels(accordion, v-model='selectedOpenIssue')
+          qa-submission-issue(v-for='issue in assetSubmission.openIssues', :key='issue.id', :issue='issue')
+    v-row(v-if='assetSubmission.resolvedIssues.length > 0')
+      v-col
+        h3.mb-1 Resolved Issues
+        v-expansion-panels(accordion, v-model='selectedResolvedIssue', flat='')
+          .light_blue.icon-bar.white-font
+            v-icon.reviewer-icon mdi-briefcase-account
+            |
+            | Client Feedback
+          qa-submission-issue(v-for='issue in resolvedClientIssues', :issue='issue', :key='issue.id')
+        br
+        v-expansion-panels(v-if='!isClient', accordion, v-model='selectedResolvedIssue', flat='')
+          .blue.icon-bar.white-font
+            v-icon.reviewer-icon mdi-forum
+            | 3XR Team Feedback
+          qa-submission-issue(v-for='issue in resolved3xrIssues', :issue='issue', :key='issue.id')

@@ -1,0 +1,28 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  library-tabs
+  v-card-title
+    h2 New Material
+  v-row
+    v-col(cols=6, offset=3)
+      v-text-field(label='Name', required, v-model='name', @focus='clearMessages')
+      v-text-field(label='Blender Filename', disabled, v-model='blendName')
+      h3 Diffuse Color
+      v-color-picker(label='Diffuse Color', mode='hexa', v-model='diffuseColorHex')
+      br
+      v-checkbox(label='Metallic', v-model='metallic')
+      v-slider(label='Roughness', min=0, max=1, step=0.05, thumb-label='always', v-model='roughness')
+      v-slider(label='Normal Strength', min=0, max=1, step=0.05, thumb-label='always', v-model='normalStrength')
+      v-text-field(label='Mapping Scale', v-model='mappingScale')
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      .success-message(v-if='successMessage')
+        | {{ successMessage }}
+      v-col.text-right
+        spinner-button(
+          color='primary',
+          label='Add Material',
+          :loading='saving',
+          loadingLabel='Initializing Material',
+          :onClick='createMaterial'
+        )

@@ -1,0 +1,32 @@
+//- SPDX-License-Identifier: Apache-2.0
+.notification-center-wrapper
+  v-menu(
+    bottom,
+    offset-y,
+    max-width=600,
+    min-width=600,
+    max-height=800,
+    :close-on-content-click='false',
+    transition='scale-transition',
+    origin='right, top'
+  )
+    template(v-slot:activator='{ on, attrs }')
+      v-btn(dark, icon, v-bind='attrs', v-on='on', rounded)
+        v-badge.notification-badge(
+          color='orange',
+          :content='pendingNotifications.length',
+          overlap,
+          :value='pendingNotifications.length'
+        )
+          v-icon mdi-bell
+    v-list.list
+      v-list-item
+        .heading
+          v-list-item-title 
+            span Notifications
+          span(v-if='notifications.length')
+            button.heading-button(v-if='isAllNotificationsDone', @click='clearAll') Clear All
+            button.heading-button(v-else, @click='markAllRead') Mark all as read
+      v-divider
+      v-list-item(v-if='!notifications.length') You have no notifications
+      single-notification(v-else, v-for='(notification, i) in notifications', :key='i', :notification='notification')

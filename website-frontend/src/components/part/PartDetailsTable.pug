@@ -1,0 +1,62 @@
+//- SPDX-License-Identifier: Apache-2.0
+.details-container.mt-2
+  h3.details-header
+    | Part Details
+  div(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='white', indeterminate)
+  div(v-else)
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Network Location
+      v-col.details-row.align-vertical(cols=8)
+        | /Volumes/exchange/parts/{{ part.uid }}/
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Date Created
+      v-col.details-row.align-vertical(cols=8)
+        | {{ part.dateCreated }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | UID
+      v-col.details-row.align-vertical(cols=8)
+        | {{ part.uid }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Blend Name
+      v-col.details-row.align-vertical(cols=8)
+        | {{ part.blendName }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Slots
+      v-col.details-row.align-vertical(cols=8)
+        ul
+          li(v-for="slot in part.slots")
+            | {{ slot.slotName }}
+            v-icon(@click='removeSlot(slot.id)') mdi-close
+        v-spacer
+        v-btn(v-if='!addingSlot', @click='addingSlot = true', color='primary')
+          v-icon.mr2 mdi-plus
+          | Add Slot
+        v-form(v-else)
+          v-text-field(
+            autofocus,
+            @focus='clearMessages()',
+            label='Slot Name',
+            prepend-icon='mdi-crystal-ball',
+            required,
+            type='text',
+            v-model='newSlotName'
+          )
+          v-btn(@click='addSlot()', color='primary') Submit
+          v-btn(@click='addingSlot = false; clearMessages()', color='red', style='margin-left:10px') Cancel
+        v-spacer
+        .error-message(v-if='errorMessage') {{ errorMessage }}
+        .success-message(v-if='successMessage') {{ successMessage }}
+    v-row.admin-details-row
+      v-col.details-row.left-table.align-vertical(cols=4)
+        | Render Thumbnail
+      v-col.details-row.align-vertical(cols=8)
+        rabbit-button(:disabled='true', label='Render Thumbnail', :data='renderPartData()', queue='render_part')
+        to-do(due='04-10-2021', note='Render Part Thumbnail Backend')

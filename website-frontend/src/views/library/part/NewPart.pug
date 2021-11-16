@@ -1,0 +1,36 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  library-tabs
+  v-card-title
+    h2
+      | New Part
+      span(v-if='submissionId')
+        |
+        | From Product Submission
+  v-row
+    v-col(cols=6, offset=3)
+      xr-img(v-if='submissionId' :aspectRatio='1', :src='assetSubmission.primaryRenderSrc')
+      div(v-if='submissionId') {{ assetSubmission.asset.name }}
+      v-text-field(v-if='submissionId' label='Submission ID', disabled, v-model='submissionId')
+      v-text-field(label='Name', required, v-model='name', @focus='clearMessages')
+      v-text-field(label='Blender Filename', disabled, v-model='blendName')
+      v-text-field(
+        label='12 Digit Unique Identifier (leave blank for random)',
+        v-model='uid',
+        @focus='clearMessages',
+        @keyup="lowercaseUid",
+        :rules="[validateUid]",
+        counter
+      )
+      .error-message(v-if='errorMessage')
+        | {{ errorMessage }}
+      .success-message(v-if='successMessage')
+        | {{ successMessage }}
+      v-col.text-right
+        spinner-button(
+          color='primary',
+          label='Add Part',
+          :loading='saving',
+          loadingLabel='Initializing Part',
+          :onClick='createPart'
+        )

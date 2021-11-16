@@ -1,0 +1,25 @@
+pipeline {
+  agent {
+    docker {
+      image 'node:10-alpine'
+    }
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'npm install'
+      }
+    }
+    stage('Configure') {
+      steps {
+        sh 'echo "VUE_APP_BACKEND_URL=staging.dev.3xr.com" > .env.development.local'
+        sh 'mkdir -p dist'
+      }
+    }
+    stage('Compile') {
+      steps {
+        sh './compile.sh'
+      }
+    }
+  }
+}

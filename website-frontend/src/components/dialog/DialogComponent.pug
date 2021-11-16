@@ -1,0 +1,15 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-dialog(v-model='open', width='500')
+  template(v-slot:activator='{ on }')
+  v-card
+    v-card-title.orange-font
+      slot(name='header')
+        | default header
+    v-card-text
+      slot(name='body')
+        | default body
+    v-divider
+    v-card-actions
+      v-spacer
+      slot(name='footer')
+        v-btn(color='primary', @click='closeModal') Cancel

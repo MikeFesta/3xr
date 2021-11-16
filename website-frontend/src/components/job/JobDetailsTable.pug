@@ -1,0 +1,56 @@
+//- SPDX-License-Identifier: Apache-2.0
+.details-container
+  h3.details-header
+    | Job Details
+  div(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='white', indeterminate)
+  div(v-else)
+    v-row.admin-details-row(v-if='isAdmin')
+      v-col.details-row.left-table(cols=4)
+        | UID
+      v-col.details-row(cols=8)
+        | {{ job.uid }}
+    v-row.admin-details-row(v-if='isAdmin')
+      v-col.details-row.left-table(cols=4)
+        | Date Created
+      v-col.details-row(cols=8)
+        | {{ job.dateAdded }}
+    v-row.admin-details-row(v-if='isAdmin')
+      v-col.details-row.left-table(cols=4)
+        | Purchase Order
+      v-col.details-row(cols=8)
+        router-link(:to='link')
+          | {{ job.project ? job.project.name : "Not linked to a project" }}
+    v-row
+      v-col.details-row.left-table(cols=4)
+        | Client Deadline
+      v-col.details-row(cols=8)
+        | {{ job.dateDue }}
+    v-row
+      v-col.details-row.left-table(cols=4)
+        | Status
+      v-col.details-row.text-right(v-if='isAdmin', cols=8)
+        v-select.status-dropdown(
+          @change='changeStatus',
+          :items='jobStatus',
+          label='Status',
+          dense,
+          item-text='name',
+          item-value='id',
+          v-model='job.status.id'
+        )
+        .error-message(v-if='errorMessage') {{ errorMessage }}
+      v-col.details-row.text-left(v-else, cols=8, data-test='job-status')
+        | {{ job.status.name }}
+    v-row
+      v-col.details-row.left-table(cols=4)
+        | Notes
+      v-col.details-row(cols=8)
+        | {{ job.notes }}
+    v-row
+      v-col.details-row.left-table(cols=4)
+        | Platform Fee
+      v-col.details-row(cols=8)
+        | {{ job.billingPlatformCharge > 0 ? '$' : ''}}{{ job.billingPlatformCharge }}

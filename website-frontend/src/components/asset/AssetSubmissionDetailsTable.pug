@@ -1,0 +1,110 @@
+//- SPDX-License-Identifier: Apache-2.0
+.details-container
+  h3.details-header
+    | Submission Details
+  div(v-if='loading')
+    v-row
+      v-col.text-center
+        v-progress-circular(color='white', indeterminate)
+  div(v-else)
+    v-row
+      v-col.details-row.left-table(cols=6)
+        | Submission Time
+      v-col.details-row(cols=6)
+        | {{ assetSubmission.createdAtFormatted }}
+    v-row
+      v-col.details-row.left-table(cols=6)
+        | Submission Number
+      v-col.details-row(cols=6)
+        | {{ assetSubmission.submissionNumber }}
+    v-row.admin-details-row(v-if='admin')
+      v-col.details-row.left-table(cols=6)
+        | Status
+      v-col.details-row(cols=6)
+        v-select.status-dropdown(
+          @change='changeStatus',
+          :items='pickList.assetSubmissionStatus',
+          label='Status',
+          dense,
+          item-text='name',
+          item-value='id',
+          v-model='assetSubmission.status.id'
+        )
+    v-row(v-else)
+      v-col.details-row.left-table(cols=6)
+        | Status
+      v-col.details-row(cols=6)
+        | {{ assetSubmission.status.name }}
+    v-row(v-if='!assetSubmission.status.resubmissionAllowed && assetSubmission.status.id < 14')
+      v-col.details-row.left-table(cols=6)
+        | Cancel
+      v-col.details-row(cols=6)
+        v-btn(@click='cancelSubmission', color='red') Cancel Submission
+    v-row(v-if='assetSubmission.status.id >= 13')
+      v-col.details-row.left-table(cols=6)
+        | Download
+      v-col.details-row(cols=6)
+        v-btn(color='primary', :href='downloadRootUrl + assetSubmission.asset.name + ".blend"')
+          v-icon mdi-download
+          | Blend
+        v-spacer
+        v-btn(color='primary', :href='downloadRootUrl + (product.asin ? product.asin : product.blendName) + ".zip"')
+          v-icon mdi-download
+          | Amazon ZIP
+        v-spacer
+        v-btn(color='primary', :href='downloadRootUrl + assetSubmission.asset.name + "_fbx.zip"')
+          v-icon mdi-download
+          | FBX
+        v-spacer
+        v-btn(color='primary', :href='downloadRootUrl + assetSubmission.asset.name + ".glb"')
+          v-icon mdi-download
+          | GLB
+        v-spacer
+        v-btn(color='primary', :href='downloadRootUrl + assetSubmission.asset.name + ".usdz"')
+          v-icon mdi-download
+          | USDZ
+    v-row.admin-details-row(v-if='admin')
+      v-col.details-row.left-table(cols=6)
+        | Reprocess
+      v-col.details-row(cols=6)
+        v-btn.mt-2(@click='reprocessSubmission', color='secondary')
+          .black-font
+            | Reprocess Submission
+        v-spacer
+        rabbit-button(
+          label='Render Orthographic Images',
+          :data='renderImagesData',
+          queue='render_master_images',
+          :successCallback='refreshSubmission'
+        )
+        v-spacer
+        rabbit-button(
+          label='Generate 3D Models (glb, usdz, fbx)',
+          :data='exportSubmissionModelsData',
+          queue='export_submission_models',
+          :successCallback='refreshSubmission'
+        )
+    v-row.admin-details-row(v-if='admin')
+      v-col.details-row.left-table(cols=6)
+        | Publish
+      v-col.details-row(cols=6)
+        rabbit-button(
+          label='Publish Submission',
+          :data='publishAssetSubmissionData',
+          queue='publish_asset_submission',
+          :successCallback='publishSuccess'
+        )
+        v-spacer
+        v-btn(:to="'/library/parts/create-from-submission/' + assetSubmission.id", color='green')
+          v-icon(color='white').mr-2 mdi-cogs
+          |
+          span.white-font Copy to New Part
+        v-spacer
+        v-btn(@click='updatePart', color='secondary', :disabled='updateRequestSent')
+          v-icon.mr-2 mdi-cogs
+          |
+          | Update Part
+        .error-message(v-if='updatePartErrorMessage')
+          | {{ updatePartErrorMessage }}
+        .success-message(v-if='updatePartSuccessMessage')
+          | {{ updatePartSuccessMessage }}

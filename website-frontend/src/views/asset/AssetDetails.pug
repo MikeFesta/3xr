@@ -1,0 +1,163 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  div(v-else)
+    product-banner(:activeTab='3', :loading='loadingProduct')
+    v-container
+      v-row
+        v-col(cols=12, lg=8)
+          v-row
+            xr-model-viewer(
+              :hdr='asset.hdr',
+              :loading='loadingAsset',
+              :name='asset.name',
+              showImageButtons,
+              :renderCompleteCallback='renderCompleteCallback',
+              :spinSetCompleteCallback='spinSetCompleteCallback',
+              :uid='asset.uid'
+            )
+          v-row
+            image-viewer(:images='renders', :loading='loadingAsset')
+          v-row(cols=12)
+            spin-set-viewer(v-if='hasSpinSet', :asset='asset', :loading='loadingAsset')
+            v-col.no-spins(v-else)
+              | 360&deg; Spins
+              br
+              | Not Yet Generated
+        v-col.light_gray(cols=12, lg=4)
+          v-row
+            v-col.text-center(cols=12)
+              h2
+                | READY TO SHARE IN AR?
+          v-row
+            v-col.text-center(cols=12, md=6)
+              qr-code.qr(:imgSrc='qrImageSrc', :uid='asset.uid')
+            v-col(cols=12, md=6)
+              v-dialog(v-model='dialog')
+                template(v-slot:activator='{ on }')
+                  v-btn.ma-2(color='orange', v-on='on')
+                    .black-font
+                      v-icon.pr-2 mdi-xml
+                      | Embed
+                v-card
+                  v-card-title.blue-font(primary-title='')
+                    | Embed Model
+                  .ma-1.pa-0
+                    v-row
+                      v-col(cols=12, lg=8)
+                        iframe.ar-viewer(
+                          frameborder=0,
+                          :height='embedHeight',
+                          :src='"https://embed.3xr.com/" + asset.uid + "?bg=" + embedColor',
+                          :width='embedWidth'
+                        )
+                      v-col(cols=12, lg=4)
+                        h4
+                          | Customize
+                        v-form
+                          input#colorPicker(@change='selectColor', name='colorPicker', type='color', value='#ffffff')
+                          label(for='colorPicker')
+                            | Background Color
+                          v-text-field(label='Height', v-model='embedHeight')
+                          v-text-field(label='Width', v-model='embedWidth')
+                          textarea#codeArea.code.pa-2(disabled)
+                            | {{ embedCode }}
+                          br
+                          br
+                          .text-right
+                            v-btn(color='blue', @click='copyCode')
+                              | Copy
+                              v-icon(color='white') mdi-content-copy
+                          #copySuccessMessage.fade.success-message
+                            | Copied
+                          .error-message(v-if='copyError')
+                            | Error copying to clipboard
+                  v-divider
+                  v-card-actions
+                    v-spacer
+                    v-btn(color='primary', text='', @click='dialog = false')
+                      | Close
+              br
+              v-dialog(v-model='dialog2', max-width='500px')
+                template(v-slot:activator='{ on }')
+                  v-btn.ma-2(color='blue', v-on='on')
+                    .white-font
+                      v-icon.pr-2 mdi-cube-scan
+                      | AR VIEWER
+                v-card
+                  v-card-title.blue-font(primary-title='')
+                    | AR VIEWER
+                  p.pa-6
+                    | This link goes directly to the AR viewer.
+                    br
+                    a(:href='"https://view.3xr.com/" + asset.uid')
+                      | https://view.3xr.com/{{ asset.uid }}
+                  v-row
+                    v-col.text-right.ma-4(col='12')
+                      textarea#codeArea.share.pa-2(disabled)
+                        | https://view.3xr.com/{{ asset.uid }}
+                      br
+                      br
+                      .text-right
+                        v-btn(color='blue', @click='copyCode')
+                          | Copy
+                          v-icon(color='white') mdi-content-copy
+                      #copySuccessMessage.fade.success-message
+                        | Copied
+                      .error-message(v-if='copyError')
+                        | Error copying to clipboard
+                  v-divider
+                  v-card-actions
+                    v-spacer
+                    v-btn(color='primary', text='', @click='dialog2 = false')
+                      | Close
+            v-col(cols=12)
+              h3 Downloads
+              v-row.pt-2.pb-3(v-if='qrZipSrc')
+                v-col.ma-0.pa-2(cols=12)
+                  v-btn(color='primary', :href='qrZipSrc')
+                    v-icon mdi-download
+                    | QR Codes (.zip)
+              v-divider(v-if='qrZipSrc')
+              v-row(v-if='modelGlb')
+                v-col(cols=12)
+                  strong 3D Model (GLTF format)
+                v-col.ma-0.pb-0.pt-0(cols=12)
+                  | Compatible with
+                  |
+                  v-icon.pa-1 mdi-android
+                  v-icon.pa-1 mdi-google
+                  v-icon.pa-1 mdi-facebook
+                v-col.ma-0.pa-2(cols=12)
+                  v-btn(color='primary', :href='modelGlb.getUrl(asset.uid)')
+                    v-icon mdi-download
+                    | Model (.{{ modelGlb.extension }})
+                v-col.ma-0.pt-0.text-right(cols=12)
+                  | Download size: {{ modelGlb.sizeInMb.toFixed(2) }} MB
+              v-divider
+              v-row(v-if='modelUsdz')
+                v-col(cols=12)
+                  strong 3D Model (USDZ format)
+                v-col.ma-0.pb-0.pt-0(cols=12)
+                  | Compatible with
+                  |
+                  v-icon.pa-1 mdi-apple
+                v-col.ma-0.pa-2(cols=12)
+                  v-btn(color='primary', :href='modelUsdz.getUrl(asset.uid)')
+                    v-icon mdi-download
+                    | Model (.{{ modelUsdz.extension }})
+                v-col.ma-0.pt-0.text-right(cols=12)
+                  | Download size: {{ modelUsdz.sizeInMb.toFixed(2) }} MB
+              v-divider(v-if='cbZip')
+              v-row(v-if='cbZip')
+                v-col(cols=12)
+                  strong Source Files
+                v-col.ma-0.pb-0.pt-0(cols=12)
+                  | Specific to Crate and Barrel
+                v-col.ma-0.pa-2(cols=12)
+                  v-btn(color='primary', :href='cbZip.getUrl(asset.uid)')
+                    v-icon mdi-download
+                    | Source Files (.{{ cbZip.extension }})
+                v-col.ma-0.pt-0.text-right(cols=12)
+                  | Download size: {{ cbZip.sizeInMb.toFixed(2) }} MB

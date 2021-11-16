@@ -1,0 +1,5 @@
+//- SPDX-License-Identifier: Apache-2.0
+span 
+  slot(v-if='!isEditEnabled', v-bind='{ state: value }', name='format') 
+    | {{ value }}
+  v-textarea(v-else, v-bind='$attrs', v-bind:value='value', v-on='$listeners') 

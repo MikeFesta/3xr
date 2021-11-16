@@ -1,0 +1,73 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  .error-message(v-if='errorMessage')
+    | {{ errorMessage }}
+  div(v-else)
+    product-banner(:activeTab='2', :loading='loadingProduct')
+    .error-message(v-if='!loadingProduct && filteredSubmissions.length == 0')
+      | No Submissions Ready
+    v-container(v-else, fluid)
+      v-row.text-center(v-if='loadingProduct')
+        v-progress-circular.margin-auto(color='primary', indeterminate)
+      v-row(v-else)
+        v-col(cols=12, md=6)
+          v-row
+            v-col(cols=4)
+              v-sheet
+                .float-left
+                  | 2D
+                .switch
+                  v-switch(v-model='switch3D', inset='', :label='`3D`')
+            v-col(cols=8)
+              v-form
+                v-select(
+                  @input='selectSubmissionRound',
+                  label='Round',
+                  :items='filteredSubmissions',
+                  item-text='submissionNumberWithDate',
+                  item-value='submissionNumber',
+                  :value='selectedSubmissionRound'
+                )
+          v-row
+            v-col(cols=12)
+              asset-submission-render(
+                :assetSubmission='assetSubmission',
+                :loading='loadingProduct || loadingSubmission',
+                :masterRenderCompleteCallback='masterRenderCompleteCallback',
+                :show3D='switch3D'
+              )
+          v-row(v-if='showDownloads')
+            v-col.text-center(cols=6)
+              v-btn(color='primary', :href='downloadRootUrl + product.asset.name + ".glb"')
+                v-icon mdi-download
+                | Download GLB
+            v-col.text-center(cols=6)
+              v-btn(color='primary', :href='downloadRootUrl + product.asset.name + ".usdz"')
+                v-icon mdi-download
+                | Download USDZ
+          //-v-row(v-if='!showUnityViewer && isAdmin')
+            v-btn(color='primary', @click='showUnityViewer = true') Show Unity Viewer
+          //-v-row(v-if='showUnityViewer')
+            v-col(cols=12)
+              unity-qa-viewer(:asset='product.asset', :assetSubmission='assetSubmission', :loading='loadingProduct')
+              v-spacer
+              v-btn(color='primary', :href='downloadRootUrl + product.asset.name + "_fbx.zip"')
+                v-icon mdi-download
+                | Download FBX
+          v-row
+            v-col(cols=12)
+              asset-submission-details-table(
+                :admin='isAdmin',
+                :asset='product.asset',
+                :assetSubmission='assetSubmission',
+                :loading='loadingProduct',
+                :product='product',
+                v-if='!isClient'
+              )
+        v-col(cols=12, md=6)
+          v-row
+            v-col
+              qa-review-stepper(:loading='loadingProduct || loadingSubmission')
+          v-row
+            v-col
+              qa-feedback(:loading='loadingProduct || loadingSubmission')

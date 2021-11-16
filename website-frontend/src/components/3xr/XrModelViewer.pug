@@ -1,0 +1,49 @@
+//- SPDX-License-Identifier: Apache-2.0
+.full-width
+  v-container(v-if='loading')
+    v-row.text-center
+      v-progress-circular.margin-auto(color='primary', indeterminate)
+  model-viewer.model-viewer-container(
+    v-if='!loading && mounted',
+    :alt='name',
+    :ios-src='iosSrc',
+    :src='src',
+    ar,
+    ar-modes='webxr scene-viewer quick-look fallback',
+    camera-controls,
+    :exposure='exposure',
+    :camera-orbit='cameraOrbit',
+    :environment-image='environmentImage',
+    interaction-policy='allow-when-focused',
+    interaction-prompt-style='wiggle',
+    preload,
+    quick-look-browsers='safari chrome',
+    reveal='auto',
+    shadow-intensity=0.8
+  )
+  .pa-2(v-if='showImageButtons', style='display: flex')
+    v-spacer
+    v-btn(@click='saveImage', color='primary')
+      v-icon(left) mdi-download
+      | Snapshot
+    v-spacer
+    rabbit-button(
+      confirmMessage='This will render a high quality (2k) image at the angle of the viewer. It will take about 1 minute and show up in the image tray when ready. Are you sure?',
+      :dataFunction='renderImageData',
+      :failureCallback='imageRenderedFailureCallback',
+      icon='mdi-camera',
+      label='Generate HQ',
+      queue='render_image_from_angle',
+      :successCallback='imageRenderedSuccessCallback'
+    )
+    v-spacer
+    rabbit-button(
+      confirmMessage='This will render 24 images at the angle of the viewer. It will take about 15 minutes. Are you sure?',
+      :dataFunction='render360SpinData',
+      :failureCallback='render360SpinFailureCallback',
+      icon='mdi-axis-z-rotate-counterclockwise',
+      label='360º Spin',
+      queue='render_360_spin',
+      :successCallback='render360SpinSuccessCallback'
+    )
+    v-spacer

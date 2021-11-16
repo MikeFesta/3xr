@@ -1,0 +1,12 @@
+//- SPDX-License-Identifier: Apache-2.0
+.text-center
+  qa-model-viewer(
+    v-if='show3D && !loading',
+    :assetSubmission='assetSubmission',
+    :hdr='product.asset.hdr',
+    :name='product.asset.name',
+    :masterRenderCompleteCallback='masterRenderCompleteCallback',
+    :showImageButtons='true',
+    :uid='product.asset.uid'
+  )
+  image-viewer(v-else, :images='renders', :loading='loading')

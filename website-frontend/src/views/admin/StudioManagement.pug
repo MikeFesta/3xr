@@ -1,0 +1,34 @@
+//- SPDX-License-Identifier: Apache-2.0
+v-container(fluid)
+  admin-tabs
+  v-card-title
+    v-text-field(v-model='searchString', append-icon='mdi-magnify', label='Search', single-line, hide-details)
+    v-spacer
+    v-btn(color='primary', :to='{ name: "admin-studio-management-new-studio" }')
+      v-icon mdi-plus
+      | New Studio
+
+  v-data-table.elevation-1(
+    @click:row='(item, slot) => slot.expand(!slot.isExpanded)',
+    :headers='headers',
+    :items='studios',
+    :items-per-page='resultsPerPage',
+    :loading='loading',
+    loading-text='Loading Studios',
+    :footer-props='{ "items-per-page-options": [15, 20, 35, 50] }',
+    :search='searchString',
+    show-expand,
+    single-expand
+  )
+    template(v-slot:item.createdAt='{ item }')
+      | {{ item.createdAtFormatted }}
+    template(v-slot:expanded-item='{ headers, item }')
+      td(:colspan='headers.length')
+        div(v-if='item.users.length > 0')
+          h3 User Accounts
+          ul
+            li(v-for='user in item.users')
+              router-link(:to="'/admin/user-management/view/' + user.username")
+                | {{ user.fullName }} ({{ user.username }})
+        div(v-else)
+          | No User Accounts Linked
