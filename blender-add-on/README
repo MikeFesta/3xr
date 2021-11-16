@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: Apache-2.0
+3XR Studio Blender Addon
+
+The module name is xrs
+
+Blender Use (User Interface):
+from xrs import studio as xrs
+
+Blender Use (Server Scripts):
+from xra import automate as xra
+
+Create a symbolic link to the code directory
+ex) ln -s /3xr/code/blender/xrs /3xr/programs/Blender281/2.81/scripts/addons/xrs
+
+Linux Path:
+/3xr/programs/blender-xx/2.xx/scripts/addons/xrs
+
+Mac Path:
+/Applications/blender.app/Contents/Resources/2.xx/scripts/addons/xrs
+
+Windows Path:
+/c/Program Files/Blender Foundation/Blender/2.xx/scripts/addons/xrs
+
+
+--------
+xrs_addon folder
+
+This creates an add-on that can be installed and enabled in blender
+NOTE: the xrs symlink is still required and this need addional work to be
+delpoyed to users
