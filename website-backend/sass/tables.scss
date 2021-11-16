@@ -1,0 +1,48 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+table {
+  border: solid 1px $theme-gray;
+  border-spacing: 0;
+  border-right: 0;
+  border-top: 0;
+  width: 100%;
+}
+
+tr:nth-child(odd) {
+  background-color: $theme-white;
+}
+
+tr:nth-child(even) {
+  background-color: $theme-white-strong;
+}
+
+th {
+  background-color: $theme-primary;
+  border-right: solid 1px $theme-black;
+  border-bottom: solid 2px $theme-black;
+  color: $theme-white;
+  font-weight: normal;
+  padding: 5px 3px 1px 3px;
+  text-align: left;
+}
+
+td {
+  border: solid 1px $theme-gray;
+  border-left: 0;
+  border-bottom: 0;
+  margin: 0;
+  padding: 3px;
+}
+
+td.locked_row {
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-image: url('https://cdn.3xr.com/images/icon/lock.svg');
+  padding-left: 25px;
+}
+
+td.unlocked_row {
+  padding-left: 25px;
+}

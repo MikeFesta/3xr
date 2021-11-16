@@ -1,0 +1,25 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy": "npx cypress run -e FRONTEND_URL='http://localhost:8080'",
+    "test": "npm run cy",
+    "test:chrome": "npm run cy -- --browser chrome",
+    "test:dev": "npm run cy -- --headed --no-exit",
+    "open": "npx cypress open",
+    "seed:e2e": "sequelize db:seed --seed ./seeders/20201203135804-default-e2e.js",
+    "db:holdings:reset": "sequelize db:seed --seed ./seeders/20201207160123-reset-holdings.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^6.0.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
+    "typescript": "^4.1.2"
+  }
+}

@@ -1,0 +1,213 @@
+// SPDX-License-Identifier: Apache-2.0
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Email service: * template generation should correctly generate CLIENT_QA email 1`] = `
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>3XR</title>
+  </head>
+
+  <body style="font-family: Poppins, Verdana, Geneva, Tahoma, sans-serif;">
+    <div id="main" style="width:100%;">
+      <div data-server-rendered="true">
+        <div style="background-color: #0b82c5; text-align:left;  padding:2%">
+          <img width="120px" src="https://cdn.3xr.com/images/3xr-email.png" style="float: right; padding-right:20px;">
+          <h1 style="color:#FFF;padding-left:8%; padding-top:20px; padding-bottom: 20px;">Asset Ready For Review</h1>
+        </div>
+        <div style=" padding-right:10%; padding-left:10%; padding-top:20px;">
+          <p>productName is ready to review - Log in here to QA your model</p>
+          <p style="padding-top:15px; padding-bottom:15px;">
+            <a href="http://www.product.link" style="color:#FFF; cursor:pointer;">
+              <button style="cursor:pointer;background-color:#dda349; color=:#FFF; border:none; border-radius:5px;  padding-left:15px;  padding-right:15px; padding-top:5px; padding-bottom:5px; font-size:20px">Review asset</button>
+            </a>
+          </p>
+          <div style="border-bottom:lightgray solid 2px"></div>
+          <p>Have questions? Email
+            <a href="mailto:sales@3xr.com" style="color: #0b82c5;">sales@3xr.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
+`;
+
+exports[`Email service: * template generation should correctly generate COMMENT email 1`] = `
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>3XR</title>
+  </head>
+
+  <body style="font-family: Poppins, Verdana, Geneva, Tahoma, sans-serif;">
+    <div id="main" style="width:100%;">
+      <div data-server-rendered="true">
+        <div style="background-color: #0b82c5; text-align:left;  padding:2%">
+          <img width="120px" src="https://cdn.3xr.com/images/3xr-email.png" style="float: right; padding-right:20px;">
+          <h1 style="color:#FFF;padding-left:8%; padding-top:20px; padding-bottom: 20px;">A Comment Has Been Made On Your Product</h1>
+        </div>
+        <div style=" padding-right:10%; padding-left:10%; padding-top:20px;">
+          <p>Commentator User left a comment on productName, please review at your
+            convenience.</p>
+          <p style="padding-top:15px; padding-bottom:15px;">
+            <a href="http://www.product.link" style="color:#FFF; cursor:pointer;">
+              <button style="cursor:pointer;background-color:#dda349; color=:#FFF; border:none; border-radius:5px;  padding-left:15px;  padding-right:15px; padding-top:5px; padding-bottom:5px; font-size:20px">View comment</button>
+            </a>
+          </p>
+          <div style="border-bottom:lightgray solid 2px"></div>
+          <p>Have questions? Email
+            <a href="mailto:sales@3xr.com" style="color: #0b82c5;">sales@3xr.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
+`;
+
+exports[`Email service: * template generation should correctly generate JOB_IN_REVISION email 1`] = `
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>3XR</title>
+  </head>
+
+  <body style="font-family: Poppins, Verdana, Geneva, Tahoma, sans-serif;">
+    <div id="main" style="width:100%;">
+      <div data-server-rendered="true">
+        <div style="background-color: #0b82c5; text-align:left;  padding:2%">
+          <img width="120px" src="https://cdn.3xr.com/images/3xr-email.png" style="float: right; padding-right:20px;">
+          <h1 style="color:#FFF;padding-left:8%; padding-top:20px; padding-bottom: 20px;">Revision Requested</h1>
+        </div>
+        <div style=" padding-right:10%; padding-left:10%; padding-top:20px;">
+          <p>productName has been sent back to our artists with your feedback, we will
+            notify you again when your requested revisions have been made. Please expect
+            a 48 hour turnaround.</p>
+          <p style="padding-top:15px; padding-bottom:15px;">
+            <a href="http://www.product.link" style="color:#FFF; cursor:pointer;">
+              <button style="cursor:pointer;background-color:#dda349; color=:#FFF; border:none; border-radius:5px;  padding-left:15px;  padding-right:15px; padding-top:5px; padding-bottom:5px; font-size:20px">Review asset</button>
+            </a>
+          </p>
+          <div style="border-bottom:lightgray solid 2px"></div>
+          <p>Have questions? Email
+            <a href="mailto:sales@3xr.com" style="color: #0b82c5;">sales@3xr.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
+`;
+
+exports[`Email service: * template generation should correctly generate PO_IN_PROGRESS email 1`] = `
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>3XR</title>
+  </head>
+
+  <body style="font-family: Poppins, Verdana, Geneva, Tahoma, sans-serif;">
+    <div id="main" style="width:100%;">
+      <div data-server-rendered="true">
+        <div style="background-color: #0b82c5; text-align:left;  padding:2%">
+          <img width="120px" src="https://cdn.3xr.com/images/3xr-email.png" style="float: right; padding-right:20px;">
+          <h1 style="color:#FFF;padding-left:8%; padding-top:20px; padding-bottom: 20px;">Purchase Order Is In Progress</h1>
+        </div>
+        <div style=" padding-right:10%; padding-left:10%; padding-top:20px;">
+          <p>projectName has begun production with 3XR artists. From here you will
+            receive updates as your models become ready for your review.</p>
+          <p style="padding-top:15px; padding-bottom:15px;">
+            <a href="http://www.project.link" style="color:#FFF; cursor:pointer;">
+              <button style="cursor:pointer;background-color:#dda349; color=:#FFF; border:none; border-radius:5px;  padding-left:15px;  padding-right:15px; padding-top:5px; padding-bottom:5px; font-size:20px">Review project</button>
+            </a>
+          </p>
+          <div style="border-bottom:lightgray solid 2px"></div>
+          <p>Have questions? Email
+            <a href="mailto:sales@3xr.com" style="color: #0b82c5;">sales@3xr.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
+`;
+
+exports[`Email service: * template generation should correctly generate multiple emails 1`] = `
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>3XR</title>
+  </head>
+
+  <body style="font-family: Poppins, Verdana, Geneva, Tahoma, sans-serif;">
+    <div id="main" style="width:100%;">
+      <div data-server-rendered="true">
+        <div style="background-color: #0b82c5; text-align:left;  padding:2%">
+          <img width="120px" src="https://cdn.3xr.com/images/3xr-email.png" style="float: right; padding-right:20px;">
+          <h1 style="color:#FFF;padding-left:8%; padding-top:20px; padding-bottom: 20px;">A Comment Has Been Made On Your Product</h1>
+        </div>
+        <div style=" padding-right:10%; padding-left:10%; padding-top:20px;">
+          <p>Commentator User left a comment on productName, please review at your
+            convenience.</p>
+          <p style="padding-top:15px; padding-bottom:15px;">
+            <a href="http://www.product.link" style="color:#FFF; cursor:pointer;">
+              <button style="cursor:pointer;background-color:#dda349; color=:#FFF; border:none; border-radius:5px;  padding-left:15px;  padding-right:15px; padding-top:5px; padding-bottom:5px; font-size:20px">View comment</button>
+            </a>
+          </p>
+          <div style="border-bottom:lightgray solid 2px"></div>
+          <p>Have questions? Email
+            <a href="mailto:sales@3xr.com" style="color: #0b82c5;">sales@3xr.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
+`;
+
+exports[`Email service: * template generation should correctly generate multiple emails 2`] = `
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>3XR</title>
+  </head>
+
+  <body style="font-family: Poppins, Verdana, Geneva, Tahoma, sans-serif;">
+    <div id="main" style="width:100%;">
+      <div data-server-rendered="true">
+        <div style="background-color: #0b82c5; text-align:left;  padding:2%">
+          <img width="120px" src="https://cdn.3xr.com/images/3xr-email.png" style="float: right; padding-right:20px;">
+          <h1 style="color:#FFF;padding-left:8%; padding-top:20px; padding-bottom: 20px;">Revision Requested</h1>
+        </div>
+        <div style=" padding-right:10%; padding-left:10%; padding-top:20px;">
+          <p>productName has been sent back to our artists with your feedback, we will
+            notify you again when your requested revisions have been made. Please expect
+            a 48 hour turnaround.</p>
+          <p style="padding-top:15px; padding-bottom:15px;">
+            <a href="http://www.product.link" style="color:#FFF; cursor:pointer;">
+              <button style="cursor:pointer;background-color:#dda349; color=:#FFF; border:none; border-radius:5px;  padding-left:15px;  padding-right:15px; padding-top:5px; padding-bottom:5px; font-size:20px">Review asset</button>
+            </a>
+          </p>
+          <div style="border-bottom:lightgray solid 2px"></div>
+          <p>Have questions? Email
+            <a href="mailto:sales@3xr.com" style="color: #0b82c5;">sales@3xr.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
+`;

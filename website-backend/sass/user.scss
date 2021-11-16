@@ -1,0 +1,36 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+.user_card {
+  background-color: $usdz-background-gray;
+  border: solid 3px $theme-black;
+  color: $theme-white;
+  display: inline-block;
+  min-height: 100px;
+  margin: 5px;
+  overflow: hidden;
+  text-decoration: none;
+  vertical-align: top;
+  width: 300px;
+}
+.user_card_details {
+  padding: 4px 0px 4px 104px;
+}
+.user_card_profile_picture {
+  background-color: $theme-white-strong;
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+  width: 100px;
+}
+.user_card_username {
+  color: $theme-primary;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.user_card_rank {
+  background-color: $theme-white;
+  color: $theme-black;
+  font-weight: bold;
+  margin-bottom: 4px;
+}

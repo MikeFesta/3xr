@@ -1,0 +1,30 @@
+[
+  {
+    "origin": [
+      "https://*.3xr.com"
+    ],
+    "responseHeader": [
+      "Content-Type"
+    ],
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
+    ],
+    "maxAgeSeconds": 3600
+  },
+  {
+    "origin": [
+      "http://localhost:8080"
+    ],
+    "responseHeader": [
+      "Content-Type"
+    ],
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

@@ -1,0 +1,184 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+@import 'asset';
+@import 'assignment';
+@import 'elements';
+@import 'forms';
+@import 'homepage';
+@import 'icons';
+@import 'layout';
+@import 'module';
+@import 'product';
+@import 'review_assignment';
+@import 'tables';
+@import 'user';
+@import 'vue';
+
+.logo,
+.model {
+  padding: 7px 0 0 7px ;
+  width: 300px;
+}
+.babylon_viewer_area {
+  flex: 1 1 auto;
+}
+
+h1.error,
+.error_message {
+  background-color: $theme-white-strong;
+  border: solid 2px $theme-red;
+  color: $theme-red;
+  font-weight: bold;
+  margin: auto;
+  padding: 5px;
+}
+
+.success_message {
+  background-color: $theme-white-strong;
+  border: solid 2px $theme-green;
+  font-weight: bold;
+  margin: 3px;
+  padding: 5px;
+}
+
+ml-model {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  transform: translate(-50%,-50%);
+}
+
+/** To Remove / Rename **/
+
+.homepage_sample_links {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 200px;
+}
+
+.sample_models {
+  background-color: $theme-white;
+  border-radius: 10px;
+  border: solid 1px $theme-black;
+  color: $theme-black;
+  font-weight: bold;
+  margin: 4px;
+  padding: 50px 20px;
+  text-decoration: none;
+}
+
+.sample_models:hover {
+  background-color: $theme-secondary;
+}
+
+.index_layout {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.assignment_button {
+  margin-right: 5px;
+}
+
+model-viewer {
+  height: 100%;
+  width: 100%;
+  --poster-color: #2e2e2eff;
+  --progress-mask: #2e2e2eff;
+  --progress-bar-color: #{$theme-primary};
+  --progress-bar-height: 5px;
+}
+
+.download_button,
+.chat_button,
+.rabbit_button,
+.upload_button {
+  background-color:$theme-white-strong;
+  background-image: url('https://cdn.3xr.com/images/icon/download.svg');
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  border: solid 1px $theme-black;
+  border-radius: 3px;
+  color: $theme-black;
+  cursor: pointer;
+  display: inline;
+  flex-grow: 1;
+  font-size: 16px;
+  margin: 2px;
+  padding: 5px 4px 2px 30px;
+  height: 28px;
+  text-decoration: none;
+}
+
+.chat_button {
+  background-image: url('https://cdn.3xr.com/images/icon/chat.svg');
+}
+
+.upload_button {
+  background-image: url('https://cdn.3xr.com/images/icon/upload.svg');
+}
+
+.rabbit_button {
+  background-image: url('https://cdn.3xr.com/images/icon/rabbit.svg');
+}
+
+.chat_button:focus,
+.chat_button:hover,
+.download_button:focus,
+.download_button:hover,
+.rabbit_button:focus,
+.rabbit_button:hover,
+.upload_button:focus,
+.upload_button:hover {
+  background-color: $theme-secondary;
+}
+
+.rework_message {
+  background-color: $theme-white-strong;
+  border: solid 1px $theme-black;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+.rework_message_admin {
+  background-color: $theme-primary;
+  color: $theme-white-strong;
+}
+.rework_message_author {
+  font-size: 80%;
+}
+.rework_message_author_artist {
+  border-bottom: solid 1px $theme-gray;
+  color: $theme-black;
+}
+.rework_message_author_admin {
+  border-bottom: solid 1px $theme-white;
+  color: $theme-white;
+}
+.rework_message_body {
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+.rabbit_progress_bar,
+.rabbit_progress_complete,
+.rabbit_progress_error {
+  background-image: url('https://cdn.3xr.com/images/simple_spinner.gif');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 35px;
+  vertical-align: middle;
+}
+.rabbit_progress_complete {
+  background-image: url('https://cdn.3xr.com/images/icon/checkmark_circle.svg');
+}
+.rabbit_progress_error {
+  background-image: url('https://cdn.3xr.com/images/icon/error.svg');
+}

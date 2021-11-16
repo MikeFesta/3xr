@@ -1,0 +1,111 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+.assignment_date_due {
+  font-size: 150%;
+  margin-top: 8px;
+  text-align: right;
+}
+
+.assignment_status_tracker {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  padding: 3px 16px;
+}
+.assignment_status_text {
+  margin-top: 54px;
+  margin-left: -23px;
+  position: absolute;
+  text-align: center;
+  width: 100px;
+}
+.assignment_status_done,
+.assignment_status_complete,
+.assignment_status_active,
+.assignment_status_todo {
+  border: solid 3px $theme-black;
+  border-radius: 27px;
+  height: 46px;
+  margin-bottom: 24px;
+  position: relative;
+  width: 46px;
+}
+
+.assignment_card {
+  background-color: $usdz-background-gray;
+  border: solid 3px $theme-black;
+  color: $theme-white;
+  display: inline-block;
+  min-height: 100px;
+  margin: 5px;
+  overflow: hidden;
+  text-decoration: none;
+  vertical-align: top;
+  width: 300px;
+}
+
+.assignment_card_image {
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+  width: 100px;
+}
+.assignment_card_details {
+  padding: 4px 4px 4px 104px;
+}
+.assignment_card_title {
+  color: $theme-primary;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.assignment_card_artist {
+  color: $theme-white-strong;
+  margin-bottom: 2px;
+}
+.assignment_card_status {
+  font-size: 80%;
+  font-style: italic;
+  margin-bottom: 2px;
+}
+.assignment_card_due {
+  color: $theme-red-dark;
+  font-size: 80%;
+}
+.assignment_card_submitted {
+  color: $theme-green;
+  font-size: 80%;
+}
+.assignment_tracker_spacing_complete,
+.assignment_tracker_spacing_todo {
+  border-top: solid 3px $theme-black;
+  border-bottom: solid 3px $theme-black;
+  flex-grow: 1;
+  height: 10px;
+  margin-top: 18px;
+  margin-left: -3px;
+  margin-right: -3px;
+}
+.assignment_status_done {
+  background-color: $theme-black;
+}
+.assignment_status_complete {
+  background-color: $theme-green;
+}
+.assignment_status_active {
+  background-color:#ff0;
+  font-weight: bold;
+}
+.assignment_tracker_spacing_complete {
+  background-color: $theme-black;
+}
+.color_green {
+  color: $theme-green;
+  display: inline;
+}
+.color_red {
+  color: $theme-red;
+  display: inline;
+}

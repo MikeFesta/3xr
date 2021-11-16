@@ -1,0 +1,97 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+.icon_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.icon_button {
+  background-color: $theme-white-strong;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 60px;
+  border: solid 2px $theme-black-strong;
+  border-radius: 15px;
+  color: $theme-black-strong;
+  display: inline-block;
+  font-size: 90%;
+  height: 22px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  min-width: 80px;
+  padding-top: 60px;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: bottom;
+  width: 80px;
+}
+
+.icon_button:hover,
+.icon_button:focus {
+  background-color: $theme-secondary
+}
+
+.icon_artist {
+  background-image: url("https://cdn.3xr.com/images/icon/artist.svg");
+}
+.icon_client {
+  background-image: url("https://cdn.3xr.com/images/icon/client.svg");
+}
+.icon_dollar {
+  background-image: url("https://cdn.3xr.com/images/icon/dollar.svg");
+}
+.icon_folder {
+  background-image: url("https://cdn.3xr.com/images/icon/folder.svg");
+}
+.icon_gear {
+  background-image: url("https://cdn.3xr.com/images/icon/gear.svg");
+}
+.icon_icons {
+  background-image: url("https://cdn.3xr.com/images/icon/icons.svg");
+}
+.icon_ip {
+  background-image: url("https://cdn.3xr.com/images/icon/ip.svg");
+}
+.icon_issues {
+  background-image: url("https://cdn.3xr.com/images/icon/exclamation_mark.svg");
+}
+.icon_mailing_list {
+  background-image: url("https://cdn.3xr.com/images/icon/mailing_list.svg");
+}
+.icon_material {
+  background-image: url("https://cdn.3xr.com/images/icon/material.svg");
+}
+.icon_preview {
+  background-color: $theme-white-strong;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 10px;
+  padding: 3px;
+  text-align: center;
+}
+.icon_rabbit{
+  background-image: url('https://cdn.3xr.com/images/icon/rabbit.svg');
+}
+.icon_search {
+  background-image: url("https://cdn.3xr.com/images/icon/search.svg");
+  background-position: center 5px;
+  background-size: 50px;
+}
+.icon_spider {
+  background-image: url("https://cdn.3xr.com/images/icon/spider.svg");
+}
+.icon_star {
+  background-image: url("https://cdn.3xr.com/images/icon/star.svg");
+}
+.icon_tag {
+  background-image: url("https://cdn.3xr.com/images/icon/tag.svg");
+}
+.icon_user {
+  background-image: url("https://cdn.3xr.com/images/icon/user.svg");
+}
+.icon_verticals {
+  background-image: url("https://cdn.3xr.com/images/icon/verticals.svg");
+}

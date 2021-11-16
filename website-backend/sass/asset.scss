@@ -1,0 +1,76 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+ul.asset_admin_options {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.asset_admin_options  li {
+  margin: 10px;
+}
+
+.asset_ar_quick_look {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.asset_download_button,
+.asset_viewer_button {
+  background-color: $theme-white-strong;
+  background-image: url('https://cdn.3xr.com/images/icon/download.svg');
+  background-position: 5px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  border: solid 1px $theme-black;
+  border-radius: 3px;
+  color: $theme-black;
+  cursor: pointer;
+  display: inline;
+  flex-grow: 1;
+  font-size: 16px;
+  margin: 2px;
+  padding: 5px 4px 2px 30px;
+  height: 18px;
+  text-decoration: none;
+}
+
+.asset_viewer_button {
+  background-image: url('https://cdn.3xr.com/images/icon/eye.svg');
+}
+
+.asset_download_links {
+  display: flex;
+  font-size: 80%;
+  text-align: center;
+}
+
+.asset_tag {
+  background-color: $theme-primary;
+  border-radius: 15px 2px 2px 15px;
+  border: solid 1px $theme-black;
+  color: $theme-white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 80%;
+  margin: 5px;
+  padding: 3px 8px 3px 4px;
+  text-decoration: none;
+}
+
+.asset_tag:hover {
+  background-color:$theme-secondary;
+}
+
+.asset_thumbnail {
+  background-color: $usdz-background-gray;
+  display: inline-block;
+  margin: 4px;
+  text-align: center;
+  vertical-align: top;
+}
+
+a.asset_thumbnail_link {
+  color: $theme-white;
+}

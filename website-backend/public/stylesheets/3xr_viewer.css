@@ -1,0 +1,206 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+#arButton,
+#arQrButton {
+  background-image:url('https://cdn.3xr.com/images/view-in-your-space.svg');
+  background-color:rgba(0,0,0,0);
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border:0;
+  cursor: pointer;
+  height: 60px;
+  max-width:50%;
+  position: absolute;
+  top: 10px;
+  right:10px;
+  width: 327px;
+}
+#background {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 100vh;
+}
+#bannerBuy {
+  color: #007aff;
+  float: right;
+  font-size: 150%;
+  margin-top: 12px;
+}
+#bannerTitle {
+  font-weight: bold;
+  font-size: 110%;
+  height: 16px;
+}
+#bannerSubtitle,
+#bannerUrl {
+  color: #999999;
+  height: 14px;
+}
+#buyBanner {
+  bottom: 26px;
+  display: none;
+  height: 81px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+}
+#buyButton {
+  background-color: #e8e8e8;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+  font-size: 70%;
+  height: 46px;
+  margin: auto;
+  padding: 18px 19px;
+  text-align: left;
+  width: 412px;
+}
+@media screen and (max-width: 450px) {
+  #buyButton {
+    width: 312px;
+  }
+}
+body {
+  font-family: arial;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+#buttons {
+  bottom: 10px;
+  height: 40px;
+  left: 10%;
+  position: absolute;
+  right: 10%;
+  text-align: center;
+}
+.combination-option-button {
+  border-radius: 30px;
+  border: none;
+  height: 30px;
+  margin: 5px;
+  max-width: 10%;
+  position: relative;
+  width: 80px;
+}
+.combination-option-button:before {
+  content: "";
+  float: left;
+  padding-top: 100%;
+}
+#exitFullscreenButton,
+#fullscreenButton,
+#qrExitButton {
+  background-color: rgba(255,255,255,0.8);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+  height: 30px;
+  position: absolute;
+  width: 30px;
+  z-index: 2;
+}
+#exitFullscreenButton,
+#qrExitButton {
+  background-image: url('https://cdn.3xr.com/images/icon/close.svg');
+  left: 4px;
+  top: 4px;
+}
+#fullscreenButton {
+  background-image: url('https://cdn.3xr.com/images/icon/fullscreen.svg');
+  bottom: 4px;
+  right: 4px;
+}
+#errorMessage {
+  background-color: #fff;
+  background-image: url('https://cdn.3xr.com/images/error.png');
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  border: solid 2px #f00;
+  display: none;
+  left: 50%;
+  padding: 30px 30px 30px 60px;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.instructions {
+  color: #fff;
+}
+@media screen and (max-width: 199px) {
+  .instructions {
+    font-size: 25%;
+  }
+}
+@media screen and (min-width: 200px) and (max-width: 299px) {
+  .instructions {
+    font-size: 50%;
+  }
+}
+@media screen and (min-width: 300px) and (max-width: 399px) {
+  .instructions {
+    font-size: 75%;
+  }
+}
+#loading {
+  background-color: #fff;
+  background-image: url('https://cdn.3xr.com/images/loading-dots.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 15px;
+  display: none;
+  height: 30px;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -15px;
+  position: absolute;
+  top:50%;
+  width: 100px;
+  z-index: 1;
+}
+model-viewer {
+  height: 100%;
+  width: 100%;
+  --progress-bar-color: #0b82c5;
+  --progress-mask: #fff;
+  --progress-bar-height: 5px;
+}
+#qrCodePopup {
+  font-family: arial;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.85);
+  top: 0;
+  left: 0;
+  text-align: center;
+  display: none;
+}
+#qrCodePopup div {
+  margin: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#qrCodePopup div div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#qrCode {
+  flex: 1;
+  margin: -20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  max-height: 600px;
+}

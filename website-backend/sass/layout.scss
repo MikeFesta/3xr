@@ -1,0 +1,185 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+.admin_banner {
+  background-color: $theme-secondary;
+  color: $theme-secondary-text;
+  font-size: 80%;
+  font-weight: bold;
+  padding: 2px;
+  text-align: center;
+}
+
+a.admin_banner_link {
+  color: $theme-secondary-text;
+  text-decoration: none;
+}
+
+a.admin_banner_link:focus,
+a.admin_banner_link:hover {
+  text-decoration: underline;
+}
+
+article {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+body {
+  background-color: $theme-body-background;
+  color: $theme-body-text;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  font-size: 16px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.breadcrumbs {
+  background-color: $theme-primary;
+}
+
+.breadcrumb,
+.breadcrumb_root {
+  color: $theme-white;
+  cursor: pointer;
+  display: inline-block;
+  padding: 2px 5px;
+  text-decoration: none;
+}
+.breadcrumb {
+  background-image: url("https://cdn.3xr.com/images/icon/triangle_facing_right.svg");
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  padding-left: 17px;
+}
+
+footer {
+  background-color: $theme-primary;
+  color: $theme-white;
+  font-size: 90%;
+  font-style: italic;
+  flex-direction: row;
+  height: 100px;
+  padding: 5px;
+  text-align: right;
+}
+.footer_address {
+  float: right;
+  margin: 5px;
+}
+.footer_copywrite {
+  color: $theme-primary-text-strong;
+  padding: 70px 5px 10px 0;
+  text-align: center;
+}
+.footer_logo {
+  display: block;
+  height: 90px;
+  margin: 5px;
+  position: absolute;
+}
+
+header.layout {
+  background-color: $theme-white;
+}
+
+.header_icon{
+  height: 19px;
+  vertical-align: bottom;
+  width: 19px;
+}
+
+.header_link_button:focus,
+.header_link_button:hover {
+  background-color: $theme-white-strong;
+}
+
+.header_link_button {
+  background-color: $theme-gray-light;
+  border: solid 1px $theme-black;
+  border-radius: 4px;
+  color: $theme-black-strong;
+  cursor: pointer;
+  font-size: 90%;
+  padding: 3px 4px;
+  text-decoration: none;
+  vertical-align: middle
+}
+
+
+.header_logo {
+  height: 140px;
+}
+
+.header_login {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.header_main {
+  align-items: center;
+  background-color: $theme-primary;
+  background-image: url('https://cdn.3xr.com/images/banner_cubes.jpg');
+  background-position: left;
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  max-height: 140px;
+  min-height: 140px;
+  justify-content: left;
+  padding: 8px 10px 5px 10px;
+  position: relative;
+}
+
+.header_tagline {
+  bottom: 1px;
+  color: $theme-white;
+  font-weight: bold;
+  font-size: 120%;
+  position: absolute;
+  right: 5px;
+}
+
+.header_search {
+  display: inline-block;
+  position: absolute;
+  right: 5px;
+  top: 130px;
+}
+.header_search_icon{
+  background-color: $theme-white-strong;
+  background-image: url("https://cdn.3xr.com/images/icon/search.svg");
+  background-image-size: 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 19px;
+  vertical-align: bottom;
+  width: 19px;
+}
+
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.page_title {
+  background-color: $theme-white-strong;
+  font-size: 150%;
+  font-weight: bold;
+  padding: 3px 10px;
+}

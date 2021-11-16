@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: Apache-2.0
+postgres-data/
+public/uploads/
+public/models/
+public/bulk_project_uploads/
+public/stylesheets/3xr.css
+database-backups/
+*.swp
+build/
+logs/
+node_modules/
+.credentials/
+**@eaDir
+**.DS_Store
+.env
+*.bak
+
+3xr_types/
+tests/report
+tests/cypress/screenshots
+tests/cypress/videos
+cypress.env.json

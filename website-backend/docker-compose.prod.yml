@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+version: '3'
+services:
+  3xr_prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: npm run start
+    env_file:
+      - ./.env
+    environment:
+      DATABASE_URL: REDACTED
+      NODE_ENV: production
+    network_mode: host
+    restart: always
+    volumes:
+      - .:/home/node/3xr

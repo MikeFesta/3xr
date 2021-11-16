@@ -1,0 +1,19 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+img {
+  display: inline-block;
+}
+a.black {
+  color: $theme-black;
+  cursor: pointer;
+}
+.center {
+  text-align:center;
+}
+.display-block {
+  display: block;
+}
+.vertical_align_middle {
+  vertical-align: middle;
+}

@@ -1,0 +1,213 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/**
+ * Creating these styles while building the reivew assignment page
+ * Many of these will override the main site and will eventually be
+ * made part of the next site redesign.
+ */
+
+@import 'colors';
+
+.review_assignment_admin_location {
+  padding: 10px;
+}
+
+.review_assignment_dimensions {
+  padding: 0 10px;
+}
+
+h1.review_assignment_title{
+  background-color: $theme-white;
+  padding: 5px;
+  margin: 0;
+  text-align: center;
+}
+a.review_assignment_title {
+  color: $theme-black-strong;
+}
+a.review_assignment_product_url {
+  color: $theme-blue;
+  font-size: 60%;
+  font-weight: normal;
+}
+
+.review_assignment_layout {
+  align-items: start;
+  background-color: $theme-white;
+  display: flex;
+  flex-wrap: wrap-reverse;
+}
+
+.review_assignment_column{
+  flex-grow: 1;
+  flex-basis: 50%;
+}
+
+.review_assignment_rework_messages {
+  background-color: $theme-white-strong;
+  border: solid 1px $theme-black;
+  border-radius: 10px 10px 0 0;
+  margin: 10px;
+}
+.review_assignment_rework_messages_title {
+  background-color: $theme-primary;
+  border-radius: 8px 8px 0 0;
+  color: $theme-white;
+  padding: 8px;
+}
+.review_assignment_rework_message_author {
+  background-color: #ccc;
+  font-size: 80%;
+  padding: 0 2px;
+}
+.review_assignment_rework_message_author_admin {
+  background-color: $theme-secondary;
+}
+.review_assignment_rework_message_time {
+  float: right;
+}
+.review_assignment_rework_message_body {
+  background-color: #ddd;
+  padding: 5px 5px 25px 5px;
+}
+.review_assignment_rework_message_reply {
+  margin: 10px;
+  text-align: center;
+}
+.review_assignment_rework_message_textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+.review_assignment_model_viewer {
+  background-color:#444;
+  flex-grow: 1;
+  height: 500px;
+}
+
+.review_assignment_textures {
+  display: flex;
+  align-items: start;
+}
+.review_assignment_texture_thumbnails {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 128px;
+}
+.review_assignment_value_thumbnail {
+  color: $theme-primary;
+  height: 128px;
+  width: 128px;
+}
+.review_assignment_texture_thumbnail {
+  background-color :#ff0;
+  cursor: pointer;
+  height: 128px;
+  width: 128px;
+}
+.review_assignment_texture_preview {
+  background-color:#f00;
+  margin-left: 10px;
+}
+
+.review_assignment_form {
+  background-color: $theme-white-strong;
+  border: solid 1px $theme-black;
+  border-radius: 10px;
+  margin: 10px;
+  min-width: 400px;
+}
+
+.review_assignment_form_group_title_open,
+.review_assignment_form_group_title_closed {
+  margin: 8px 8px 0 8px;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  background-position: 4px 1px;
+  padding: 0 0 3px 22px;
+}
+.review_assignment_form_group_title_open {
+  background-image: url('https://cdn.3xr.com/images/icon/triangle_facing_down.svg');
+}
+.review_assignment_form_group_title_closed {
+  background-image: url('https://cdn.3xr.com/images/icon/triangle_facing_right.svg');
+  border-bottom: solid 1px #ddd;
+}
+.review_assignment_form_checkbox {
+  border: inset 2px #444;
+  float: right;
+  height: 14px;
+  width: 14px;
+}
+.review_assignment_form_checkbox_issues {
+  background-color: $theme-red;
+  background-image: url('https://cdn.3xr.com/images/icon/exclamation_mark.svg');
+}
+.review_assignment_form_checkbox_approved {
+  background-color: $theme-green;
+  background-image: url('https://cdn.3xr.com/images/icon/checkmark.svg');
+}
+
+.review_assignment_asset_issue {
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  padding: 4px 4px 4px 24px;
+  margin: 4px;
+}
+
+.review_assignment_asset_issue_timestamp {
+  font-size: 80%;
+  text-align: right;
+}
+
+.review_assignment_asset_issue_open {
+  background-color:#ff0;
+  background-image: url('https://cdn.3xr.com/images/icon/exclamation_mark.svg');
+  border: solid 1px #000;
+}
+
+.review_assignment_asset_issue_resolved {
+  background-image: url('https://cdn.3xr.com/images/icon/checkmark.svg');
+  border: solid 1px #aaa;
+  color: #aaa;
+}
+
+.review_assignment_form_group_contents {
+  border: solid 1px #ddd;
+  margin: 0 10px 20px 10px;
+  padding: 5px;
+}
+
+.review_assignment_form_radio_option {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.review_assignment_form_accept_reject_buttons {
+  display: flex;
+}
+.review_assignment_form_accept_reject_buttons form{
+  display: flex;
+  flex-grow: 1;
+}
+.review_assignment_form_accept_button,
+.review_assignment_form_reject_button {
+  border: solid 2px #000;
+  cursor: pointer;
+  flex-grow: 1;
+  margin: 10px 5px;
+  padding: 4px;
+  text-align: center;
+}
+.review_assignment_form_accept_button {
+  background-color: $theme-green;
+}
+.review_assignment_form_reject_button {
+  background-color: $theme-red;
+  color: $theme-white-strong;
+}
+.review_assignment_issue_textarea {
+  box-sizing: border-box;
+  width: 100%;
+}

@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: Apache-2.0
+## STEP 1 - build
+## an intermediate step where all deps are installed, 3xr_types are linked
+## and build process creates a /build folder. This stage won't produce a Docker image
+FROM node:10-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN npm install
+
+RUN cd 3xr_types && npm install
+RUN cd 3xr_types && npm run build-enums
+RUN cd 3xr_types && npm link
+RUN npm link 3xr_types
+RUN npm run build && npm run postbuild
+RUN cp 3xr_types/enums.js build/3xr_types/enums.js
+
+
+## STEP 2 - production
+FROM node:10-alpine AS prod
+WORKDIR /app
+COPY --from=builder ./app/build ./build
+COPY --from=builder ./app/public ./public
+COPY --from=builder ./app/views ./views
+COPY --from=builder ./app/sass ./sass
+COPY package* ./
+RUN npm install --production
+CMD npm start

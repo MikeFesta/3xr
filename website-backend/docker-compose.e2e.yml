@@ -1,0 +1,77 @@
+# SPDX-License-Identifier: Apache-2.0
+version: '3'
+networks:
+  e2e-network:
+    driver: bridge
+
+services:
+  db:
+    build:
+      context: ./tests/db
+    container_name: db
+    hostname: db
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db3xr
+      - FILE=scripts/schema.sql
+      - DBNAME=db3xr
+    networks:
+      - e2e-network
+
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - e2e-network
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    container_name: backend-e2e
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_URL=db
+      - DB_PORT=5432
+      - DB_NAME=db3xr
+      - NODE_ENV=development
+      - PORT=8000
+      - REDIS_URL=redis://redis:6379
+      - REDIS_SECRET=mocksecret
+      - JWT_SECRET=jwtsecret
+      - SUBDOMAIN_NAME=akis
+    restart: always
+    volumes:
+      - .:/home/node/3xr
+      - /home/node/3xr/node_modules
+    networks:
+      - e2e-network
+  # tests:
+  #   build: ./tests
+  #   container_name: tests
+  #   depends_on:
+  #     - db
+  #     - backend
+  #   environment:
+  #     - DATABASE_URL=postgres://postgres:password@db:5432/db3xr
+  #     - CYPRESS_FRONTEND_URL=http://localhost:8080
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=password
+  #     - DB_NAME=db3xr
+  #     - DB_URL=db
+  #     - DB_PORT=5432
+  #   volumes:
+  #     - './tests/cypress:/home/node/tests/cypress'
+  #     - './tests/report:/home/node/tests/report'
+  #   networks:
+  #     - e2e-network

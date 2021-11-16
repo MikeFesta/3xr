@@ -1,0 +1,43 @@
+//- SPDX-License-Identifier: Apache-2.0
+doctype html
+html(lang="en")
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title=productTitle
+    style(type='text/css').
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%; }
+      body {
+        background-color: #e8e8e8;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+        font-size: 70%;
+        padding: 18px 19px;
+        text-align: left;
+      }
+      .bannerTitle {
+        font-weight: bold;
+        font-size: 110%;
+        height: 16px;
+      }
+      .bannerSubtitle,
+      .bannerUrl {
+        color: #999999;
+        height: 14px;
+      }
+      .bannerBuy {
+        color: #007aff;
+        float: right;
+        font-size: 150%;
+        margin-top: 12px;
+      }
+  body
+    .bannerButton
+      .bannerBuy #{ productButtonText }
+      .bannerTitle #{ productTitle }
+      .bannerSubtitle #{ productSubtitle }#{ productPrice }
+      .bannerUrl #{ productUrlDomain }

@@ -1,0 +1,49 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+.module,
+.module_admin {
+  background-color: $theme-white;
+  border: solid 1px $theme-body-shadow;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.module_admin {
+  border: solid 1px $theme-secondary;
+}
+
+.module_title,
+.module_title_admin {
+  background-color: $theme-black;
+  color: $theme-white;
+  padding: 2px 4px;
+  position: relative;
+}
+
+.module_title_admin {
+  background-color: $theme-secondary;
+  color: $theme-black;
+}
+
+.module_title_action_button {
+  background-color: $theme-primary;
+  border-radius: 2px;
+  color: $theme-primary-text-strong;
+  font-size: 80%;
+  padding: 1px 5px;
+  position: absolute;
+  right: 2px;
+  text-decoration: none;
+  top: 2px;
+}
+
+.module_title_action_button:focus,
+.module_title_action_button:hover {
+  background-color: $theme-secondary;
+  color: $theme-secondary-text;
+}
+
+.module_content {
+  padding: 20px;
+}

@@ -1,0 +1,21 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+@import 'colors';
+
+.add_button,
+.remove_button {
+  border: solid 2px $theme-black;
+  cursor: pointer;
+  font-size: 140%;
+  font-weight: bold;
+  line-height: 12px;
+  width: 30px;
+}
+
+.add_button {
+  background-color: $theme-primary;
+  color: $theme-white;
+}
+
+.remove_button {
+  background-color: $theme-white-strong;
+}

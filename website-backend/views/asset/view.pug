@@ -1,0 +1,281 @@
+//- SPDX-License-Identifier: Apache-2.0
+doctype html
+html(lang="en")
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="robots", content="index, follow")
+    meta(name="description" content="3XR empowers brands to enhance their online presence through a platform-based solution where brands can effectively create high quality, custom 3D content.")
+    meta(property="og:image" content=imageUrl)
+    title="3XR - " + name
+    script(type="module", src="https://unpkg.com/@google/model-viewer@1.7.1/dist/model-viewer.js")
+    script(nomodule, src="https://unpkg.com/@google/model-viewer@1.7.1/dist/model-viewer-legacy.js")
+    script(type="module", src="https://cdn.3xr.com/scripts/3xr_viewer.min.js")
+    link(rel="icon", href="https://cdn.3xr.com/images/3xr_studio_icosahedron.ico")
+    link(rel="apple-touch-icon" href="https://cdn.3xr.com/images/apple-touch-icon.png")
+    style(type='text/css').
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%; }
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%; }
+      .background {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%; }
+      .exit-button,
+      .fullscreen-button {
+        background-color: rgba(255,255,255,0.8);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 20px;
+        border: 0;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+        height: 30px;
+        position: absolute;
+        width: 30px;
+        z-index: 2;
+      }
+      .fullscreen-button {
+        background-image: url('https://cdn.3xr.com/images/icon/fullscreen.svg');
+        bottom: 4px;
+        right: 4px;
+      }
+      .exit-button {
+        background-image: url('https://cdn.3xr.com/images/icon/close.svg');
+        left: 4px;
+        top: 4px;
+      }
+      model-viewer {
+        height: 100%;
+        width: 100%;
+        --progress-bar-color: #0b82c5;
+        --progress-mask: #fff;
+        --progress-bar-height: 5px; }
+      .logo {
+        background-image: url(#{logoUrl});
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        background-size: 10%;
+      }
+      #buttons {
+        bottom: 10px;
+        height: 40px;
+        left: 10%;
+        position: absolute;
+        right: 10%;
+        text-align: center;
+      }
+      .combination-option-button {
+        border-radius: 30px;
+        border: none;
+        height: 30px;
+        margin: 5px;
+        max-width: 10%;
+        position: relative;
+        width: 80px;
+      }
+      .combination-option-button:before {
+        content: "";
+        float: left;
+        padding-top: 100%;
+      }
+      #arQrButton {
+        background-image:url('https://cdn.3xr.com/images/view-in-your-space.svg');
+        background-position: top center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        cursor: pointer;
+        display: none;
+        max-width:50%;
+        width: 327px;
+        height: 60px;
+        position: absolute;
+        border:0;
+        top: 10px;
+        right:10px;
+      }
+      .qr-code-popup {
+        font-family: arial;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.85);
+        top: 0;
+        left: 0;
+        text-align: center;
+        display: none;
+      }
+      .qr-code-popup-inside {
+        margin: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .qr-code-popup-inside div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .instructions {
+        color: #fff;
+      }
+      @media screen and (max-width: 199px) {
+        .instructions {
+          font-size: 25%;
+        }
+      }
+      @media screen and (min-width: 200px) and (max-width: 299px) {
+        .instructions {
+          font-size: 50%;
+        }
+      }
+      @media screen and (min-width: 300px) and (max-width: 399px) {
+        .instructions {
+          font-size: 75%;
+        }
+      }
+      .qr-code {
+        flex: 1;
+        margin: -20px;
+        background-image: url(#{qrUrl});
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        max-height: 600px;
+      }
+      .bannerArea{
+        bottom: 26px;
+        display: none;
+        height: 81px;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        z-index: 2;
+      }
+      .bannerButton {
+        background-color: #e8e8e8;
+        border-radius: 16px;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+        font-size: 70%;
+        height: 46px;
+        margin: auto;
+        padding: 18px 19px;
+        text-align: left;
+        width: 412px;
+      }
+      @media screen and (max-width: 450px) {
+        .bannerButton {
+          width: 312px;
+        }
+      }
+      .bannerTitle {
+        font-weight: bold;
+        font-size: 110%;
+        height: 16px;
+      }
+      .bannerSubtitle,
+      .bannerUrl {
+        color: #999999;
+        height: 14px;
+      }
+      .bannerBuy {
+        color: #007aff;
+        float: right;
+        font-size: 150%;
+        margin-top: 12px;
+      }
+  body(
+    class={logo: !nologo},
+    style="background-color:#" + backgroundColor)
+    .background(class={logo: !nologo} id="background" style="background-color:#" + backgroundColor)
+      input#abId(
+        type='hidden'
+        value=abId
+      )
+      input#asset(
+        type='hidden'
+        value=uid
+      )
+      input#customerUid(
+        type='hidden'
+        value=customerUid
+      )
+      input#productUrl(
+        type='hidden'
+        value=productUrl
+      )
+      input#session(
+        type='hidden'
+        value=session
+      )
+      input#viewerSessionUid(
+        type='hidden'
+        value=viewerSessionUid
+      )
+      model-viewer(
+        alt=name
+        ar-modes='webxr scene-viewer quick-look fallback'
+        autoplay
+        ar-scale=applePayUrlData ? 'auto' : 'fixed'
+        src=url + ".glb?src=" + corsCacheBust
+        ios-src=url + ".usdz?src=" + corsCacheBust + "#allowsContentScaling=0" + applePayUrlData
+        ar
+        camera-controls
+        camera-orbit=orbit
+        camera-target=target
+        environment-image=environmentImage
+        exposure=exposure
+        id='modelViewer'
+        interaction-prompt-style='wiggle'
+        interaction-policy=interactionPolicy
+        poster='https://cdn.3xr.com/images/cube-spinner.gif'
+        quick-look-browsers='safari chrome'
+        shadow-intensity=shadowIntensity
+        style="--poster-color:#" + backgroundColor
+      )
+        button(
+          id="arButton"
+          slot="ar-button"
+          style="background-image:url('https://cdn.3xr.com/images/view-in-your-space.svg'); background-color:rgba(0,0,0,0); background-position: top center; background-size: contain; background-repeat: no-repeat; max-width:50%; width: 327px; height: 60px; position: absolute; border:0; top: 10px; right:10px;"
+        )
+        if (embed)
+          button.exit-button(
+            id="exitFullscreenButton"
+          )
+          button.fullscreen-button(
+            id="fullscreenButton"
+          )
+        if showBanner
+          .bannerArea#buyBanner
+            .bannerButton#buyButton
+              .bannerBuy #{ productButtonText }
+              .bannerTitle #{ productTitle }
+              .bannerSubtitle #{ productSubtitle } #{ productPrice }
+              .bannerUrl #{ productUrlDomain }
+        div#buttons
+          each combination in combinations
+            button.combination-option-button(
+              diffuse = combination.diffuseFilename
+              style="background-color:#" + combination.color
+              qr = combination.qr
+              usdz = combination.usdz
+            )
+      div#arQrButton
+      .qr-code-popup#qrCodePopup
+        .qr-code-popup-inside
+          button.exit-button#qrExitButton(
+            style="display: block"
+          )
+          .instructions
+            h2 SCAN WITH YOUR MOBILE CAMERA
+          .qr-code#qr-code

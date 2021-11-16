@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+version: '3'
+services:
+  3xr_dev:
+    build: .
+    command: npm run dev
+    environment:
+      DATABASE_URL: REDACTED
+      NODE_ENV: development
+    network_mode: host
+    restart: always
+    volumes:
+      - .:/home/node/3xr
+      - /home/node/3xr/node_modules
