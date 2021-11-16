@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: Apache-2.0
+Scripts for 3xr automated processing
+
+These scripts do things like:
+- Initialize the directory structure for a new model
+- Rename Files
+- Run photoshop
+- Run blender
+- Run meshroom
+
+Model Processing Workflow:
+- Import the photos and create the project directory
+#> ./import_products.sh (also calls init_model.sh)
+- Model folder is now created in /3xr/models/{product_name}
+- [TODO] Auto-process with Meshroom and/or Blender
+- [TODO] Post to BountyBoard and create .3xr file
+    - Generate a random password and store in SQL
+- {Artist does work on their dropbox VM}
+- .3xr file uploaded to server (/3xr/network_drive/incoming_3xr)
+#> ./extract_incoming_3xr.sh
+- /3xr/models/{product} should now include additional models in /intermediate
+
+Agisoft Specific Workflow (to be replaced with meshroom):
+    #> ./create_model_from_scan.sh
+    - Open the .blend file, set rotation and scale, save/close
+    #> ./export_back_to_agisoft or ./export_low_poly_to_agisoft (if needed)
+    #> ./reimport_scan.sh
+    #> ./low_poly_from_scan.sh
+
+#> ./bake_materials.sh
+#> ./resize_textures.sh
+#> ./usdz_export.sh (mac only)
+#> ./gltf_export.sh
+#> ./render_preview.sh
+#> ./publish.sh
