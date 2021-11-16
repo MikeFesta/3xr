@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: Apache-2.0
+################################################################################
+# Rabbit Consumer Endpoints for 3XR
+################################################################################
+
+# Directory Structure:
+#------------------------------------------------------------------------------#
+# consume/      consumers in folders grouped by function
+# models/       javascript helper classes
+# node_modules/ NPM module install directory (see package-lock.json)
+# run/          Bash scripts that start rabbit monitors in tmux
+
+
+# Notes:
+#------------------------------------------------------------------------------#
+# run/ contains shell scripts that launch tmux, split into windows for each job
+# each tmux session has a name that can be attached to for monitoring
+# tmux attach -t {session-name}
+#
+# run/ scripts are wrappers to call other code, typically located in /3xr/bash
+#
+# The consumers are written in javascript and run in node, directly on each
+# processing machine (not inside a VM). This gives them access to hardware
+# such as the GPU for use in blender.
+#
+# Each run/ script is grouped by access and hardware requirements so that they
+# can be run selectivly per machine.
+#
+# The run/ scripts are started and kept alive through puppet, but can be
+# monitored when ssh'd into the user account
+#
+# Rabbit messages are consumed in a round-robbin order
