@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+.DS_Store
+@eaDir
+__pycache__
+lib/
