@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: Apache-2.0
+version: '3'
+services:
+  x_3xr:
+    build: .
+    command: npm run dev
+    environment:
+      DATABASE_URL: REDACTED
+      NODE_ENV: development
+    network_mode: host
+    ports:
+      - "3001:8080"
+    restart: always
+    volumes:
+      - .:/home/node/3xr
+      - www3xrcom-models:/home/node/3xr/app/models
+      - x:/home/node/3xr/public/x
+      - /home/node/3xr/node_modules
+
+volumes:
+  www3xrcom-models:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/www/3xr.com/app/models
+  x:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/www/x.3xr.com/public/x

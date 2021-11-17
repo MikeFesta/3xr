@@ -1,0 +1,119 @@
+//- SPDX-License-Identifier: Apache-2.0
+html
+  title Rabbit Messages
+  body
+    .module
+      .module_title New Messages (should always be empty)
+      .module_content
+        table
+          tr
+            th
+              | Action
+            th
+              | User
+            th
+              | Last Update
+            th
+              | Data
+          if rabbit_messages.new
+            for message in rabbit_messages.new
+              tr
+                td.form_row_red
+                  | #{message.action.name}
+                td.form_row_red
+                  | #{message.user_id}
+                td.form_row_red
+                  | #{message.updatedAt}
+                td.form_row_red
+                  | #{message.data}
+            else
+              td.center.form_row_green(colspan=4)
+                | No New Rabbit Messages
+    .module
+      .module_title Sent Messages (Processing)
+      .module_content
+        table
+          tr
+            th
+              | Action
+            th
+              | User
+            th
+              | Last Update
+            th
+              | Data
+          if rabbit_messages.sent
+            for message in rabbit_messages.sent
+              tr
+                td.form_row_yellow
+                  | #{message.action.name}
+                td.form_row_yellow
+                  | #{message.user_id}
+                td.form_row_yellow
+                  | #{message.updatedAt}
+                td.form_row_yellow
+                  | #{message.data}
+            else
+              td.form_row_green.center(colspan=5)
+                | No Rabbit Messages Being Processed
+          else
+            td(colspan=5)
+              | No Rabbit Messages Being Processed
+    .module
+      .module_title Errors
+      .module_content
+        table
+          tr
+            th
+              | Action
+            th
+              | User
+            th
+              | Last Update
+            th
+              | Data
+            th
+              | Error Message
+          if rabbit_messages.failed
+            for message in rabbit_messages.failed
+              tr
+                td.form_row_red
+                  | #{message.action.name}
+                td.form_row_red
+                  | #{message.user_id}
+                td.form_row_red
+                  | #{message.updatedAt}
+                td.form_row_red
+                  | #{message.data}
+                td.form_row_red
+                  | #{message.error_message}
+            else
+              td.center.form_row_green(colspan=5)
+                | No Failed Rabbit Messages
+    .module
+      .module_title Recently Complete
+      .module_content
+        table
+          tr
+            th
+              | Action
+            th
+              | User
+            th
+              | Last Update
+            th
+              | Data
+          if rabbit_messages.complete
+            for message in rabbit_messages.complete
+              tr
+                td
+                  | #{message.action.name}
+                td
+                  | #{message.user_id}
+                td
+                  | #{message.updatedAt}
+                td
+                  | #{message.data}
+            else
+              td.form_row_red.center(colspan=4)
+                | No Complete Rabbit Messages

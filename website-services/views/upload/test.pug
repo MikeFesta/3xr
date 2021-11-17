@@ -1,0 +1,34 @@
+//- SPDX-License-Identifier: Apache-2.0
+html
+  title Upload test
+  body
+    form(action="" method="POST" enctype="multipart/form-data")
+      label(for="name")
+        Name
+      input(name="name" type="text")
+      hr
+      label(for="front_image")
+        | Front Image
+      input(name="front_image" type="file")
+      hr
+      label(for="right_image")
+        | Right Image
+      input(name="right_image" type="file")
+      hr
+      label(for="left_image")
+        | Left Image
+      input(name="left_image" type="file")
+      hr
+      label(for="back_image")
+        | Back Image
+      input(name="back_image" type="file")
+      hr
+      label(for="top_image")
+        | Top Image
+      input(name="top_image" type="file")
+      hr
+      label(for="bottom_image")
+        | Bottom Image
+      input(name="bottom_image" type="file")
+      hr
+      input(type="submit" value="upload")

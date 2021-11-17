@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+This site processes messages and transfers data for 3xr.com
+
+Note: the app/models folder is linked from www.3xr.com (via docker-compose)
+so that models do not have to be maintained in two places. Just be sure
+to git-pull in ~/3xr.com/

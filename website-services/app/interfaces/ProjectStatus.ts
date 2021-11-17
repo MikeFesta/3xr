@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: Apache-2.0
+export enum ProjectStatusTypes {
+  UNSUBMITTED = 1,
+  IN_PROGRESS = 2,
+  COMPLETE = 3,
+  CANCELLED = 4,
+  PENDING = 5,
+  SUBMITTED_25_PERCENT = 6,
+  SUBMITTED_50_PERCENT = 7,
+  SUBMITTED_75_PERCENT = 8,
+  SUBMITTED_100_PERCENT = 9,
+}
