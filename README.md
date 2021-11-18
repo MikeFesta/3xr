@@ -21,15 +21,15 @@ This repository is a collection of most of the software that was written as part
 
 
 ### Repository Organization
-Each directory contains project that originally had its own repository. Additional documentation will be provided as the projects are added.
+Each directory contains project that originally had its own repository.
 
 **Projects**
-- bash
-- blender-add-on
-- blender-processing-scripts
-- database
-- rabbit-mq
-- website-backend
-- website-frontend
-- website-services
-- website-types
+- **bash**: Shell scripts for backend processing, including moving files, conversions, and running blender scripts.
+- **blender-add-on**: An add-on for Blender that performs validation, texture baking, and synchronization with 3xr.com.
+- **blender-processing-scripts**: Python scripts that run inside of blender, typcially run from headless servers to process and export 3D models.
+- **database**: Postgres schema used by the 3xr.com backend. 
+- **rabbit-mq**: Files to process messages exchanged on Rabbit Message Queue. Mostly just calls scripts in the bash project.
+- **website-backend**: NodeJS + Express backend for 3xr.com, which runs inside a docker container. Written in typescript.
+- **website-frontend**: VueJS 2 front-end for 3xr.com. Written in typescript and uses pug templates.
+- **website-services**: NodeJS + Express backend for endpoints related to files access by the processing network, also runs inside a docker container. Written in typescript.
+- **website-types**: Typescript type definitions (index.d.ts) and enumerations common to the front and backends.
